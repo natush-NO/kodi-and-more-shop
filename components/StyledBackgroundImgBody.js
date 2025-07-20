@@ -7,7 +7,7 @@ export const StyledBackgroundImgBody = styled.div`
   &::after {
     content: "";
     display: block;
-    background-image: url("/background/background.jpg");
+    // background-image: url("/background/background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

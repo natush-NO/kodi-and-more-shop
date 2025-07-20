@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
+  StyledNameHeader,
   StyledHeader,
+  StyledTopHeader,
   StyledNavHeader,
   StyledButtonMenu,
   StyledNavItems,
@@ -84,74 +86,78 @@ export default function Header({
   return (
     <StyledHeader>
       <StyledMainContainer>
-        <StyledNavHeader>
-          {isMobile && (
-            <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
-              {isMenuOpen ? "Close" : "Menu"}
-            </StyledButtonMenu>
-          )}
+        <StyledTopHeader>
+          <StyledNavHeader>
+            {isMobile && (
+              <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
+                {isMenuOpen ? "Close" : "Menu"}
+              </StyledButtonMenu>
+            )}
 
-          {(isMobile && isMenuOpen) || !isMobile ? (
-            <StyledNavItems id="burger">
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    handleNavigation(
-                      pageCertificate || projectsPage ? "/" : undefined
-                    )
-                  }
-                  type="button"
-                  aria-label="About me"
-                >
-                  About me
-                </StyledNavButton>
-              </StyledNavItem>
-
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    router.push(isBackProject ? "/" : "/projectsPage")
-                  }
-                  type="button"
-                  aria-label={isBackProject ? "Back" : "My projects"}
-                >
-                  {isBackProject ? "Back" : "My projects"}
-                </StyledNavButton>
-              </StyledNavItem>
-
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    router.push(isBack ? "/" : "/certificatesPage")
-                  }
-                  type="button"
-                  aria-label={isBack ? "Back" : "Certificates"}
-                >
-                  {isBack ? "Back" : "Certificates"}
-                </StyledNavButton>
-              </StyledNavItem>
-            </StyledNavItems>
-          ) : null}
-
-          <StyledSocialItems>
-            {socialLinks.map(({ href, alt }) => {
-              const matchingIcon = socialImageSvg.find(
-                (item) => item.alt === alt
-              );
-              return (
-                <StyledSocialItem key={alt}>
-                  <StyledSocialLink
-                    href={href}
-                    target="_blank"
-                    aria-label={alt}
+            {(isMobile && isMenuOpen) || !isMobile ? (
+              <StyledNavItems id="burger">
+                <StyledNavItem>
+                  <StyledNavButton
+                    onClick={() =>
+                      handleNavigation(
+                        pageCertificate || projectsPage ? "/" : undefined
+                      )
+                    }
+                    type="button"
+                    aria-label="About me"
                   >
-                    {matchingIcon ? matchingIcon.icon : null}
-                  </StyledSocialLink>
-                </StyledSocialItem>
-              );
-            })}
-          </StyledSocialItems>
-        </StyledNavHeader>
+                    Про Kodi
+                  </StyledNavButton>
+                </StyledNavItem>
+
+                <StyledNavItem>
+                  <StyledNavButton
+                    onClick={() =>
+                      router.push(isBackProject ? "/" : "/projectsPage")
+                    }
+                    type="button"
+                    aria-label={isBackProject ? "Back" : "My projects"}
+                  >
+                    {isBackProject ? "Back" : "Каталог"}
+                  </StyledNavButton>
+                </StyledNavItem>
+
+                <StyledNavItem>
+                  <StyledNavButton
+                    onClick={() =>
+                      router.push(isBack ? "/" : "/certificatesPage")
+                    }
+                    type="button"
+                    aria-label={isBack ? "Back" : "Certificates"}
+                  >
+                    {isBack ? "Back" : "Доставка"}
+                  </StyledNavButton>
+                </StyledNavItem>
+              </StyledNavItems>
+            ) : null}
+
+            <StyledSocialItems>
+              {socialLinks.map(({ href, alt }) => {
+                const matchingIcon = socialImageSvg.find(
+                  (item) => item.alt === alt
+                );
+                return (
+                  <StyledSocialItem key={alt}>
+                    <StyledSocialLink
+                      href={href}
+                      target="_blank"
+                      aria-label={alt}
+                    >
+                      {matchingIcon ? matchingIcon.icon : null}
+                    </StyledSocialLink>
+                  </StyledSocialItem>
+                );
+              })}
+            </StyledSocialItems>
+          </StyledNavHeader>
+
+          <StyledNameHeader>Kodi</StyledNameHeader>
+        </StyledTopHeader>
       </StyledMainContainer>
     </StyledHeader>
   );

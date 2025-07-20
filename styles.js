@@ -52,11 +52,11 @@ body {
   line-height: 1;
   font-weight: 600;
   background-color: #07171f;
-  background-image: url("/background/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white;
+  // background-image: url("/background/background.jpg");
+  // background-size: cover;
+  // background-position: center;
+  // background-repeat: no-repeat;
+  color: #000;
   min-height: 100vw;
   overflow-y: auto;
   height: var(--body-height);
@@ -69,7 +69,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
   z-index: -1; 
   }
 }
@@ -95,10 +95,11 @@ label {
 
 button {
   cursor: pointer;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
   overflow: hidden;
-  background-color: rgb(24, 101, 134);
+  background-color: #ffffff;
+;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: color 0.6s ease-in-out;

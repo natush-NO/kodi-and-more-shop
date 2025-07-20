@@ -7,7 +7,7 @@ export const StyledMain = styled.main`
 `;
 
 export const StyledMainContainer = styled.div`
-  max-width: 1350px;
+  width: 85%;
   padding: 0 25px;
   text-align: center;
   margin: 0 auto;

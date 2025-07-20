@@ -34,8 +34,8 @@ export default function HomePage({
         <Header isBack={false} handleShowText={handleShowText} />
         <StyledMain>
           <StyledMainContainer>
-            <StyledTitleHello>Hello</StyledTitleHello>
-            <StyledTitleWelcome>Welcome to my page!!!</StyledTitleWelcome>
+            <StyledTitleHello></StyledTitleHello>
+            <StyledTitleWelcome>Kodi</StyledTitleWelcome>
 
             {showAboutMe && (
               <StyledTextArticle id={"aboutMe"}>

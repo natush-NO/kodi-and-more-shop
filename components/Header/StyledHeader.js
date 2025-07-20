@@ -11,16 +11,25 @@ const sharedFlexStyles = css`
 `;
 
 const sharedButtonSize = css`
-  min-width: 130px;
+  // min-width: 0px;
 `;
 
 const sharedMarginBottom = css`
   margin-bottom: 50px;
 `;
 
+export const StyledNameHeader = styled.header`
+  font-size: 45px;
+  color: #ffffff;
+
+  // @media (min-width: 1000px) {
+  //   margin-bottom: 50px;
+  // }
+`;
+
 export const StyledHeader = styled.header`
   min-height: 100px;
-  padding: 40px 0;
+  padding: 20px 0;
   margin-bottom: 30px;
 
   @media (min-width: 1000px) {
@@ -28,9 +37,22 @@ export const StyledHeader = styled.header`
   }
 `;
 
+export const StyledTopHeader = styled.header`
+  min-height: 200px;
+  background-color: #000;
+  padding: 10px 20px;
+  border-radius: 10px;
+
+  // @media (min-width: 1000px) {
+  //   margin-bottom: 50px;
+  // }
+`;
+
 export const StyledNavHeader = styled.nav`
-  max-width: 800px;
   ${sharedContainerStyles};
+  ${sharedFlexStyles};
+
+  justify-content: space-between;
 `;
 
 export const StyledButtonMenu = styled.button`
@@ -41,7 +63,7 @@ export const StyledButtonMenu = styled.button`
 
   @media (min-width: 500px) {
     ${sharedButtonSize};
-    padding: 15px;
+    padding: 5px;
     font-size: 22px;
   }
 `;
@@ -54,6 +76,7 @@ export const StyledNavItems = styled.ul`
   gap: 15px;
   flex-wrap: wrap;
   align-items: center;
+
   text-alighn: center;
   ${sharedContainerStyles};
   ${sharedMarginBottom};
@@ -73,6 +96,9 @@ export const StyledNavItems = styled.ul`
   @media (min-width: 1000px) {
     max-width: 700px;
     font-size: 22px;
+    justify-content: flex-start;
+    margin: 0 !important;
+    gap: 20px;
   }
 `;
 
@@ -83,14 +109,18 @@ export const StyledNavButton = styled.button`
 `;
 
 export const StyledSocialItems = styled.ul`
-  max-width: 250px;
+  // max-width: 250px;
   ${sharedFlexStyles};
+
   gap: 10px;
   flex-wrap: wrap;
   ${sharedContainerStyles};
 
   @media (min-width: 1000px) {
     max-width: 400px;
+
+    justify-content: flex-end;
+    margin: 0 !important;
   }
 `;
 
@@ -105,7 +135,7 @@ export const StyledSocialLink = styled(Link)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: rgb(24, 101, 134);
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: color 0.6s ease-in;
 
@@ -115,8 +145,8 @@ export const StyledSocialLink = styled(Link)`
   }
 
   @media (min-width: 1000px) {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   @media (hover: hover) {
