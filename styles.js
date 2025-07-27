@@ -51,7 +51,9 @@ body {
   font-family: 'Arima', sans-serif;
   line-height: 1;
   font-weight: 600;
-  background-color: #07171f;
+background-color: rgba(255, 255, 255, 0.95);
+
+
   // background-image: url("/background/background.jpg");
   // background-size: cover;
   // background-position: center;
@@ -62,16 +64,16 @@ body {
   height: var(--body-height);
   overflow-x: hidden;
 
-&::after {
-  content: ""; 
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  z-index: -1; 
-  }
+// &::after {
+//   content: ""; 
+//   position: fixed; 
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: #ffffff;
+//   z-index: -1; 
+//   }
 }
 
 input,
@@ -99,10 +101,10 @@ button {
   text-align: center;
   overflow: hidden;
   background-color: #ffffff;
-;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.6s ease-in-out;
+
+  // border-radius: 10px;
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  // transition: color 0.6s ease-in-out;
 
   @media (hover: hover) {
     &:hover {

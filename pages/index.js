@@ -35,7 +35,7 @@ export default function HomePage({
         <StyledMain>
           <StyledMainContainer>
             <StyledTitleHello></StyledTitleHello>
-            <StyledTitleWelcome>Kodi</StyledTitleWelcome>
+            {/* <StyledTitleWelcome>Kodi</StyledTitleWelcome> */}
 
             {showAboutMe && (
               <StyledTextArticle id={"aboutMe"}>
