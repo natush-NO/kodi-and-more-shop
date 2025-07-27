@@ -51,27 +51,29 @@ body {
   font-family: 'Arima', sans-serif;
   line-height: 1;
   font-weight: 600;
-  background-color: #07171f;
-  background-image: url("/background/background.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white;
+background-color: rgba(255, 255, 255, 0.95);
+
+
+  // background-image: url("/background/background.jpg");
+  // background-size: cover;
+  // background-position: center;
+  // background-repeat: no-repeat;
+  color: #000;
   min-height: 100vw;
   overflow-y: auto;
   height: var(--body-height);
   overflow-x: hidden;
 
-&::after {
-  content: ""; 
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: -1; 
-  }
+// &::after {
+//   content: ""; 
+//   position: fixed; 
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: #ffffff;
+//   z-index: -1; 
+//   }
 }
 
 input,
@@ -95,13 +97,14 @@ label {
 
 button {
   cursor: pointer;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
   overflow: hidden;
-  background-color: rgb(24, 101, 134);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.6s ease-in-out;
+  background-color: #ffffff;
+
+  // border-radius: 10px;
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  // transition: color 0.6s ease-in-out;
 
   @media (hover: hover) {
     &:hover {

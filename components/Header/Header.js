@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
+  StyledStickyTopBar,
+  StyledBrandName,
   StyledHeader,
+  StyledBottomHeader,
   StyledNavHeader,
   StyledButtonMenu,
   StyledNavItems,
@@ -10,16 +13,28 @@ import {
   StyledSocialItems,
   StyledSocialItem,
   StyledSocialLink,
+  StyledPhoneLink,
+  StyledHeaderInfoBar,
+  StyledOpeningHours,
+  StyledOpeningHoursSpan,
+  StyledOpeningHoursTitel,
+  StyledSearchBocks,
+  StyledSearchInput,
+  StyledFaSearch,
 } from "./StyledHeader";
 import { StyledMainContainer } from "../StyledIndex";
-<FaInstagram size={30} color="#E4405F" />;
-import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaFacebook,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaSearch,
+} from "react-icons/fa";
 
 export default function Header({
   isBack,
   handleShowText,
   pageCertificate,
-  projectsPage,
   isBackProject,
 }) {
   const router = useRouter();
@@ -43,9 +58,9 @@ export default function Header({
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 700);
-      setIconSizeWidth(window.innerWidth < 900 ? 40 : 50);
+      setIconSizeWidth(window.innerWidth < 900 ? 25 : 15);
       setIconSizeHeight(
-        window.innerWidth < 450 ? 30 : window.innerHeight < 750 ? 35 : 40
+        window.innerWidth < 450 ? 30 : window.innerHeight < 750 ? 25 : 15
       );
     };
 
@@ -67,92 +82,122 @@ export default function Header({
       alt: "Facebook",
     },
     {
-      icon: <FaLinkedin size={(iconSizeWidth, iconSizeHeight)} />,
-      alt: "LinkedIn",
+      icon: <FaMapMarkerAlt size={(iconSizeWidth, iconSizeHeight)} />,
+      alt: "Location",
     },
   ];
 
   const socialLinks = [
-    { href: "https://www.instagram.com/natush_no", alt: "Instagram" },
+    { href: "http://instagram.com/kodi_uzhgorod", alt: "Instagram" },
     {
-      href: "https://www.facebook.com/share/1pWFnzSbYqtE1Weo",
+      href: "https://www.facebook.com/kodi.transcarpathian",
       alt: "Facebook",
     },
-    { href: "https://www.linkedin.com/in/nataliia-osman", alt: "LinkedIn" },
+    {
+      href: "https://www.google.com/maps/dir/51.2014328,6.4410627/Shevchenka+Ln,+23,+Uzhhorod,+Zakarpats'ka+oblast,+Ukraine,+88000/@49.0166857,3.815387,5z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x47391847e919db07:0xc0ed593031ed73a4!2m2!1d22.2789898!2d48.6318722?entry=ttu&g_ep=EgoyMDI1MDcyMy4wIKXMDSoASAFQAw%3D%3D",
+      alt: "Location",
+    },
   ];
 
   return (
-    <StyledHeader>
-      <StyledMainContainer>
-        <StyledNavHeader>
-          {isMobile && (
-            <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
-              {isMenuOpen ? "Close" : "Menu"}
-            </StyledButtonMenu>
-          )}
+    <>
+      <StyledStickyTopBar></StyledStickyTopBar>
+      <StyledHeader>
+        <StyledMainContainer>
+          <StyledNavHeader>
+            {isMobile && (
+              <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
+                {isMenuOpen ? "Close" : "Menu"}
+              </StyledButtonMenu>
+            )}
 
-          {(isMobile && isMenuOpen) || !isMobile ? (
-            <StyledNavItems id="burger">
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    handleNavigation(
-                      pageCertificate || projectsPage ? "/" : undefined
-                    )
-                  }
-                  type="button"
-                  aria-label="About me"
-                >
-                  About me
-                </StyledNavButton>
-              </StyledNavItem>
-
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    router.push(isBackProject ? "/" : "/projectsPage")
-                  }
-                  type="button"
-                  aria-label={isBackProject ? "Back" : "My projects"}
-                >
-                  {isBackProject ? "Back" : "My projects"}
-                </StyledNavButton>
-              </StyledNavItem>
-
-              <StyledNavItem>
-                <StyledNavButton
-                  onClick={() =>
-                    router.push(isBack ? "/" : "/certificatesPage")
-                  }
-                  type="button"
-                  aria-label={isBack ? "Back" : "Certificates"}
-                >
-                  {isBack ? "Back" : "Certificates"}
-                </StyledNavButton>
-              </StyledNavItem>
-            </StyledNavItems>
-          ) : null}
-
-          <StyledSocialItems>
-            {socialLinks.map(({ href, alt }) => {
-              const matchingIcon = socialImageSvg.find(
-                (item) => item.alt === alt
-              );
-              return (
-                <StyledSocialItem key={alt}>
-                  <StyledSocialLink
-                    href={href}
-                    target="_blank"
-                    aria-label={alt}
+            {(isMobile && isMenuOpen) || !isMobile ? (
+              <StyledNavItems id="burger">
+                <StyledNavItem>
+                  <StyledNavButton
+                    onClick={() =>
+                      router.push(isBackProject ? "/" : "/projectsPage")
+                    }
+                    type="button"
+                    aria-label={isBackProject ? "Back" : "My projects"}
                   >
-                    {matchingIcon ? matchingIcon.icon : null}
-                  </StyledSocialLink>
-                </StyledSocialItem>
-              );
-            })}
-          </StyledSocialItems>
-        </StyledNavHeader>
-      </StyledMainContainer>
-    </StyledHeader>
+                    {isBackProject ? "Back" : "Каталог"}
+                  </StyledNavButton>
+                </StyledNavItem>
+
+                <StyledNavItem>
+                  <StyledNavButton
+                    onClick={() =>
+                      router.push(isBack ? "/" : "/certificatesPage")
+                    }
+                    type="button"
+                    aria-label={isBack ? "Back" : "Certificates"}
+                  >
+                    {isBack ? "Back" : "Доставка"}
+                  </StyledNavButton>
+                </StyledNavItem>
+              </StyledNavItems>
+            ) : null}
+
+            <StyledSocialItems>
+              <StyledPhoneLink
+                href="tel:+380999284258"
+                aria-label="Позвоніть по номеру телефону"
+              >
+                <FaPhone size={24} />
+                <span>+380999284258</span>
+              </StyledPhoneLink>
+
+              {socialLinks.map(({ href, alt }) => {
+                const matchingIcon = socialImageSvg.find(
+                  (item) => item.alt === alt
+                );
+                return (
+                  <StyledSocialItem key={alt}>
+                    <StyledSocialLink
+                      href={href}
+                      target="_blank"
+                      aria-label={alt}
+                    >
+                      {matchingIcon ? matchingIcon.icon : null}
+                    </StyledSocialLink>
+                  </StyledSocialItem>
+                );
+              })}
+            </StyledSocialItems>
+          </StyledNavHeader>
+          <StyledHeaderInfoBar>
+            <StyledBrandName>Kodi</StyledBrandName>
+            <StyledSearchBocks>
+              <StyledSearchInput
+                type="text"
+                name="q"
+                id="q"
+                autoComplete="off"
+                maxLength="90"
+                spellCheck="false"
+              />
+              <StyledFaSearch>
+                <FaSearch size={18} color="#666666" />
+              </StyledFaSearch>
+            </StyledSearchBocks>
+
+            <StyledOpeningHours>
+              <StyledOpeningHoursTitel>Графік роботи:</StyledOpeningHoursTitel>
+              <div>
+                <StyledOpeningHoursSpan>Пн–Пт:</StyledOpeningHoursSpan>{" "}
+                10:00–18:00
+              </div>
+              <div>
+                <StyledOpeningHoursSpan>Сб–Нд:</StyledOpeningHoursSpan>{" "}
+                10:00–16:00
+              </div>
+            </StyledOpeningHours>
+          </StyledHeaderInfoBar>
+        </StyledMainContainer>
+
+        <StyledBottomHeader />
+      </StyledHeader>
+    </>
   );
 }
