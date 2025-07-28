@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import {
   StyledStickyTopBar,
   StyledBrandName,
+  StyledBrandNameSpan,
   StyledHeader,
   StyledBottomHeader,
   StyledNavHeader,
@@ -167,7 +168,10 @@ export default function Header({
             </StyledSocialItems>
           </StyledNavHeader>
           <StyledHeaderInfoBar>
-            <StyledBrandName>Kodi</StyledBrandName>
+            <StyledBrandName>
+              <StyledBrandNameSpan>Ужгород</StyledBrandNameSpan> <br />
+              Kodi
+            </StyledBrandName>
             <StyledSearchBocks>
               <StyledSearchInput
                 type="text"

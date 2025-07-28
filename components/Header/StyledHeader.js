@@ -61,12 +61,12 @@ export const StyledOpeningHoursSpan = styled.span``;
 export const StyledBrandName = styled.div`
   font-size: 45px;
   text-align: center;
-  font-size: 44px;
   letter-spacing: 2px;
 
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -60%);
 
   @media (min-width: 800px) {
     font-size: 52px;
@@ -75,6 +75,10 @@ export const StyledBrandName = styled.div`
   @media (min-width: 1200px) {
     font-size: 72px;
   }
+`;
+
+export const StyledBrandNameSpan = styled.span`
+  font-size: 24px;
 `;
 
 export const StyledOpeningHoursTitel = styled.div`

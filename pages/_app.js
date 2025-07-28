@@ -9,18 +9,18 @@ export default function App({ Component, pageProps }) {
   const [projectItems, setProjectItems] = useState(projects);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
-  useEffect(() => {
-    if (showAboutMe) {
-      const aboutMeElement = document.getElementById("aboutMe");
-      if (aboutMeElement) {
-        aboutMeElement.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [showAboutMe]);
+  // useEffect(() => {
+  //   if (showAboutMe) {
+  //     const aboutMeElement = document.getElementById("aboutMe");
+  //     if (aboutMeElement) {
+  //       aboutMeElement.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // }, [showAboutMe]);
 
-  function handleShowText() {
-    setShowAboutMe(true);
-  }
+  // function handleShowText() {
+  //   setShowAboutMe(true);
+  // }
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
       <UpdateOverlayHeight />
       <Component
         {...pageProps}
-        showAboutMe={showAboutMe}
+        // showAboutMe={showAboutMe}
         setShowAboutMe={setShowAboutMe}
         handleShowText={handleShowText}
         projectItems={projectItems}
