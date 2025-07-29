@@ -8,6 +8,8 @@ import {
   StyledBottomHeader,
   StyledNavHeader,
   StyledButtonMenu,
+  StyledLanguageBox,
+  StyledLanguageButton,
   StyledNavItems,
   StyledNavItem,
   StyledNavButton,
@@ -22,6 +24,11 @@ import {
   StyledSearchBocks,
   StyledSearchInput,
   StyledFaSearch,
+  StylednavigationMenu,
+  StyledNavigationMenu__List,
+  StyledNavigationMenu__Item,
+  StyledNavigationMenu__Link,
+  // StyledNavigationMenu__ItemNails,
 } from "./StyledHeader";
 import { StyledMainContainer } from "../StyledIndex";
 import {
@@ -31,12 +38,14 @@ import {
   FaMapMarkerAlt,
   FaSearch,
 } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function Header({
   isBack,
   handleShowText,
   pageCertificate,
   isBackProject,
+  changeLanguage,
 }) {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,13 +53,24 @@ export default function Header({
   const [iconSizeWidth, setIconSizeWidth] = useState(50);
   const [iconSizeHeight, setIconSizeHeight] = useState(40);
 
-  const handleNavigation = (path) => {
-    if (path) {
-      router.push(path).then(() => handleShowText());
-    } else {
-      handleShowText();
-    }
-  };
+  const { t, i18n } = useTranslation("common");
+
+  // const LanguageSwitcher = () => {
+  //   const router = useRouter();
+  //   const { locale, pathname, query, asPath } = router;
+
+  //   const changeLanguage = (lng) => {
+  //     router.push({ pathname, query }, asPath, { locale: lng });
+  //   };
+
+  //   const handleNavigation = (path) => {
+  //     if (path) {
+  //       router.push(path).then(() => handleShowText());
+  //     } else {
+  //       handleShowText();
+  //     }
+  //   };
+  // };
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -100,15 +120,26 @@ export default function Header({
     },
   ];
 
+  // if (typeof window === "undefined") {
+  //   console.log("Це сервер");
+  // } else {
+  //   console.log("Це клієнт");
+  // }
+
+  console.log("✅ Header component loaded");
+
   return (
     <>
-      <StyledStickyTopBar></StyledStickyTopBar>
+      <StyledStickyTopBar />
       <StyledHeader>
         <StyledMainContainer>
           <StyledNavHeader>
             {isMobile && (
-              <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
-                {isMenuOpen ? "Close" : "Menu"}
+              <StyledButtonMenu
+                onClick={toggleMenu}
+                aria-label={isMenuOpen ? t("close") : t("menu")}
+              >
+                {isMenuOpen ? t("close") : t("menu")}
               </StyledButtonMenu>
             )}
 
@@ -120,21 +151,29 @@ export default function Header({
                       router.push(isBackProject ? "/" : "/projectsPage")
                     }
                     type="button"
-                    aria-label={isBackProject ? "Back" : "My projects"}
+                    aria-label={isBackProject ? t("back") : t("myProjects")}
                   >
-                    {isBackProject ? "Back" : "Каталог"}
+                    {isBackProject ? t("back") : t("catalog")}
                   </StyledNavButton>
                 </StyledNavItem>
 
                 <StyledNavItem>
+                  <StyledLanguageBox>
+                    <StyledLanguageButton onClick={() => changeLanguage("uk")}>
+                      UA
+                    </StyledLanguageButton>
+                    <StyledLanguageButton onClick={() => changeLanguage("en")}>
+                      EN
+                    </StyledLanguageButton>
+                  </StyledLanguageBox>
                   <StyledNavButton
                     onClick={() =>
                       router.push(isBack ? "/" : "/certificatesPage")
                     }
                     type="button"
-                    aria-label={isBack ? "Back" : "Certificates"}
+                    aria-label={isBack ? t("back") : t("certificates")}
                   >
-                    {isBack ? "Back" : "Доставка"}
+                    {isBack ? t("back") : t("delivery")}
                   </StyledNavButton>
                 </StyledNavItem>
               </StyledNavItems>
@@ -143,7 +182,7 @@ export default function Header({
             <StyledSocialItems>
               <StyledPhoneLink
                 href="tel:+380999284258"
-                aria-label="Позвоніть по номеру телефону"
+                aria-label={t("callPhone")}
               >
                 <FaPhone size={24} />
                 <span>+380999284258</span>
@@ -167,6 +206,7 @@ export default function Header({
               })}
             </StyledSocialItems>
           </StyledNavHeader>
+
           <StyledHeaderInfoBar>
             <StyledBrandName>
               <StyledBrandNameSpan>Ужгород</StyledBrandNameSpan> <br />
@@ -180,6 +220,7 @@ export default function Header({
                 autoComplete="off"
                 maxLength="90"
                 spellCheck="false"
+                placeholder={t("searchPlaceholder")}
               />
               <StyledFaSearch>
                 <FaSearch size={18} color="#666666" />
@@ -187,18 +228,35 @@ export default function Header({
             </StyledSearchBocks>
 
             <StyledOpeningHours>
-              <StyledOpeningHoursTitel>Графік роботи:</StyledOpeningHoursTitel>
+              <StyledOpeningHoursTitel>
+                {t("workingHours")}:
+              </StyledOpeningHoursTitel>
               <div>
-                <StyledOpeningHoursSpan>Пн–Пт:</StyledOpeningHoursSpan>{" "}
+                <StyledOpeningHoursSpan>{t("monFri")}:</StyledOpeningHoursSpan>{" "}
                 10:00–18:00
               </div>
               <div>
-                <StyledOpeningHoursSpan>Сб–Нд:</StyledOpeningHoursSpan>{" "}
+                <StyledOpeningHoursSpan>{t("satSun")}:</StyledOpeningHoursSpan>{" "}
                 10:00–16:00
               </div>
             </StyledOpeningHours>
           </StyledHeaderInfoBar>
         </StyledMainContainer>
+
+        <StylednavigationMenu>
+          <StyledMainContainer>
+            <StyledNavigationMenu__List>
+              <StyledNavigationMenu__Item>
+                <StyledNavigationMenu__Link>
+                  {t("manicurePedicure")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("makeup")}
+                </StyledNavigationMenu__Link>
+              </StyledNavigationMenu__Item>
+            </StyledNavigationMenu__List>
+          </StyledMainContainer>
+        </StylednavigationMenu>
 
         <StyledBottomHeader />
       </StyledHeader>

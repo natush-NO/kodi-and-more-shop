@@ -35,6 +35,30 @@ export const StyledBottomHeader = styled.div`
   border-bottom: 1px solid #e0e0e0;
 `;
 
+export const StyledLanguageBox = styled.div`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  color: #333;
+`;
+
+export const StyledLanguageButton = styled.button`
+  background-color: #ffffff;
+
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  transition: color 0.6s ease-in;
+
+  @media (hover: hover) {
+    &:hover {
+      transition: color 0.9s ease;
+      color: rgba(0, 0, 255, 0.452);
+    }
+  }
+`;
+
 export const StyledHeaderInfoBar = styled.div`
   ${sharedFlexStyles};
   flex-direction: row;
@@ -89,10 +113,9 @@ export const StyledOpeningHoursTitel = styled.div`
 export const StyledNavHeader = styled.nav`
   ${sharedContainerStyles};
   ${sharedFlexStyles};
-
   justify-content: space-between;
-
   padding-bottom: 25px;
+  gab: 10px;
 `;
 
 export const StyledButtonMenu = styled.button`
@@ -143,19 +166,23 @@ export const StyledNavItems = styled.ul`
 
 export const StyledNavItem = styled.li``;
 
-export const StyledNavButton = styled.button``;
+export const StyledNavButton = styled.button`
+  background-color: #ffffff;
+
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  transition: color 0.6s ease-in;
+`;
 
 export const StyledSocialItems = styled.ul`
   // max-width: 250px;
   ${sharedFlexStyles};
-
   gap: 15px;
   flex-wrap: wrap;
   ${sharedContainerStyles};
 
   @media (min-width: 1000px) {
     width: 300px;
-
     justify-content: flex-end;
     margin: 0 !important;
   }
@@ -200,9 +227,6 @@ export const StyledPhoneLink = styled.a`
   display: flex;
   align-items: center;
   font-size: 16px;
-
-  // color: inherit;
-  // text-decoration: none;
   cursor: pointer;
 
   @media (hover: hover) {
@@ -250,4 +274,37 @@ export const StyledIconWrapper = styled.div`
   width: 20px;
   height: 20px;
   opacity: 0.6;
+`;
+
+export const StylednavigationMenu = styled.nav`
+  height: 50px;
+  border: 1px solid #e0e0e0;
+`;
+
+export const StyledNavigationMenu__List = styled.ul`
+  ${sharedFlexStyles};
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  font-size: 16px;
+`;
+
+export const StyledNavigationMenu__Item = styled.li``;
+
+export const StyledNavigationMenu__Link = styled.a`
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      color: rgba(0, 0, 255, 0.452);
+      transition: color 0.9s ease;
+    }
+  }
+`;
+
+export const StyledNavigationMenu = styled.div`
+  background-color: #000;
+  color: #fff; /* додай, щоб текст був видимий */
+  padding: 5px;
+  border-radius: 10px;
 `;

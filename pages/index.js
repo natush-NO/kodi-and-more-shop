@@ -12,10 +12,13 @@ import {
   StyledSpan,
 } from "@/components/StyledIndex";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 export default function HomePage({
   // showAboutMe,
   setShowAboutMe,
-  handleShowText,
+  // handleShowText,
+  changeLanguage,
 }) {
   function closeModal() {
     setShowAboutMe(false);
@@ -31,7 +34,8 @@ export default function HomePage({
   return (
     <>
       <StyledBackgroundImgBody>
-        <Header isBack={false} handleShowText={handleShowText} />
+        {/* handleShowText={handleShowText} */}
+        <Header isBack={false} changeLanguage={changeLanguage} />
         <StyledMain>
           <StyledMainContainer>
             <StyledTitleHello></StyledTitleHello>
@@ -45,7 +49,7 @@ export default function HomePage({
                   &times;
                 </StyledCloseButton> */}
             <StyledTextAboutMe>
-              My name is <StyledSpan>Nataliia Osman,</StyledSpan> a web
+              {/* My name is <StyledSpan>Nataliia Osman,</StyledSpan> a web
               developer from Ukraine, currently residing in Germany. As a
               passionate learner, I focus on mastering web development with a
               specialization in creating modern, interactive websites and web
@@ -57,7 +61,7 @@ export default function HomePage({
               best user experience. Constantly honing my skills, I stay updated
               with the latest trends in web development and apply new knowledge
               to every project. I look forward to collaborating on exciting new
-              ventures!
+              ventures! */}
             </StyledTextAboutMe>
             {/* </StyledTextArticle> */}
             {/* )} */}
@@ -66,4 +70,12 @@ export default function HomePage({
       </StyledBackgroundImgBody>
     </>
   );
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 }
