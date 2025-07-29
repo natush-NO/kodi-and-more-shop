@@ -36,24 +36,53 @@ export const StyledBottomHeader = styled.div`
 `;
 
 export const StyledLanguageBox = styled.div`
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  color: #333;
+  ${sharedFlexStyles};
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5px;
+  position: relative; /* Щоб список позиціювався відносно цієї коробки */
 `;
 
-export const StyledLanguageButton = styled.button`
+export const StyledLanguageBoxOpen = styled.div`
+  ${sharedFlexStyles};
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  position: absolute;
+  top: 40px;
+  left: 0;
   background-color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+`;
 
+export const StyledLanguageButtonOpen = styled.button`
+  background-color: #ffffff;
+  padding: 5px 10px;
   border-radius: 10px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.6s ease-in;
+  transition: color 0.3s ease-in;
 
   @media (hover: hover) {
     &:hover {
-      transition: color 0.9s ease;
+      color: rgba(0, 0, 255, 0.452);
+    }
+  }
+`;
+
+export const StyledLanguageButtonClose = styled.button`
+  background-color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  transition: color 0.3s ease-in;
+  display: flex;
+  align-items: center;
+
+  @media (hover: hover) {
+    &:hover {
       color: rgba(0, 0, 255, 0.452);
     }
   }

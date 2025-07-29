@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   StyledStickyTopBar,
   StyledBrandName,
@@ -9,7 +10,9 @@ import {
   StyledNavHeader,
   StyledButtonMenu,
   StyledLanguageBox,
-  StyledLanguageButton,
+  StyledLanguageBoxOpen,
+  StyledLanguageButtonOpen,
+  StyledLanguageButtonClose,
   StyledNavItems,
   StyledNavItem,
   StyledNavButton,
@@ -37,6 +40,8 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaSearch,
+  FaAngleDown,
+  FaAngleUp,
 } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
 
@@ -52,25 +57,33 @@ export default function Header({
   const [isMobile, setIsMobile] = useState(false);
   const [iconSizeWidth, setIconSizeWidth] = useState(50);
   const [iconSizeHeight, setIconSizeHeight] = useState(40);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const langRef = useRef(null);
 
   const { t, i18n } = useTranslation("common");
+  const toggleLanguageMenu = () => {
+    setIsLangOpen((prev) => !prev);
+  };
 
-  // const LanguageSwitcher = () => {
-  //   const router = useRouter();
-  //   const { locale, pathname, query, asPath } = router;
+  const languageBoxRef = useRef(null);
 
-  //   const changeLanguage = (lng) => {
-  //     router.push({ pathname, query }, asPath, { locale: lng });
-  //   };
+  const getFlagByLang = (lang) =>
+    `/flags/${lang === "en" ? "us.png" : "ua.png"}`;
 
-  //   const handleNavigation = (path) => {
-  //     if (path) {
-  //       router.push(path).then(() => handleShowText());
-  //     } else {
-  //       handleShowText();
-  //     }
-  //   };
-  // };
+  console.log("Flag path:", getFlagByLang(i18n.language));
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (langRef.current && !langRef.current.contains(event.target)) {
+        setIsLangOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -120,14 +133,6 @@ export default function Header({
     },
   ];
 
-  // if (typeof window === "undefined") {
-  //   console.log("Це сервер");
-  // } else {
-  //   console.log("Це клієнт");
-  // }
-
-  console.log("✅ Header component loaded");
-
   return (
     <>
       <StyledStickyTopBar />
@@ -145,6 +150,65 @@ export default function Header({
 
             {(isMobile && isMenuOpen) || !isMobile ? (
               <StyledNavItems id="burger">
+                <StyledLanguageBox>
+                  <StyledLanguageButtonClose
+                    onClick={() => setIsLangOpen(!isLangOpen)}
+                  >
+                    <Image
+                      src={getFlagByLang(i18n.language)}
+                      alt="flag"
+                      width={15}
+                      height={10}
+                      unoptimized
+                      style={{ marginRight: "5px", borderRadius: "2px" }}
+                    />
+                    {i18n.language === "en" ? t("languageEN") : t("languageUA")}
+                    {isLangOpen ? (
+                      <FaAngleUp style={{ marginLeft: "5px" }} />
+                    ) : (
+                      <FaAngleDown style={{ marginLeft: "5px" }} />
+                    )}
+                  </StyledLanguageButtonClose>
+
+                  {isLangOpen && (
+                    <StyledLanguageBoxOpen>
+                      <StyledLanguageButtonOpen
+                        onClick={() => {
+                          changeLanguage("uk");
+                          setIsLangOpen(false);
+                        }}
+                      >
+                        <Image
+                          src="/flags/ua.png"
+                          alt="flag"
+                          width={15}
+                          height={10}
+                          unoptimized
+                          style={{ marginRight: "5px", borderRadius: "2px" }}
+                        />
+                        {t("languageUA")}
+                      </StyledLanguageButtonOpen>
+
+                      <StyledLanguageButtonOpen
+                        onClick={() => {
+                          changeLanguage("en");
+                          setIsLangOpen(false);
+                        }}
+                      >
+                        <Image
+                          src="/flags/us.png"
+                          alt="flag"
+                          width={15}
+                          height={10}
+                          unoptimized
+                          style={{ marginRight: "5px", borderRadius: "2px" }}
+                        />
+                        {t("languageEN")}
+                      </StyledLanguageButtonOpen>
+                    </StyledLanguageBoxOpen>
+                  )}
+                </StyledLanguageBox>
+
                 <StyledNavItem>
                   <StyledNavButton
                     onClick={() =>
@@ -156,16 +220,7 @@ export default function Header({
                     {isBackProject ? t("back") : t("catalog")}
                   </StyledNavButton>
                 </StyledNavItem>
-
                 <StyledNavItem>
-                  <StyledLanguageBox>
-                    <StyledLanguageButton onClick={() => changeLanguage("uk")}>
-                      UA
-                    </StyledLanguageButton>
-                    <StyledLanguageButton onClick={() => changeLanguage("en")}>
-                      EN
-                    </StyledLanguageButton>
-                  </StyledLanguageBox>
                   <StyledNavButton
                     onClick={() =>
                       router.push(isBack ? "/" : "/certificatesPage")
