@@ -40,7 +40,7 @@ export const StyledLanguageBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: 5px;
-  position: relative; /* Щоб список позиціювався відносно цієї коробки */
+  position: relative;
 `;
 
 export const StyledLanguageBoxOpen = styled.div`
@@ -49,7 +49,7 @@ export const StyledLanguageBoxOpen = styled.div`
   justify-content: space-between;
   gap: 5px;
   position: absolute;
-  top: 40px;
+  top: 30px;
   left: 0;
   background-color: #ffffff;
   padding: 10px;
@@ -64,11 +64,26 @@ export const StyledLanguageButtonOpen = styled.button`
   border-radius: 10px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
   transition: color 0.3s ease-in;
+  display: flex;
+  align-items: center;
 
   @media (hover: hover) {
     &:hover {
       color: rgba(0, 0, 255, 0.452);
     }
+  }
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 10px;
+    background-image: ${({ $flag }) => `url("/flags/${$flag}.png")`};
+    background-size: cover;
+    background-position: center;
+    margin-right: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
   }
 `;
 

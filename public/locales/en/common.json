@@ -9,10 +9,20 @@
   "workingHours": "Working Hours",
   "monFri": "Mon–Fri",
   "satSun": "Sat–Sun",
-  "manicurePedicure": "Manicure & Pedicure",
-  "makeup": "Makeup",
   "catalog": "Catalog",
   "delivery": "Delivery",
   "languageUA": "UA",
-  "languageEN": "EN"
+  "languageEN": "EN",
+  "sity": "Uzhorod",
+  "manicurePedicure": "Manicure & Pedicure",
+  "makeup": "Makeup",
+  "cosmetology": "Cosmetology",
+  "skinCare": "Skin Care",
+  "lashes": "Lashes",
+  "brows": "Brows",
+  "permanentMakeup": "Permanent Makeup",
+  "podology": "Podology",
+  "equipment": "Equipment",
+  "otherCategories": "Other Categories"
+
 }

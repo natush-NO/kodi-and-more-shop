@@ -9,10 +9,20 @@
   "workingHours": "Години роботи",
   "monFri": "Пн–Пт",
   "satSun": "Сб–Нд",
-  "manicurePedicure": "Манікюр & педикюр",
-  "makeup": "Макіяж",
   "catalog": "Каталог",
   "delivery": "Доставка",
   "languageUA": "Укр",
-  "languageEN": "Англ"
+  "languageEN": "Англ",
+  "sity": "Ужгород",
+  "manicurePedicure": "Манікюр & педикюр",
+  "makeup": "Макіяж",
+  "cosmetology": "Косметологія",
+  "skinCare": "Догляд за шкірою",
+  "lashes": "Вії",
+  "brows": "Брови",
+  "permanentMakeup": "Перманентний макіяж",
+  "podology": "Подологія",
+  "equipment": "Обладнання",
+  "otherCategories": "Інші категорії"
+
 }

@@ -69,7 +69,6 @@ export default function Header({
 
   const getFlagByLang = (lang) =>
     `/flags/${lang === "en" ? "us.png" : "ua.png"}`;
-
   console.log("Flag path:", getFlagByLang(i18n.language));
 
   useEffect(() => {
@@ -128,7 +127,7 @@ export default function Header({
       alt: "Facebook",
     },
     {
-      href: "https://www.google.com/maps/dir/51.2014328,6.4410627/Shevchenka+Ln,+23,+Uzhhorod,+Zakarpats'ka+oblast,+Ukraine,+88000/@49.0166857,3.815387,5z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x47391847e919db07:0xc0ed593031ed73a4!2m2!1d22.2789898!2d48.6318722?entry=ttu&g_ep=EgoyMDI1MDcyMy4wIKXMDSoASAFQAw%3D%3D",
+      href: "https://goo.gl/maps/Naj5BhFDMprcDNuj6",
       alt: "Location",
     },
   ];
@@ -150,65 +149,6 @@ export default function Header({
 
             {(isMobile && isMenuOpen) || !isMobile ? (
               <StyledNavItems id="burger">
-                <StyledLanguageBox>
-                  <StyledLanguageButtonClose
-                    onClick={() => setIsLangOpen(!isLangOpen)}
-                  >
-                    <Image
-                      src={getFlagByLang(i18n.language)}
-                      alt="flag"
-                      width={15}
-                      height={10}
-                      unoptimized
-                      style={{ marginRight: "5px", borderRadius: "2px" }}
-                    />
-                    {i18n.language === "en" ? t("languageEN") : t("languageUA")}
-                    {isLangOpen ? (
-                      <FaAngleUp style={{ marginLeft: "5px" }} />
-                    ) : (
-                      <FaAngleDown style={{ marginLeft: "5px" }} />
-                    )}
-                  </StyledLanguageButtonClose>
-
-                  {isLangOpen && (
-                    <StyledLanguageBoxOpen>
-                      <StyledLanguageButtonOpen
-                        onClick={() => {
-                          changeLanguage("uk");
-                          setIsLangOpen(false);
-                        }}
-                      >
-                        <Image
-                          src="/flags/ua.png"
-                          alt="flag"
-                          width={15}
-                          height={10}
-                          unoptimized
-                          style={{ marginRight: "5px", borderRadius: "2px" }}
-                        />
-                        {t("languageUA")}
-                      </StyledLanguageButtonOpen>
-
-                      <StyledLanguageButtonOpen
-                        onClick={() => {
-                          changeLanguage("en");
-                          setIsLangOpen(false);
-                        }}
-                      >
-                        <Image
-                          src="/flags/us.png"
-                          alt="flag"
-                          width={15}
-                          height={10}
-                          unoptimized
-                          style={{ marginRight: "5px", borderRadius: "2px" }}
-                        />
-                        {t("languageEN")}
-                      </StyledLanguageButtonOpen>
-                    </StyledLanguageBoxOpen>
-                  )}
-                </StyledLanguageBox>
-
                 <StyledNavItem>
                   <StyledNavButton
                     onClick={() =>
@@ -259,12 +199,60 @@ export default function Header({
                   </StyledSocialItem>
                 );
               })}
+              <StyledLanguageBox ref={langRef}>
+                <StyledLanguageButtonClose
+                  onClick={() => setIsLangOpen(!isLangOpen)}
+                >
+                  <Image
+                    src={getFlagByLang(i18n.language)}
+                    alt="flag"
+                    width={15}
+                    height={10}
+                    unoptimized
+                    style={{ marginRight: "5px", borderRadius: "2px" }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/flags/ua.png";
+                    }}
+                  />
+                  {i18n.language === "en" ? t("languageEN") : t("languageUA")}
+                  {isLangOpen ? (
+                    <FaAngleUp style={{ marginLeft: "5px" }} />
+                  ) : (
+                    <FaAngleDown style={{ marginLeft: "5px" }} />
+                  )}
+                </StyledLanguageButtonClose>
+
+                {isLangOpen && (
+                  <StyledLanguageBoxOpen>
+                    <StyledLanguageButtonOpen
+                      $flag="ua"
+                      onClick={() => {
+                        changeLanguage("uk");
+                        setIsLangOpen(false);
+                      }}
+                    >
+                      {t("languageUA")}
+                    </StyledLanguageButtonOpen>
+
+                    <StyledLanguageButtonOpen
+                      $flag="us"
+                      onClick={() => {
+                        changeLanguage("en");
+                        setIsLangOpen(false);
+                      }}
+                    >
+                      {t("languageEN")}
+                    </StyledLanguageButtonOpen>
+                  </StyledLanguageBoxOpen>
+                )}
+              </StyledLanguageBox>
             </StyledSocialItems>
           </StyledNavHeader>
 
           <StyledHeaderInfoBar>
             <StyledBrandName>
-              <StyledBrandNameSpan>Ужгород</StyledBrandNameSpan> <br />
+              <StyledBrandNameSpan>{t("sity")}</StyledBrandNameSpan> <br />
               Kodi
             </StyledBrandName>
             <StyledSearchBocks>
@@ -307,6 +295,30 @@ export default function Header({
                 </StyledNavigationMenu__Link>
                 <StyledNavigationMenu__Link>
                   {t("makeup")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("cosmetology")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("skinCare")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("lashes")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("brows")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("permanentMakeup")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("podology")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("equipment")}
+                </StyledNavigationMenu__Link>
+                <StyledNavigationMenu__Link>
+                  {t("otherCategories")}
                 </StyledNavigationMenu__Link>
               </StyledNavigationMenu__Item>
             </StyledNavigationMenu__List>
