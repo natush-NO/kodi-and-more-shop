@@ -1,7 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-import "@fontsource/arima";
-
 export default createGlobalStyle`
 
 *,
@@ -22,7 +20,6 @@ a {
   text-decoration: none;
   color: inherit;
   display: inline-block;
-  border-radius: 10px;
 }
 
 li {
@@ -48,33 +45,48 @@ html {
 }
   
 body {
-  font-family: 'Arima', sans-serif;
+ font-family: 'Lora', serif;
   line-height: 1;
   font-weight: 600;
-background-color: rgba(255, 255, 255, 0.95);
-
-
-  // background-image: url("/background/background.jpg");
-  // background-size: cover;
-  // background-position: center;
-  // background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.95);
   color: #000;
-  min-height: 100vw;
+  min-height: 100vh; 
   overflow-y: auto;
-  height: var(--body-height);
   overflow-x: hidden;
-
-// &::after {
-//   content: ""; 
-//   position: fixed; 
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background-color: #ffffff;
-//   z-index: -1; 
-//   }
+  height: var(--body-height);
+  z-index: 0;
 }
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    to left,
+    rgba(50, 49, 49, 0.153) 0%,
+    rgba(50, 49, 49, 0) 30%
+  );
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(50, 49, 49, 0.153) 0%,
+    rgba(50, 49, 49, 0) 30%
+  );
+}
+
 
 input,
 button,
@@ -82,7 +94,6 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  color: inherit;
 }
 
 input,
@@ -95,24 +106,36 @@ label {
   display: inline-block;
 }
 
+
 button {
-  cursor: pointer;
   padding: 10px;
   text-align: center;
   overflow: hidden;
+  border-radius: 10px;
   background-color: #ffffff;
 
-  // border-radius: 10px;
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  // transition: color 0.6s ease-in-out;
 
-  @media (hover: hover) {
-    &:hover {
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  
+}
+
+li,
+button, 
+a {
+  cursor: pointer;
   transition: color 0.9s ease;
+}
+
+@media (hover: hover) {
+  li:hover,
+  button:hover,
+  a:hover {
     color: rgba(0, 0, 255, 0.452);
-    }
   }
 }
+
 
 select,
 option {
@@ -124,16 +147,19 @@ input[type="email"],
 input[type="tel"],
 textarea {
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 input[type="number"] {
-  appearance: textfield; 
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    appearance: auto; 
-  }
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
 
-  &::-moz-appearance {
-    appearance: auto; 
-  }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 `;

@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+
 import Link from "next/link";
 
 const sharedContainerStyles = css`
@@ -13,12 +14,21 @@ const sharedMarginBottom = css`
   margin-bottom: 50px;
 `;
 
-export const StyledStickyTopBar = styled.div`
+export const StyledOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 9;
+`;
+
+export const StyledTopStickyBar = styled.div`
   border-top: 5px solid rgba(255, 0, 0, 0.795);
-position: sticky;
-top: 0;
-z-index: 1000; 
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 `;
 
 export const StyledHeader = styled.header`
@@ -35,15 +45,16 @@ export const StyledBottomHeader = styled.div`
   border-bottom: 1px solid #e0e0e0;
 `;
 
-export const StyledLanguageBox = styled.div`
+export const StyledLanguageSelector = styled.div`
   ${sharedFlexStyles};
   flex-direction: row;
   justify-content: space-between;
   gap: 5px;
   position: relative;
+  font-size: 14px;
 `;
 
-export const StyledLanguageBoxOpen = styled.div`
+export const StyledLanguageSelectorOpen = styled.div`
   ${sharedFlexStyles};
   flex-direction: column;
   justify-content: space-between;
@@ -59,19 +70,10 @@ export const StyledLanguageBoxOpen = styled.div`
 `;
 
 export const StyledLanguageButtonOpen = styled.button`
-  background-color: #ffffff;
   padding: 5px 10px;
-  border-radius: 10px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.3s ease-in;
-  display: flex;
-  align-items: center;
 
-  @media (hover: hover) {
-    &:hover {
-      color: rgba(0, 0, 255, 0.452);
-    }
-  }
+  ${sharedFlexStyles};
+  align-items: center;
 
   &::before {
     content: "";
@@ -88,18 +90,22 @@ export const StyledLanguageButtonOpen = styled.button`
 `;
 
 export const StyledLanguageButtonClose = styled.button`
-  background-color: #ffffff;
   padding: 5px 10px;
-  border-radius: 10px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.3s ease-in;
-  display: flex;
+
+  ${sharedFlexStyles};
   align-items: center;
 
-  @media (hover: hover) {
-    &:hover {
-      color: rgba(0, 0, 255, 0.452);
-    }
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 10px;
+    background-image: ${({ $flag }) => `url("/flags/${$flag}.png")`};
+    background-size: cover;
+    background-position: center;
+    margin-right: 5px;
+    border-radius: 2px;
+    flex-shrink: 0;
   }
 `;
 
@@ -112,7 +118,7 @@ export const StyledHeaderInfoBar = styled.div`
   position: relative;
 `;
 
-export const StyledOpeningHours = styled.div`
+export const StyledWorkingHoursSection = styled.div`
   width: 300px;
   ${sharedContainerStyles};
   font-weight: 400;
@@ -124,9 +130,9 @@ export const StyledOpeningHours = styled.div`
   }
 `;
 
-export const StyledOpeningHoursSpan = styled.span``;
+export const StyledWorkingHoursLabel = styled.span``;
 
-export const StyledBrandName = styled.div`
+export const StyledBrandTitle = styled.div`
   font-size: 45px;
   text-align: center;
   letter-spacing: 2px;
@@ -145,24 +151,24 @@ export const StyledBrandName = styled.div`
   }
 `;
 
-export const StyledBrandNameSpan = styled.span`
+export const StyledBrandTitleSpan = styled.span`
   font-size: 24px;
 `;
 
-export const StyledOpeningHoursTitel = styled.div`
+export const StyledWorkingHoursTitle = styled.div`
   margin-bottom: 5px;
   font-weight: 600;
 `;
 
-export const StyledNavHeader = styled.nav`
+export const StyledNavigationHeader = styled.nav`
   ${sharedContainerStyles};
   ${sharedFlexStyles};
   justify-content: space-between;
   padding-bottom: 25px;
-  gab: 10px;
+  gap: 10px;
 `;
 
-export const StyledButtonMenu = styled.button`
+export const StyledMenuToggleButton = styled.button`
   min-width: 100px;
   font-size: 18px;
   padding: 15px 0;
@@ -174,7 +180,7 @@ export const StyledButtonMenu = styled.button`
   }
 `;
 
-export const StyledNavItems = styled.ul`
+export const StyledNavigationList = styled.ul`
   font-size: 14px;
   max-width: 350px;
   ${sharedFlexStyles};
@@ -183,7 +189,7 @@ export const StyledNavItems = styled.ul`
   flex-wrap: wrap;
   align-items: center;
 
-  text-alighn: center;
+  text-align: center;
   ${sharedContainerStyles};
   ${sharedMarginBottom};
 
@@ -208,17 +214,13 @@ export const StyledNavItems = styled.ul`
   }
 `;
 
-export const StyledNavItem = styled.li``;
+export const StyledNavigationListItem = styled.li``;
 
-export const StyledNavButton = styled.button`
-  background-color: #ffffff;
-
-  border-radius: 10px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.6s ease-in;
+export const StyledNavigationButton = styled.button`
+  width: 100px;
 `;
 
-export const StyledSocialItems = styled.ul`
+export const StyledSocialWrapper = styled.ul`
   // max-width: 250px;
   ${sharedFlexStyles};
   gap: 15px;
@@ -239,12 +241,10 @@ export const StyledSocialItem = styled.li`
 export const StyledSocialLink = styled(Link)`
   width: 40px;
   height: 40px;
-  display: flex;
+  ${sharedFlexStyles};
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: #ffffff;
-
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: color 0.6s ease-in;
@@ -267,34 +267,23 @@ export const StyledSocialLink = styled(Link)`
   }
 `;
 
-export const StyledPhoneLink = styled.a`
-  display: flex;
+export const StyledTelephoneLink = styled.a`
+  ${sharedFlexStyles};
   align-items: center;
   font-size: 16px;
-  cursor: pointer;
-
-  @media (hover: hover) {
-    &:hover {
-      transition: color 0.9s ease;
-      color: rgba(0, 0, 255, 0.452);
-    }
-  }
 `;
 
-export const StyledSearchBocks = styled.div`
+export const StyledSearchContainer = styled.div`
   position: relative;
 `;
 
-export const StyledSearchInput = styled.input`
+export const StyledSearchField = styled.input`
   padding: 8px 12px;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
-  width: 100%;
-  max-width: 400px;
+  width: 300px;
   background-color: rgba(255, 255, 255, 0.95);
-  color: #333;
 
   &:focus {
     border-color: #888;
@@ -302,10 +291,10 @@ export const StyledSearchInput = styled.input`
   }
 `;
 
-export const StyledFaSearch = styled.div`
+export const StyledSearchIconWrapper = styled.div`
   position: absolute;
   right: 5px;
-  top: 40%;
+  top: 30%;
   transform: translateY(-50%);
 `;
 
@@ -320,22 +309,24 @@ export const StyledIconWrapper = styled.div`
   opacity: 0.6;
 `;
 
-export const StylednavigationMenu = styled.nav`
+export const StyledMainNavigation = styled.nav`
   height: 50px;
+  ${sharedFlexStyles};
+  align-items: center;
+
   border: 1px solid #e0e0e0;
 `;
 
-export const StyledNavigationMenu__List = styled.ul`
+export const StyledMainNavigationList = styled.ul`
   ${sharedFlexStyles};
-  align-items: center;
-  gap: 10px;
   justify-content: space-between;
+  gap: 10px;
   font-size: 16px;
 `;
 
-export const StyledNavigationMenu__Item = styled.li``;
+export const StyledMainNavigationListItem = styled.li``;
 
-export const StyledNavigationMenu__Link = styled.a`
+export const StyledMainNavigationLink = styled.a`
   cursor: pointer;
 
   @media (hover: hover) {
@@ -344,11 +335,4 @@ export const StyledNavigationMenu__Link = styled.a`
       transition: color 0.9s ease;
     }
   }
-`;
-
-export const StyledNavigationMenu = styled.div`
-  background-color: #000;
-  color: #fff; /* додай, щоб текст був видимий */
-  padding: 5px;
-  border-radius: 10px;
 `;

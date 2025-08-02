@@ -2,36 +2,36 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
-  StyledStickyTopBar,
-  StyledBrandName,
-  StyledBrandNameSpan,
+  StyledOverlay,
+  StyledTopStickyBar,
+  StyledBrandTitle,
+  StyledBrandTitleSpan,
   StyledHeader,
   StyledBottomHeader,
-  StyledNavHeader,
-  StyledButtonMenu,
-  StyledLanguageBox,
-  StyledLanguageBoxOpen,
+  StyledNavigationHeader,
+  StyledMenuToggleButton,
+  StyledLanguageSelector,
+  StyledLanguageSelectorOpen,
   StyledLanguageButtonOpen,
   StyledLanguageButtonClose,
-  StyledNavItems,
-  StyledNavItem,
-  StyledNavButton,
-  StyledSocialItems,
+  StyledNavigationList,
+  StyledNavigationListItem,
+  StyledNavigationButton,
+  StyledSocialWrapper,
   StyledSocialItem,
   StyledSocialLink,
-  StyledPhoneLink,
+  StyledTelephoneLink,
   StyledHeaderInfoBar,
-  StyledOpeningHours,
-  StyledOpeningHoursSpan,
-  StyledOpeningHoursTitel,
-  StyledSearchBocks,
-  StyledSearchInput,
-  StyledFaSearch,
-  StylednavigationMenu,
-  StyledNavigationMenu__List,
-  StyledNavigationMenu__Item,
-  StyledNavigationMenu__Link,
-  // StyledNavigationMenu__ItemNails,
+  StyledWorkingHoursSection,
+  StyledWorkingHoursLabel,
+  StyledWorkingHoursTitle,
+  StyledSearchContainer,
+  StyledSearchField,
+  StyledSearchIconWrapper,
+  StyledMainNavigation,
+  StyledMainNavigationList,
+  StyledMainNavigationListItem,
+  StyledMainNavigationLink,
 } from "./StyledHeader";
 import { StyledMainContainer } from "../StyledIndex";
 import {
@@ -52,37 +52,43 @@ export default function Header({
   isBackProject,
   changeLanguage,
 }) {
+  const langRef = useRef(null);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [iconSizeWidth, setIconSizeWidth] = useState(50);
   const [iconSizeHeight, setIconSizeHeight] = useState(40);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const langRef = useRef(null);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const { t, i18n } = useTranslation("common");
-  const toggleLanguageMenu = () => {
-    setIsLangOpen((prev) => !prev);
-  };
 
-  const languageBoxRef = useRef(null);
+  const getFlagByLang = (lang) => `/flags/${lang === "en" ? "us" : "uk"}.png`;
 
-  const getFlagByLang = (lang) =>
-    `/flags/${lang === "en" ? "us.png" : "ua.png"}`;
   console.log("Flag path:", getFlagByLang(i18n.language));
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (langRef.current && !langRef.current.contains(event.target)) {
-        setIsLangOpen(false);
+        if (isLangOpen) {
+          setIsLangOpen(false);
+        }
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isLangOpen]);
+
+  const toggleLanguageMenu = () => {
+    if (!isLangOpen) {
+      setIsOverlayOpen(true);
+    } else {
+      setIsOverlayOpen(false);
+    }
+    setIsLangOpen((prev) => !prev);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -134,23 +140,65 @@ export default function Header({
 
   return (
     <>
-      <StyledStickyTopBar />
+      {isOverlayOpen && (
+        <StyledOverlay onClick={() => setIsOverlayOpen(false)} />
+      )}
+      <StyledTopStickyBar />
       <StyledHeader>
         <StyledMainContainer>
-          <StyledNavHeader>
+          <StyledNavigationHeader>
             {isMobile && (
-              <StyledButtonMenu
+              <StyledMenuToggleButton
                 onClick={toggleMenu}
                 aria-label={isMenuOpen ? t("close") : t("menu")}
               >
                 {isMenuOpen ? t("close") : t("menu")}
-              </StyledButtonMenu>
+              </StyledMenuToggleButton>
             )}
 
             {(isMobile && isMenuOpen) || !isMobile ? (
-              <StyledNavItems id="burger">
-                <StyledNavItem>
-                  <StyledNavButton
+              <StyledNavigationList id="burger">
+                <StyledLanguageSelector ref={langRef}>
+                  <StyledLanguageButtonClose
+                    $flag={i18n.language === "en" ? "us" : "uk"}
+                    onClick={toggleLanguageMenu}
+                  >
+                    {i18n.language === "en" ? t("languageEN") : t("languageUA")}
+                    {isLangOpen ? (
+                      <FaAngleUp style={{ marginLeft: "5px" }} />
+                    ) : (
+                      <FaAngleDown style={{ marginLeft: "5px" }} />
+                    )}
+                  </StyledLanguageButtonClose>
+
+                  {isLangOpen && (
+                    <StyledLanguageSelectorOpen>
+                      <StyledLanguageButtonOpen
+                        $flag="uk"
+                        onClick={() => {
+                          changeLanguage("uk");
+                          setIsLangOpen(false);
+                          setIsOverlayOpen(false);
+                        }}
+                      >
+                        {t("languageUA")}
+                      </StyledLanguageButtonOpen>
+
+                      <StyledLanguageButtonOpen
+                        $flag="us"
+                        onClick={() => {
+                          changeLanguage("en");
+                          setIsLangOpen(false);
+                          setIsOverlayOpen(false);
+                        }}
+                      >
+                        {t("languageEN")}
+                      </StyledLanguageButtonOpen>
+                    </StyledLanguageSelectorOpen>
+                  )}
+                </StyledLanguageSelector>
+                <StyledNavigationListItem>
+                  <StyledNavigationButton
                     onClick={() =>
                       router.push(isBackProject ? "/" : "/projectsPage")
                     }
@@ -158,10 +206,10 @@ export default function Header({
                     aria-label={isBackProject ? t("back") : t("myProjects")}
                   >
                     {isBackProject ? t("back") : t("catalog")}
-                  </StyledNavButton>
-                </StyledNavItem>
-                <StyledNavItem>
-                  <StyledNavButton
+                  </StyledNavigationButton>
+                </StyledNavigationListItem>
+                <StyledNavigationListItem>
+                  <StyledNavigationButton
                     onClick={() =>
                       router.push(isBack ? "/" : "/certificatesPage")
                     }
@@ -169,19 +217,19 @@ export default function Header({
                     aria-label={isBack ? t("back") : t("certificates")}
                   >
                     {isBack ? t("back") : t("delivery")}
-                  </StyledNavButton>
-                </StyledNavItem>
-              </StyledNavItems>
+                  </StyledNavigationButton>
+                </StyledNavigationListItem>
+              </StyledNavigationList>
             ) : null}
 
-            <StyledSocialItems>
-              <StyledPhoneLink
+            <StyledSocialWrapper>
+              <StyledTelephoneLink
                 href="tel:+380999284258"
                 aria-label={t("callPhone")}
               >
                 <FaPhone size={24} />
                 <span>+380999284258</span>
-              </StyledPhoneLink>
+              </StyledTelephoneLink>
 
               {socialLinks.map(({ href, alt }) => {
                 const matchingIcon = socialImageSvg.find(
@@ -199,64 +247,16 @@ export default function Header({
                   </StyledSocialItem>
                 );
               })}
-              <StyledLanguageBox ref={langRef}>
-                <StyledLanguageButtonClose
-                  onClick={() => setIsLangOpen(!isLangOpen)}
-                >
-                  <Image
-                    src={getFlagByLang(i18n.language)}
-                    alt="flag"
-                    width={15}
-                    height={10}
-                    unoptimized
-                    style={{ marginRight: "5px", borderRadius: "2px" }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/flags/ua.png";
-                    }}
-                  />
-                  {i18n.language === "en" ? t("languageEN") : t("languageUA")}
-                  {isLangOpen ? (
-                    <FaAngleUp style={{ marginLeft: "5px" }} />
-                  ) : (
-                    <FaAngleDown style={{ marginLeft: "5px" }} />
-                  )}
-                </StyledLanguageButtonClose>
-
-                {isLangOpen && (
-                  <StyledLanguageBoxOpen>
-                    <StyledLanguageButtonOpen
-                      $flag="ua"
-                      onClick={() => {
-                        changeLanguage("uk");
-                        setIsLangOpen(false);
-                      }}
-                    >
-                      {t("languageUA")}
-                    </StyledLanguageButtonOpen>
-
-                    <StyledLanguageButtonOpen
-                      $flag="us"
-                      onClick={() => {
-                        changeLanguage("en");
-                        setIsLangOpen(false);
-                      }}
-                    >
-                      {t("languageEN")}
-                    </StyledLanguageButtonOpen>
-                  </StyledLanguageBoxOpen>
-                )}
-              </StyledLanguageBox>
-            </StyledSocialItems>
-          </StyledNavHeader>
+            </StyledSocialWrapper>
+          </StyledNavigationHeader>
 
           <StyledHeaderInfoBar>
-            <StyledBrandName>
-              <StyledBrandNameSpan>{t("sity")}</StyledBrandNameSpan> <br />
+            <StyledBrandTitle>
+              <StyledBrandTitleSpan>{t("sity")}</StyledBrandTitleSpan> <br />
               Kodi
-            </StyledBrandName>
-            <StyledSearchBocks>
-              <StyledSearchInput
+            </StyledBrandTitle>
+            <StyledSearchContainer>
+              <StyledSearchField
                 type="text"
                 name="q"
                 id="q"
@@ -265,65 +265,87 @@ export default function Header({
                 spellCheck="false"
                 placeholder={t("searchPlaceholder")}
               />
-              <StyledFaSearch>
+              <StyledSearchIconWrapper>
                 <FaSearch size={18} color="#666666" />
-              </StyledFaSearch>
-            </StyledSearchBocks>
+              </StyledSearchIconWrapper>
+            </StyledSearchContainer>
 
-            <StyledOpeningHours>
-              <StyledOpeningHoursTitel>
+            <StyledWorkingHoursSection>
+              <StyledWorkingHoursTitle>
                 {t("workingHours")}:
-              </StyledOpeningHoursTitel>
+              </StyledWorkingHoursTitle>
               <div>
-                <StyledOpeningHoursSpan>{t("monFri")}:</StyledOpeningHoursSpan>{" "}
+                <StyledWorkingHoursLabel>
+                  {t("monFri")}:
+                </StyledWorkingHoursLabel>{" "}
                 10:00–18:00
               </div>
               <div>
-                <StyledOpeningHoursSpan>{t("satSun")}:</StyledOpeningHoursSpan>{" "}
+                <StyledWorkingHoursLabel>
+                  {t("satSun")}:
+                </StyledWorkingHoursLabel>{" "}
                 10:00–16:00
               </div>
-            </StyledOpeningHours>
+            </StyledWorkingHoursSection>
           </StyledHeaderInfoBar>
         </StyledMainContainer>
 
-        <StylednavigationMenu>
+        <StyledMainNavigation>
           <StyledMainContainer>
-            <StyledNavigationMenu__List>
-              <StyledNavigationMenu__Item>
-                <StyledNavigationMenu__Link>
+            <StyledMainNavigationList>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("manicurePedicure")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("makeup")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("cosmetology")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("skinCare")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("lashes")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("brows")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("permanentMakeup")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("podology")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("equipment")}
-                </StyledNavigationMenu__Link>
-                <StyledNavigationMenu__Link>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
                   {t("otherCategories")}
-                </StyledNavigationMenu__Link>
-              </StyledNavigationMenu__Item>
-            </StyledNavigationMenu__List>
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+            </StyledMainNavigationList>
           </StyledMainContainer>
-        </StylednavigationMenu>
+        </StyledMainNavigation>
 
         <StyledBottomHeader />
       </StyledHeader>
