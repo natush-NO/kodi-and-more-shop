@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Header from "@/components/Header/Header";
-import {
-  StyledModalOverlay,
-  StyledModalImageContainer,
-  StyledCloseButton,
-  StyledModalImage,
-  StyledCertificateContainer,
-  StyledImageContainer,
-  StyledCertificateImage,
-} from "@/components/StyledCertificate";
+// import { useState, useEffect } from "react";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+// import Header from "@/components/Header/Header";
+// import {
+//   StyledModalOverlay,
+//   StyledModalImageContainer,
+//   StyledCloseButton,
+//   StyledModalImage,
+//   StyledCertificateContainer,
+//   StyledImageContainer,
+//   StyledCertificateImage,
+// } from "@/components/StyledCertificate";
 
-import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
-import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
+// import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
+// import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
 
 export async function getStaticProps() {
   return {
