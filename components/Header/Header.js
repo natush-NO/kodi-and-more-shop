@@ -1,26 +1,37 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
-  StyledStickyTopBar,
-  StyledBrandName,
+  StyledOverlay,
+  StyledTopStickyBar,
+  StyledBrandTitle,
+  StyledBrandTitleSpan,
   StyledHeader,
   StyledBottomHeader,
-  StyledNavHeader,
-  StyledButtonMenu,
-  StyledNavItems,
-  StyledNavItem,
-  StyledNavButton,
-  StyledSocialItems,
+  StyledNavigationHeader,
+  StyledMenuToggleButton,
+  StyledLanguageSelector,
+  StyledLanguageSelectorOpen,
+  StyledLanguageButtonOpen,
+  StyledLanguageButtonClose,
+  StyledNavigationList,
+  StyledNavigationListItem,
+  StyledNavigationButton,
+  StyledSocialWrapper,
   StyledSocialItem,
   StyledSocialLink,
-  StyledPhoneLink,
+  StyledTelephoneLink,
   StyledHeaderInfoBar,
-  StyledOpeningHours,
-  StyledOpeningHoursSpan,
-  StyledOpeningHoursTitel,
-  StyledSearchBocks,
-  StyledSearchInput,
-  StyledFaSearch,
+  StyledWorkingHoursSection,
+  StyledWorkingHoursLabel,
+  StyledWorkingHoursTitle,
+  StyledSearchContainer,
+  StyledSearchField,
+  StyledSearchIconWrapper,
+  StyledMainNavigation,
+  StyledMainNavigationList,
+  StyledMainNavigationListItem,
+  StyledMainNavigationLink,
 } from "./StyledHeader";
 import { StyledMainContainer } from "../StyledIndex";
 import {
@@ -29,26 +40,54 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaSearch,
+  FaAngleDown,
+  FaAngleUp,
 } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 export default function Header({
   isBack,
   handleShowText,
   pageCertificate,
   isBackProject,
+  changeLanguage,
 }) {
+  const langRef = useRef(null);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [iconSizeWidth, setIconSizeWidth] = useState(50);
   const [iconSizeHeight, setIconSizeHeight] = useState(40);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
-  const handleNavigation = (path) => {
-    if (path) {
-      router.push(path).then(() => handleShowText());
-    } else {
-      handleShowText();
+  const { t, i18n } = useTranslation("common");
+
+  const getFlagByLang = (lang) => `/flags/${lang === "en" ? "us" : "uk"}.png`;
+
+  console.log("Flag path:", getFlagByLang(i18n.language));
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (langRef.current && !langRef.current.contains(event.target)) {
+        if (isLangOpen) {
+          setIsLangOpen(false);
+        }
+      }
     }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isLangOpen]);
+
+  const toggleLanguageMenu = () => {
+    if (!isLangOpen) {
+      setIsOverlayOpen(true);
+    } else {
+      setIsOverlayOpen(false);
+    }
+    setIsLangOpen((prev) => !prev);
   };
 
   const toggleMenu = () => {
@@ -94,59 +133,103 @@ export default function Header({
       alt: "Facebook",
     },
     {
-      href: "https://www.google.com/maps/dir/51.2014328,6.4410627/Shevchenka+Ln,+23,+Uzhhorod,+Zakarpats'ka+oblast,+Ukraine,+88000/@49.0166857,3.815387,5z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x47391847e919db07:0xc0ed593031ed73a4!2m2!1d22.2789898!2d48.6318722?entry=ttu&g_ep=EgoyMDI1MDcyMy4wIKXMDSoASAFQAw%3D%3D",
+      href: "https://goo.gl/maps/Naj5BhFDMprcDNuj6",
       alt: "Location",
     },
   ];
 
   return (
     <>
-      <StyledStickyTopBar></StyledStickyTopBar>
+      {isOverlayOpen && (
+        <StyledOverlay onClick={() => setIsOverlayOpen(false)} />
+      )}
+      <StyledTopStickyBar />
       <StyledHeader>
         <StyledMainContainer>
-          <StyledNavHeader>
+          <StyledNavigationHeader>
             {isMobile && (
-              <StyledButtonMenu onClick={toggleMenu} aria-label="Toggle menu">
-                {isMenuOpen ? "Close" : "Menu"}
-              </StyledButtonMenu>
+              <StyledMenuToggleButton
+                onClick={toggleMenu}
+                aria-label={isMenuOpen ? t("close") : t("menu")}
+              >
+                {isMenuOpen ? t("close") : t("menu")}
+              </StyledMenuToggleButton>
             )}
 
             {(isMobile && isMenuOpen) || !isMobile ? (
-              <StyledNavItems id="burger">
-                <StyledNavItem>
-                  <StyledNavButton
+              <StyledNavigationList id="burger">
+                <StyledLanguageSelector ref={langRef}>
+                  <StyledLanguageButtonClose
+                    $flag={i18n.language === "en" ? "us" : "uk"}
+                    onClick={toggleLanguageMenu}
+                  >
+                    {i18n.language === "en" ? t("languageEN") : t("languageUA")}
+                    {isLangOpen ? (
+                      <FaAngleUp style={{ marginLeft: "5px" }} />
+                    ) : (
+                      <FaAngleDown style={{ marginLeft: "5px" }} />
+                    )}
+                  </StyledLanguageButtonClose>
+
+                  {isLangOpen && (
+                    <StyledLanguageSelectorOpen>
+                      <StyledLanguageButtonOpen
+                        $flag="uk"
+                        onClick={() => {
+                          changeLanguage("uk");
+                          setIsLangOpen(false);
+                          setIsOverlayOpen(false);
+                        }}
+                      >
+                        {t("languageUA")}
+                      </StyledLanguageButtonOpen>
+
+                      <StyledLanguageButtonOpen
+                        $flag="us"
+                        onClick={() => {
+                          changeLanguage("en");
+                          setIsLangOpen(false);
+                          setIsOverlayOpen(false);
+                        }}
+                      >
+                        {t("languageEN")}
+                      </StyledLanguageButtonOpen>
+                    </StyledLanguageSelectorOpen>
+                  )}
+                </StyledLanguageSelector>
+                <StyledNavigationListItem>
+                  <StyledNavigationButton
                     onClick={() =>
                       router.push(isBackProject ? "/" : "/projectsPage")
                     }
                     type="button"
-                    aria-label={isBackProject ? "Back" : "My projects"}
+                    aria-label={isBackProject ? t("back") : t("myProjects")}
                   >
-                    {isBackProject ? "Back" : "Каталог"}
-                  </StyledNavButton>
-                </StyledNavItem>
-
-                <StyledNavItem>
-                  <StyledNavButton
+                    {isBackProject ? t("back") : t("catalog")}
+                  </StyledNavigationButton>
+                </StyledNavigationListItem>
+                <StyledNavigationListItem>
+                  <StyledNavigationButton
                     onClick={() =>
                       router.push(isBack ? "/" : "/certificatesPage")
                     }
                     type="button"
-                    aria-label={isBack ? "Back" : "Certificates"}
+                    aria-label={isBack ? t("back") : t("certificates")}
                   >
-                    {isBack ? "Back" : "Доставка"}
-                  </StyledNavButton>
-                </StyledNavItem>
-              </StyledNavItems>
+                    {isBack ? t("back") : t("delivery")}
+                  </StyledNavigationButton>
+                </StyledNavigationListItem>
+              </StyledNavigationList>
             ) : null}
 
-            <StyledSocialItems>
-              <StyledPhoneLink
+            <StyledSocialWrapper>
+              <StyledTelephoneLink
                 href="tel:+380999284258"
-                aria-label="Позвоніть по номеру телефону"
+                aria-label={t("callPhone")}
               >
                 <FaPhone size={24} />
                 <span>+380999284258</span>
-              </StyledPhoneLink>
+              </StyledTelephoneLink>
 
               {socialLinks.map(({ href, alt }) => {
                 const matchingIcon = socialImageSvg.find(
@@ -164,37 +247,105 @@ export default function Header({
                   </StyledSocialItem>
                 );
               })}
-            </StyledSocialItems>
-          </StyledNavHeader>
+            </StyledSocialWrapper>
+          </StyledNavigationHeader>
+
           <StyledHeaderInfoBar>
-            <StyledBrandName>Kodi</StyledBrandName>
-            <StyledSearchBocks>
-              <StyledSearchInput
+            <StyledBrandTitle>
+              <StyledBrandTitleSpan>{t("sity")}</StyledBrandTitleSpan> <br />
+              Kodi
+            </StyledBrandTitle>
+            <StyledSearchContainer>
+              <StyledSearchField
                 type="text"
                 name="q"
                 id="q"
                 autoComplete="off"
                 maxLength="90"
                 spellCheck="false"
+                placeholder={t("searchPlaceholder")}
               />
-              <StyledFaSearch>
+              <StyledSearchIconWrapper>
                 <FaSearch size={18} color="#666666" />
-              </StyledFaSearch>
-            </StyledSearchBocks>
+              </StyledSearchIconWrapper>
+            </StyledSearchContainer>
 
-            <StyledOpeningHours>
-              <StyledOpeningHoursTitel>Графік роботи:</StyledOpeningHoursTitel>
+            <StyledWorkingHoursSection>
+              <StyledWorkingHoursTitle>
+                {t("workingHours")}:
+              </StyledWorkingHoursTitle>
               <div>
-                <StyledOpeningHoursSpan>Пн–Пт:</StyledOpeningHoursSpan>{" "}
+                <StyledWorkingHoursLabel>
+                  {t("monFri")}:
+                </StyledWorkingHoursLabel>{" "}
                 10:00–18:00
               </div>
               <div>
-                <StyledOpeningHoursSpan>Сб–Нд:</StyledOpeningHoursSpan>{" "}
+                <StyledWorkingHoursLabel>
+                  {t("satSun")}:
+                </StyledWorkingHoursLabel>{" "}
                 10:00–16:00
               </div>
-            </StyledOpeningHours>
+            </StyledWorkingHoursSection>
           </StyledHeaderInfoBar>
         </StyledMainContainer>
+
+        <StyledMainNavigation>
+          <StyledMainContainer>
+            <StyledMainNavigationList>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("manicurePedicure")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("makeup")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("cosmetology")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("skinCare")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("lashes")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("brows")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("permanentMakeup")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("podology")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("equipment")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+              <StyledMainNavigationListItem>
+                <StyledMainNavigationLink>
+                  {t("otherCategories")}
+                </StyledMainNavigationLink>
+              </StyledMainNavigationListItem>
+            </StyledMainNavigationList>
+          </StyledMainContainer>
+        </StyledMainNavigation>
 
         <StyledBottomHeader />
       </StyledHeader>
