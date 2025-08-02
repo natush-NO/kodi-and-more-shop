@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Header from "@/components/Header/Header";
 import {
   StyledModalOverlay,
