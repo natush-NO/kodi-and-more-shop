@@ -1,8 +1,8 @@
-import { styled } from "styled-components";
-import Header from "@/components/Header/Header";
-import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
-import ProjectItem from "@/components/ProjectItem/ProjectItem";
-import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
+// import { styled } from "styled-components";
+// import Header from "@/components/Header/Header";
+// import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
+// import ProjectItem from "@/components/ProjectItem/ProjectItem";
+// import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
 
 export default function ProjectPage() {
   return null;
