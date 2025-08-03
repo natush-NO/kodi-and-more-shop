@@ -4,6 +4,7 @@
   "back": "Back",
   "myProjects": "My Projects",
   "certificates": "Certificates",
+  "sity": "Uzhorod",
   "callPhone": "Call phone",
   "searchPlaceholder": "Search...",
   "workingHours": "Working Hours",
@@ -13,16 +14,8 @@
   "delivery": "Delivery",
   "languageUA": "UA",
   "languageEN": "EN",
-  "sity": "Uzhorod",
-  "manicurePedicure": "Manicure & Pedicure",
-  "makeup": "Makeup",
-  "cosmetology": "Cosmetology",
-  "skinCare": "Skin Care",
-  "lashes": "Lashes",
-  "brows": "Brows",
-  "permanentMakeup": "Permanent Makeup",
-  "podology": "Podology",
-  "equipment": "Equipment",
-  "otherCategories": "Other Categories"
+  "sanitizers": "Antiseptics / Disinfectants",
+  "cutters": "Bits"
+  
 
 }

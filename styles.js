@@ -57,35 +57,35 @@ body {
   z-index: 0;
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: linear-gradient(
-    to left,
-    rgba(50, 49, 49, 0.153) 0%,
-    rgba(50, 49, 49, 0) 30%
-  );
-}
+// body::after {
+//   content: "";
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   width: 100%;
+//   height: 100%;
+//   pointer-events: none;
+//   background: linear-gradient(
+//     to left,
+//     rgba(50, 49, 49, 0.153) 0%,
+//     rgba(50, 49, 49, 0) 30%
+//   );
+// }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: linear-gradient(
-    to right,
-    rgba(50, 49, 49, 0.153) 0%,
-    rgba(50, 49, 49, 0) 30%
-  );
-}
+// body::before {
+//   content: "";
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   width: 100%;
+//   height: 100%;
+//   pointer-events: none;
+//   background: linear-gradient(
+//     to right,
+//     rgba(50, 49, 49, 0.153) 0%,
+//     rgba(50, 49, 49, 0) 30%
+//   );
+// }
 
 
 input,

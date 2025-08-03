@@ -34,6 +34,7 @@ import {
   StyledWorkingHoursLabel,
   StyledWorkingHoursTitle,
   StyledMainNavigation,
+  StyledScrollerWrapper,
   StyledMainNavigationList,
   StyledMainNavigationListItem,
   StyledMainNavigationLink,
@@ -145,6 +146,22 @@ export default function Header({
       alt: "Location",
     },
   ];
+
+  const brands = [
+    "Kodi",
+    "YO!Nails",
+    "D.I.S",
+    "Nub",
+    "Edlen",
+    "Baby Moon",
+    "Divia",
+    "NailApex",
+    "Staleks",
+    t("sanitizers"),
+    t("cutters"),
+  ];
+
+  const doubledBrands = [...brands, ...brands];
 
   return (
     <>
@@ -311,60 +328,19 @@ export default function Header({
         </StyledMainContainer>
 
         <StyledMainNavigation>
-          <StyledMainContainer>
+          <StyledScrollerWrapper>
             <StyledMainNavigationList>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("manicurePedicure")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("makeup")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("cosmetology")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("skinCare")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("lashes")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("brows")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("permanentMakeup")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("podology")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("equipment")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
-              <StyledMainNavigationListItem>
-                <StyledMainNavigationLink>
-                  {t("otherCategories")}
-                </StyledMainNavigationLink>
-              </StyledMainNavigationListItem>
+              {[...Array(4)].flatMap((_, i) =>
+                brands.map((brand, index) => (
+                  <StyledMainNavigationListItem key={`${i}-${index}`}>
+                    <StyledMainNavigationLink href="#">
+                      {brand}
+                    </StyledMainNavigationLink>
+                  </StyledMainNavigationListItem>
+                ))
+              )}
             </StyledMainNavigationList>
-          </StyledMainContainer>
+          </StyledScrollerWrapper>
         </StyledMainNavigation>
 
         <StyledBottomHeader />

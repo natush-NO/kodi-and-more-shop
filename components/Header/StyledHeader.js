@@ -25,7 +25,7 @@ export const StyledOverlay = styled.div`
 `;
 
 export const StyledTopStickyBar = styled.div`
-  border-top: 5px solid rgba(255, 0, 0, 0.795);
+  border-top: 8px solid rgba(255, 0, 0, 0.795);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -333,28 +333,53 @@ export const StyledTelephoneLink = styled.a`
 `;
 
 export const StyledMainNavigation = styled.nav`
+  width: 100%;
   height: 50px;
-  ${sharedFlexStyles};
-  align-items: center;
+  overflow: hidden;
+  position: relative;
   border: 1px solid #e0e0e0;
+  // border: 1px solid rgba(255, 0, 0, 0.795);
+
+  background-color: #fff;
+`;
+
+export const StyledScrollerWrapper = styled.div`
+  width: 100%;
+  overflow: hidden;
 `;
 
 export const StyledMainNavigationList = styled.ul`
   ${sharedFlexStyles};
-  justify-content: space-between;
+  animation: scroll-left 30s linear infinite;
   gap: 10px;
-  font-size: 16px;
-`;
 
-export const StyledMainNavigationListItem = styled.li``;
+  &:hover {
+    animation-play-state: paused;
+  }
 
-export const StyledMainNavigationLink = styled.a`
-  cursor: pointer;
-
-  @media (hover: hover) {
-    &:hover {
-      color: rgba(0, 0, 255, 0.452);
-      transition: color 0.9s ease;
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
     }
   }
+`;
+
+export const StyledMainNavigationListItem = styled.li`
+  min-width: 140px;
+  height: 40px;
+  font-size: 18px;
+  background: #fffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+`;
+
+export const StyledMainNavigationLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;

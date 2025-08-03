@@ -4,12 +4,10 @@ import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
 import {
   StyledMain,
   StyledMainContainer,
-  StyledTitleHello,
-  StyledTitleWelcome,
-  StyledTextArticle,
-  StyledCloseButton,
-  StyledTextAboutMe,
-  StyledSpan,
+  StyledBrandsTitle,
+  StyledBrandsList,
+  StyledBrandItem,
+  StyledBrandLink,
 } from "@/components/StyledIndex";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -20,51 +18,70 @@ export default function HomePage({
   // handleShowText,
   changeLanguage,
 }) {
-  function closeModal() {
-    setShowAboutMe(false);
+  // function closeModal() {
+  //   setShowAboutMe(false);
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }, 0);
-  }
+  //   setTimeout(() => {
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: "smooth",
+  //     });
+  //   }, 0);
+  // }
 
   return (
     <>
       <StyledBackgroundImgBody>
-        {/* handleShowText={handleShowText} */}
         <Header isBack={false} changeLanguage={changeLanguage} />
         <StyledMain>
           <StyledMainContainer>
-            <StyledTitleHello></StyledTitleHello>
-            {/* <StyledTitleWelcome>Kodi</StyledTitleWelcome> */}
-            {/* {showAboutMe && (
-              <StyledTextArticle id={"aboutMe"}>
-                <StyledCloseButton
-                  onClick={closeModal}
-                  aria-label="Close the modal window"
-                >
-                  &times;
-                </StyledCloseButton> */}
-            <StyledTextAboutMe>
-              {/* My name is <StyledSpan>Nataliia Osman,</StyledSpan> a web
-              developer from Ukraine, currently residing in Germany. As a
-              passionate learner, I focus on mastering web development with a
-              specialization in creating modern, interactive websites and web
-              applications using technologies such as{" "}
-              <StyledSpan>
-                HTML, CSS, SASS, JavaScript, React, and Next.js.
-              </StyledSpan>{" "}
-              Combining aesthetics with functionality, I strive to offer the
-              best user experience. Constantly honing my skills, I stay updated
-              with the latest trends in web development and apply new knowledge
-              to every project. I look forward to collaborating on exciting new
-              ventures! */}
-            </StyledTextAboutMe>
-            {/* </StyledTextArticle> */}
-            {/* )} */}
+            <StyledBrandsTitle>Бренди</StyledBrandsTitle>
+
+            <StyledBrandsList>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/kodi">Kodi</StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/yo-nails">
+                  YO!Nails
+                </StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/dis">D.I.S</StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/nub">Nub</StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/edlen">Edlen</StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/baby-moon">
+                  Baby Moon
+                </StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/divia">Divia</StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/nailapex">
+                  NailApex
+                </StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/staleks">
+                  Staleks
+                </StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/antiseptics">
+                  Антисептики / Дезінфектори
+                </StyledBrandLink>
+              </StyledBrandItem>
+              <StyledBrandItem>
+                <StyledBrandLink href="/brands/drills">Фрези</StyledBrandLink>
+              </StyledBrandItem>
+            </StyledBrandsList>
           </StyledMainContainer>
         </StyledMain>
       </StyledBackgroundImgBody>
