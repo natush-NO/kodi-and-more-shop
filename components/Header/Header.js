@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import {
   StyledOverlay,
   StyledTopStickyBar,
@@ -17,6 +17,14 @@ import {
   StyledNavigationList,
   StyledNavigationListItem,
   StyledNavigationButton,
+  StyledSearchUserContainer,
+  StyledSearchContainer,
+  StyledUserMenuContainer,
+  StyledUserIconWrapper,
+  StyledFavoritesIconWrapper,
+  StyledCartIconWrapper,
+  StyledSearchField,
+  StyledSearchIconWrapper,
   StyledSocialWrapper,
   StyledSocialItem,
   StyledSocialLink,
@@ -25,9 +33,6 @@ import {
   StyledWorkingHoursSection,
   StyledWorkingHoursLabel,
   StyledWorkingHoursTitle,
-  StyledSearchContainer,
-  StyledSearchField,
-  StyledSearchIconWrapper,
   StyledMainNavigation,
   StyledMainNavigationList,
   StyledMainNavigationListItem,
@@ -42,6 +47,9 @@ import {
   FaSearch,
   FaAngleDown,
   FaAngleUp,
+  FaUser,
+  FaHeart,
+  FaShoppingBasket,
 } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
 
@@ -255,20 +263,32 @@ export default function Header({
               <StyledBrandTitleSpan>{t("sity")}</StyledBrandTitleSpan> <br />
               Kodi
             </StyledBrandTitle>
-            <StyledSearchContainer>
-              <StyledSearchField
-                type="text"
-                name="q"
-                id="q"
-                autoComplete="off"
-                maxLength="90"
-                spellCheck="false"
-                placeholder={t("searchPlaceholder")}
-              />
-              <StyledSearchIconWrapper>
-                <FaSearch size={18} color="#666666" />
-              </StyledSearchIconWrapper>
-            </StyledSearchContainer>
+            <StyledSearchUserContainer>
+              <StyledUserMenuContainer>
+                <StyledFavoritesIconWrapper title="Favorites">
+                  <FaHeart />
+                </StyledFavoritesIconWrapper>
+
+                <StyledCartIconWrapper title="Cart">
+                  <FaShoppingBasket />
+                </StyledCartIconWrapper>
+              </StyledUserMenuContainer>
+
+              <StyledSearchContainer>
+                <StyledSearchField
+                  type="text"
+                  name="q"
+                  id="q"
+                  autoComplete="off"
+                  maxLength="90"
+                  spellCheck="false"
+                  placeholder={t("searchPlaceholder")}
+                />
+                <StyledSearchIconWrapper>
+                  <FaSearch size={18} color="#666666" />
+                </StyledSearchIconWrapper>
+              </StyledSearchContainer>
+            </StyledSearchUserContainer>
 
             <StyledWorkingHoursSection>
               <StyledWorkingHoursTitle>

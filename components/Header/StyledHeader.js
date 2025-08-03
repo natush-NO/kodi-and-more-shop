@@ -109,6 +109,65 @@ export const StyledLanguageButtonClose = styled.button`
   }
 `;
 
+export const StyledSearchUserContainer = styled.div`
+  ${sharedFlexStyles};
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 300px;
+`;
+
+export const StyledUserMenuContainer = styled.div`
+  ${sharedFlexStyles};
+  justify-content: space-between;
+  gap: 25px;
+  max-width: 80%;
+`;
+
+const BaseIconWrapper = styled.div`
+  color: #333333;
+  cursor: pointer;
+  transition: color 0.9s ease;
+
+  &:hover {
+    color: #595959;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const StyledUserIconWrapper = BaseIconWrapper;
+export const StyledFavoritesIconWrapper = BaseIconWrapper;
+export const StyledCartIconWrapper = BaseIconWrapper;
+
+export const StyledSearchContainer = styled.div`
+  position: relative;
+`;
+
+export const StyledSearchField = styled.input`
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.95);
+
+  &:focus {
+    border-color: #888;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const StyledSearchIconWrapper = styled.div`
+  position: absolute;
+  right: 5px;
+  top: 45%;
+  transform: translateY(-50%);
+`;
+
 export const StyledHeaderInfoBar = styled.div`
   ${sharedFlexStyles};
   flex-direction: row;
@@ -273,47 +332,10 @@ export const StyledTelephoneLink = styled.a`
   font-size: 16px;
 `;
 
-export const StyledSearchContainer = styled.div`
-  position: relative;
-`;
-
-export const StyledSearchField = styled.input`
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  width: 300px;
-  background-color: rgba(255, 255, 255, 0.95);
-
-  &:focus {
-    border-color: #888;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-export const StyledSearchIconWrapper = styled.div`
-  position: absolute;
-  right: 5px;
-  top: 30%;
-  transform: translateY(-50%);
-`;
-
-export const StyledIconWrapper = styled.div`
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  width: 20px;
-  height: 20px;
-  opacity: 0.6;
-`;
-
 export const StyledMainNavigation = styled.nav`
   height: 50px;
   ${sharedFlexStyles};
   align-items: center;
-
   border: 1px solid #e0e0e0;
 `;
 
