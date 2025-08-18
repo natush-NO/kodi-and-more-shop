@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import brandsCatalog from "@/lib/brandsData";
 import {
   StyledOverlay,
   StyledTopStickyBar,
@@ -39,7 +40,14 @@ import {
   StyledMainNavigationListItem,
   StyledMainNavigationLink,
 } from "./StyledHeader";
+import {
+  StyledCatalogMenuWrapper,
+  StyledCatalogMenuList,
+  StyledCatalogMenuListItem,
+  StyledCatalogMenuLink,
+} from "../BrandCatalogMenuItem/StyledBrandICatalogMenuItem";
 import { StyledMainContainer } from "../StyledIndex";
+import BrandItem from "../BrandCatalogMenuItem/BrandICatalogMenuItem";
 import {
   FaInstagram,
   FaFacebook,
@@ -56,10 +64,14 @@ import { useTranslation } from "next-i18next";
 
 export default function Header({
   isBack,
-  handleShowText,
-  pageCertificate,
+  // handleShowText,
+  // pageCertificate,
   isBackProject,
   changeLanguage,
+  isCatalogOpen,
+  closeCatalog,
+  setIsCatalogOpen,
+  toggleCatalog,
 }) {
   const langRef = useRef(null);
   const router = useRouter();
@@ -165,8 +177,14 @@ export default function Header({
 
   return (
     <>
-      {isOverlayOpen && (
-        <StyledOverlay onClick={() => setIsOverlayOpen(false)} />
+      {(isOverlayOpen || isCatalogOpen) && (
+        <StyledOverlay
+          onClick={() => {
+            if (isLangOpen) setIsLangOpen(false);
+            if (isCatalogOpen) setIsCatalogOpen(false);
+            setIsOverlayOpen(false);
+          }}
+        />
       )}
       <StyledTopStickyBar />
       <StyledHeader>
@@ -224,15 +242,43 @@ export default function Header({
                 </StyledLanguageSelector>
                 <StyledNavigationListItem>
                   <StyledNavigationButton
-                    onClick={() =>
-                      router.push(isBackProject ? "/" : "/projectsPage")
-                    }
+                    onClick={() => {
+                      if (isBackProject) {
+                        router.push("/");
+                      } else {
+                        const next = !isCatalogOpen;
+                        setIsCatalogOpen(next);
+                        setIsOverlayOpen(next);
+                      }
+                    }}
                     type="button"
-                    aria-label={isBackProject ? t("back") : t("myProjects")}
+                    aria-label={isBackProject ? t("back") : t("catalog")}
+                    id="catalog-button"
+                    aria-haspopup="menu"
+                    aria-expanded={isCatalogOpen}
+                    aria-controls="catalog-menu"
                   >
                     {isBackProject ? t("back") : t("catalog")}
                   </StyledNavigationButton>
                 </StyledNavigationListItem>
+
+                {isCatalogOpen && (
+                  <StyledCatalogMenuWrapper aria-labelledby="catalog-button">
+                    <StyledCatalogMenuList>
+                      {brandsCatalog.map(({ id, name, nameKey }) => (
+                        <StyledCatalogMenuListItem key={id}>
+                          <StyledCatalogMenuLink
+                            href={`/brandsCatalog/${id}`}
+                            onClick={() => setIsCatalogOpen(false)}
+                          >
+                            {nameKey ? t(nameKey) : name}
+                          </StyledCatalogMenuLink>
+                        </StyledCatalogMenuListItem>
+                      ))}
+                    </StyledCatalogMenuList>
+                  </StyledCatalogMenuWrapper>
+                )}
+
                 <StyledNavigationListItem>
                   <StyledNavigationButton
                     onClick={() =>
@@ -330,7 +376,7 @@ export default function Header({
         <StyledMainNavigation>
           <StyledScrollerWrapper>
             <StyledMainNavigationList>
-              {[...Array(4)].flatMap((_, i) =>
+              {[...Array(10)].flatMap((_, i) =>
                 brands.map((brand, index) => (
                   <StyledMainNavigationListItem key={`${i}-${index}`}>
                     <StyledMainNavigationLink href="#">

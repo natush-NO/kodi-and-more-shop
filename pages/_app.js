@@ -15,6 +15,22 @@ function App({ Component, pageProps }) {
   const [projectItems, setProjectItems] = useState(projects);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+
+  const toggleCatalog = () => setIsCatalogOpen((s) => !s); // ADDED
+  const closeCatalog = () => setIsCatalogOpen(false);
+
+  useEffect(() => {
+    const closeOnRoute = () => setIsCatalogOpen(false);
+    router.events?.on("routeChangeStart", closeOnRoute);
+    return () => router.events?.off("routeChangeStart", closeOnRoute);
+  }, [router.events]);
+
+  // Мова через i18n routing Next.js (push з { locale })
+  const changeLanguage = (lng) => {
+    router.push(router.pathname, router.asPath, { locale: lng });
+  };
+
   // useEffect(() => {
   //   if (showAboutMe) {
   //     const aboutMeElement = document.getElementById("aboutMe");
@@ -24,12 +40,22 @@ function App({ Component, pageProps }) {
   //   }
   // }, [showAboutMe]);
 
-  // function handleShowText() {
+  // function handleShowCatalogMenu() {
   //   setShowAboutMe(true);
   // }
-  const changeLanguage = (lng) => {
-    router.push(router.pathname, router.asPath, { locale: lng });
-  };
+
+  // useEffect(() => {
+  //   if (showСatalogMenu) {
+  //     const showСatalogMenuElement = document.getElementById("aboutMe");
+  //     if (aboutMeElement) {
+  //       showСatalogMenuElement.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // }, [showСatalogMenu]);
+
+  // function handleShowCatalogMenu() {
+  //   showСatalogMenu(true);
+  // }
 
   return (
     <>
@@ -46,6 +72,10 @@ function App({ Component, pageProps }) {
         projectItems={projectItems}
         selectedItemId={selectedItemId}
         changeLanguage={changeLanguage}
+        isCatalogOpen={isCatalogOpen}
+        setIsCatalogOpen={setIsCatalogOpen}
+        toggleCatalog={toggleCatalog}
+        closeCatalog={closeCatalog}
       />
 
       <GlobalStyle />

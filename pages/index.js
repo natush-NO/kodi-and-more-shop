@@ -17,6 +17,10 @@ export default function HomePage({
   setShowAboutMe,
   // handleShowText,
   changeLanguage,
+  isCatalogOpen,
+  setIsCatalogOpen,
+  toggleCatalog,
+  closeCatalog,
 }) {
   // function closeModal() {
   //   setShowAboutMe(false);
@@ -32,7 +36,14 @@ export default function HomePage({
   return (
     <>
       <StyledBackgroundImgBody>
-        <Header isBack={false} changeLanguage={changeLanguage} />
+        <Header
+          isBack={false}
+          changeLanguage={changeLanguage}
+          isCatalogOpen={isCatalogOpen}
+          setIsCatalogOpen={setIsCatalogOpen}
+          toggleCatalog={toggleCatalog}
+          closeCatalog={closeCatalog}
+        />
         <StyledMain>
           <StyledMainContainer>
             <StyledBrandsTitle>Бренди</StyledBrandsTitle>

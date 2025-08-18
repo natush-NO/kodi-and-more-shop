@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-
 import Link from "next/link";
 
 const sharedContainerStyles = css`
@@ -12,6 +11,10 @@ const sharedFlexStyles = css`
 
 const sharedMarginBottom = css`
   margin-bottom: 50px;
+`;
+
+const borderRadiusStyles = css`
+  border-radius: 10px;
 `;
 
 export const StyledOverlay = styled.div`
@@ -64,7 +67,7 @@ export const StyledLanguageSelectorOpen = styled.div`
   left: 0;
   background-color: #ffffff;
   padding: 10px;
-  border-radius: 10px;
+  ${borderRadiusStyles};
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
 `;
@@ -247,6 +250,7 @@ export const StyledNavigationList = styled.ul`
   gap: 15px;
   flex-wrap: wrap;
   align-items: center;
+  position: relative;
 
   text-align: center;
   ${sharedContainerStyles};
@@ -304,7 +308,7 @@ export const StyledSocialLink = styled(Link)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border-radius: 10px;
+  ${borderRadiusStyles};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: color 0.6s ease-in;
 
@@ -338,9 +342,13 @@ export const StyledMainNavigation = styled.nav`
   overflow: hidden;
   position: relative;
   border: 1px solid #e0e0e0;
+  justify-content: center;
+  align-items: center;
+  ${sharedFlexStyles};
+
   // border: 1px solid rgba(255, 0, 0, 0.795);
 
-  background-color: #fff;
+  background-color: #ffffff;
 `;
 
 export const StyledScrollerWrapper = styled.div`
@@ -350,7 +358,7 @@ export const StyledScrollerWrapper = styled.div`
 
 export const StyledMainNavigationList = styled.ul`
   ${sharedFlexStyles};
-  animation: scroll-left 30s linear infinite;
+  animation: scroll-left 50s linear infinite;
   gap: 10px;
 
   &:hover {
@@ -362,7 +370,7 @@ export const StyledMainNavigationList = styled.ul`
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-100%);
     }
   }
 `;
@@ -372,7 +380,7 @@ export const StyledMainNavigationListItem = styled.li`
   height: 40px;
   font-size: 18px;
   background: #fffff;
-  border-radius: 10px;
+  ${borderRadiusStyles};
   display: flex;
   align-items: center;
   justify-content: center;
