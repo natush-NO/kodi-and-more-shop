@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import brandsCatalog from "@/lib/brandsData";
+
 import {
   StyledOverlay,
   StyledTopStickyBar,
   StyledBrandTitle,
-  StyledBrandTitleSpan,
+  StyledBrandTitleSity,
+  StyledBrandTitlePro,
   StyledHeader,
   StyledBottomHeader,
   StyledNavigationHeader,
@@ -45,9 +47,10 @@ import {
   StyledCatalogMenuList,
   StyledCatalogMenuListItem,
   StyledCatalogMenuLink,
+  StyledCatalogMenuBackLink,
 } from "../BrandCatalogMenuItem/StyledBrandICatalogMenuItem";
 import { StyledMainContainer } from "../StyledIndex";
-import BrandItem from "../BrandCatalogMenuItem/BrandICatalogMenuItem";
+// import BrandItem from "../BrandCatalogMenuItem/BrandICatalogMenuItem";
 import {
   FaInstagram,
   FaFacebook,
@@ -61,18 +64,9 @@ import {
   FaShoppingBasket,
 } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
+import kodiCatalog from "@/lib/kodiCatalog";
 
-export default function Header({
-  isBack,
-  // handleShowText,
-  // pageCertificate,
-  isBackProject,
-  changeLanguage,
-  isCatalogOpen,
-  closeCatalog,
-  setIsCatalogOpen,
-  toggleCatalog,
-}) {
+export default function Header({ isBack, isBackProject, kodiPage = false }) {
   const langRef = useRef(null);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -81,12 +75,24 @@ export default function Header({
   const [iconSizeHeight, setIconSizeHeight] = useState(40);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const { t, i18n } = useTranslation([
+    "common",
+    "categoriesBeauty",
+    "kodiNailsCollections",
+  ]);
 
-  const { t, i18n } = useTranslation("common");
+  const onChangeLang = async (lng) => {
+    try {
+      await router.push(router.pathname, router.asPath, { locale: lng });
+      setIsLangOpen(false);
+      setIsOverlayOpen(false);
+    } catch (e) {
+      console.error("Failed to change language:", e);
+    }
+  };
 
   const getFlagByLang = (lang) => `/flags/${lang === "en" ? "us" : "uk"}.png`;
-
-  console.log("Flag path:", getFlagByLang(i18n.language));
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -173,8 +179,6 @@ export default function Header({
     t("cutters"),
   ];
 
-  const doubledBrands = [...brands, ...brands];
-
   return (
     <>
       {(isOverlayOpen || isCatalogOpen) && (
@@ -218,63 +222,80 @@ export default function Header({
                     <StyledLanguageSelectorOpen>
                       <StyledLanguageButtonOpen
                         $flag="uk"
-                        onClick={() => {
-                          changeLanguage("uk");
-                          setIsLangOpen(false);
-                          setIsOverlayOpen(false);
-                        }}
+                        onClick={() => onChangeLang("uk")}
                       >
                         {t("languageUA")}
                       </StyledLanguageButtonOpen>
 
                       <StyledLanguageButtonOpen
                         $flag="us"
-                        onClick={() => {
-                          changeLanguage("en");
-                          setIsLangOpen(false);
-                          setIsOverlayOpen(false);
-                        }}
+                        onClick={() => onChangeLang("en")}
                       >
                         {t("languageEN")}
                       </StyledLanguageButtonOpen>
                     </StyledLanguageSelectorOpen>
                   )}
                 </StyledLanguageSelector>
+
                 <StyledNavigationListItem>
                   <StyledNavigationButton
                     onClick={() => {
-                      if (isBackProject) {
-                        router.push("/");
-                      } else {
-                        const next = !isCatalogOpen;
-                        setIsCatalogOpen(next);
-                        setIsOverlayOpen(next);
-                      }
+                      const next = !isCatalogOpen;
+                      setIsCatalogOpen(next);
+                      setIsOverlayOpen(next);
+                      if (!next)
+                        document.getElementById("catalog-button")?.focus();
                     }}
                     type="button"
-                    aria-label={isBackProject ? t("back") : t("catalog")}
+                    aria-label={isCatalogOpen ? t("back") : t("catalog")}
                     id="catalog-button"
                     aria-haspopup="menu"
                     aria-expanded={isCatalogOpen}
                     aria-controls="catalog-menu"
                   >
-                    {isBackProject ? t("back") : t("catalog")}
+                    {isCatalogOpen ? t("back") : t("catalog")}
                   </StyledNavigationButton>
                 </StyledNavigationListItem>
 
                 {isCatalogOpen && (
-                  <StyledCatalogMenuWrapper aria-labelledby="catalog-button">
+                  <StyledCatalogMenuWrapper
+                    aria-labelledby="catalog-button"
+                    id="catalog-menu"
+                  >
                     <StyledCatalogMenuList>
-                      {brandsCatalog.map(({ id, name, nameKey }) => (
-                        <StyledCatalogMenuListItem key={id}>
-                          <StyledCatalogMenuLink
-                            href={`/brandsCatalog/${id}`}
-                            onClick={() => setIsCatalogOpen(false)}
-                          >
-                            {nameKey ? t(nameKey) : name}
-                          </StyledCatalogMenuLink>
-                        </StyledCatalogMenuListItem>
-                      ))}
+                      {brandsCatalog.map(({ id, name, nameKey, route }) => {
+                        const href =
+                          route ?? `/brandsCatalog/${encodeURIComponent(id)}`;
+
+                        return (
+                          <StyledCatalogMenuListItem key={id}>
+                            <StyledCatalogMenuLink
+                              href={href}
+                              onClick={() => {
+                                setIsCatalogOpen(false);
+                                setIsOverlayOpen(false);
+                                document
+                                  .getElementById("catalog-button")
+                                  ?.focus();
+                              }}
+                            >
+                              {nameKey ? t(nameKey) : name}
+                            </StyledCatalogMenuLink>
+                            <StyledCatalogMenuBackLink
+                              href="/"
+                              onClick={() => {
+                                setIsCatalogOpen(false);
+                                setIsOverlayOpen(false);
+                                document
+                                  .getElementById("catalog-button")
+                                  ?.focus();
+                              }}
+                            >
+                              {t("homePage")}
+                            </StyledCatalogMenuBackLink>
+                          </StyledCatalogMenuListItem>
+                        );
+                      })}
                     </StyledCatalogMenuList>
                   </StyledCatalogMenuWrapper>
                 )}
@@ -323,8 +344,9 @@ export default function Header({
 
           <StyledHeaderInfoBar>
             <StyledBrandTitle>
-              <StyledBrandTitleSpan>{t("sity")}</StyledBrandTitleSpan> <br />
+              <StyledBrandTitleSity>{t("sity")}</StyledBrandTitleSity> <br />
               Kodi
+              <br /> <StyledBrandTitlePro>Professional</StyledBrandTitlePro>
             </StyledBrandTitle>
             <StyledSearchUserContainer>
               <StyledUserMenuContainer>
@@ -374,17 +396,31 @@ export default function Header({
         </StyledMainContainer>
 
         <StyledMainNavigation>
-          <StyledScrollerWrapper>
-            <StyledMainNavigationList>
-              {[...Array(10)].flatMap((_, i) =>
-                brands.map((brand, index) => (
-                  <StyledMainNavigationListItem key={`${i}-${index}`}>
-                    <StyledMainNavigationLink href="#">
-                      {brand}
-                    </StyledMainNavigationLink>
-                  </StyledMainNavigationListItem>
-                ))
-              )}
+          <StyledScrollerWrapper $noScroll={kodiPage}>
+            <StyledMainNavigationList $marquee={!kodiPage}>
+              {(kodiPage
+                ? kodiCatalog.map((cat) => ({
+                    key: cat.id,
+                    label: t(cat.nameKey, { ns: "categoriesBeauty" }),
+                    href:
+                      cat.route && cat.route !== "#"
+                        ? cat.route
+                        : `/kodi/${cat.id}`,
+                  }))
+                : [...Array(2)].flatMap((_, i) =>
+                    brands.map((brand, index) => ({
+                      key: `${i}-${index}`,
+                      label: brand,
+                      href: "#",
+                    }))
+                  )
+              ).map((item) => (
+                <StyledMainNavigationListItem key={item.key}>
+                  <StyledMainNavigationLink href={item.href}>
+                    {item.label}
+                  </StyledMainNavigationLink>
+                </StyledMainNavigationListItem>
+              ))}
             </StyledMainNavigationList>
           </StyledScrollerWrapper>
         </StyledMainNavigation>

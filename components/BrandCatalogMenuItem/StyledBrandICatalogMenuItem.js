@@ -39,11 +39,14 @@ export const StyledCatalogMenuList = styled.ul`
 export const StyledCatalogMenuListItem = styled.li`
   width: 150px;
   ${sharedFlexStyles};
+  flex-direction: column;
+  gap: 15px;
   align-items: center;
   justify-content: center;
 `;
 
-export const StyledCatalogMenuLink = styled(Link)`
-  text-decoration: none;
-  color: black;
+export const StyledCatalogMenuLink = styled(Link)``;
+
+export const StyledCatalogMenuBackLink = styled(Link)`
+  display: block;
 `;

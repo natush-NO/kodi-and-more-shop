@@ -37,7 +37,7 @@ export default function HomePage({
     <>
       <StyledBackgroundImgBody>
         <Header
-          isBack={false}
+          // isBack={false}
           changeLanguage={changeLanguage}
           isCatalogOpen={isCatalogOpen}
           setIsCatalogOpen={setIsCatalogOpen}

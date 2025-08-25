@@ -213,8 +213,12 @@ export const StyledBrandTitle = styled.div`
   }
 `;
 
-export const StyledBrandTitleSpan = styled.span`
+export const StyledBrandTitleSity = styled.span`
   font-size: 24px;
+`;
+
+export const StyledBrandTitlePro = styled.span`
+  font-size: 18px;
 `;
 
 export const StyledWorkingHoursTitle = styled.div`
@@ -353,17 +357,20 @@ export const StyledMainNavigation = styled.nav`
 
 export const StyledScrollerWrapper = styled.div`
   width: 100%;
-  overflow: hidden;
+  /* коли $noScroll=true — не ховаємо, інакше ховаємо як раніше */
+  overflow: ${(p) => (p.$noScroll ? "visible" : "hidden")};
 `;
 
 export const StyledMainNavigationList = styled.ul`
   ${sharedFlexStyles};
-  animation: scroll-left 50s linear infinite;
   gap: 10px;
 
-  &:hover {
-    animation-play-state: paused;
-  }
+  ${(p) =>
+    p.$marquee &&
+    `
+    animation: scroll-left 50s linear infinite;
+    &:hover { animation-play-state: paused; }
+  `}
 
   @keyframes scroll-left {
     0% {
@@ -379,7 +386,7 @@ export const StyledMainNavigationListItem = styled.li`
   min-width: 140px;
   height: 40px;
   font-size: 18px;
-  background: #fffff;
+  background: #ffffff;
   ${borderRadiusStyles};
   display: flex;
   align-items: center;
@@ -388,6 +395,7 @@ export const StyledMainNavigationListItem = styled.li`
 `;
 
 export const StyledMainNavigationLink = styled(Link)`
-  text-decoration: none;
-  color: black;
+  display: block;
+  padding: 0 12px;
+  line-height: 40px;
 `;

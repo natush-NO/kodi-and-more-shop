@@ -15,7 +15,8 @@
   "languageUA": "UA",
   "languageEN": "EN",
   "sanitizers": "Antiseptics / Disinfectants",
-  "cutters": "Bits"
-  
-
+  "cutters": "Bits",
+  "homePage": "Home page",
+  "pageNotFound": "Page not found",
+  "backNotFound": "Back"
 }

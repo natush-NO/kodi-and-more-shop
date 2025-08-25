@@ -1,7 +1,7 @@
 import Head from "next/head";
 import GlobalStyle from "@/styles";
 import { useState, useEffect } from "react";
-import projects from "@/lib/projectsData";
+// import projects from "@/lib/kodiData";
 import UpdateOverlayHeight from "@/components/UpdateOverlayHeight";
 import { useRouter } from "next/router";
 import { appWithTranslation } from "next-i18next";
@@ -12,12 +12,12 @@ function App({ Component, pageProps }) {
   const { pathname, query, asPath } = router;
 
   const [showAboutMe, setShowAboutMe] = useState(false);
-  const [projectItems, setProjectItems] = useState(projects);
+  // const [projectItems, setProjectItems] = useState(projects);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
-  const toggleCatalog = () => setIsCatalogOpen((s) => !s); // ADDED
+  const toggleCatalog = () => setIsCatalogOpen((s) => !s);
   const closeCatalog = () => setIsCatalogOpen(false);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function App({ Component, pageProps }) {
         // showAboutMe={showAboutMe}
         setShowAboutMe={setShowAboutMe}
         // handleShowText={handleShowText}
-        projectItems={projectItems}
+        // projectItems={projectItems}
         selectedItemId={selectedItemId}
         changeLanguage={changeLanguage}
         isCatalogOpen={isCatalogOpen}

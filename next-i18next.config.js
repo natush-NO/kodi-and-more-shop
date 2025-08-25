@@ -3,5 +3,12 @@ module.exports = {
     defaultLocale: "uk",
     locales: ["uk", "en"],
   },
-  localePath: "./public/locales",
+  ns: [
+    "common",
+    "kodi",
+    "categoriesNails",
+    "categoriesBeauty",
+    "kodiCollections",
+  ],
+  defaultNS: "common",
 };
