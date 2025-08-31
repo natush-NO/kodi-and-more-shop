@@ -1,8 +1,9 @@
-// pages/kodiPage.js
-import { styled } from "styled-components";
+// pages/kodi/collections/index.js
 import Header from "@/components/Header/Header";
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
 import {
+  StyledKodiListItems,
+  StyledTitlePegeKodi,
   StyledKodiList,
   StyledImageLink,
   StyledCertificateImage,
@@ -10,22 +11,8 @@ import {
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export const StyledCategoryGrid = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-`;
-
-export const StyledTitlePegeKodi = styled.h1`
-  margin-bottom: 20px;
-  font-size: 36px;
-`;
-
-export default function KodiNailsPage({ kodi }) {
-  const { t } = useTranslation(["categoriesNails", "common"]);
+export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
+  const { t } = useTranslation(["kodiNailsCollections", "common"]);
 
   return (
     <>
@@ -34,36 +21,39 @@ export default function KodiNailsPage({ kodi }) {
         <StyledMainContainer>
           <StyledTitlePegeKodi>Kodi</StyledTitlePegeKodi>
 
-          <StyledCategoryGrid>
-            {kodi.map((cat) => {
+          <StyledKodiListItems>
+            {kodiNailsCollections.map((collection) => {
               const href =
-                cat.route && cat.route !== "#" ? cat.route : `/kodi/${cat.id}`;
-              const label = t(cat.nameKey, { ns: "categoriesNails" });
-
-              console.log("categoriesNails.gelPolish:", t("gelPolish"));
+                collection.route && collection.route !== "#"
+                  ? collection.route
+                  : `/kodi/collections/${collection.id}`;
+              const label = t(collection.nameKey);
 
               return (
-                <StyledKodiList key={cat.id}>
+                <StyledKodiList key={collection.id}>
                   <StyledImageLink href={href}>
-                    {/* <StyledCertificateImage
-                      // src={cat.imageUrl || "/placeholder_image.webp"}
+                    <StyledCertificateImage
+                      src={collection.imageUrl || "/placeholder_image.webp"}
                       alt={label}
                       title={label}
                       fill
-                      role="img"
-                      aria-label={label}
                       priority
-                    /> */}
+                    />
                   </StyledImageLink>
                   <div
                     style={{ marginTop: 8, textAlign: "center", fontSize: 18 }}
                   >
                     {label}
                   </div>
+                  <div
+                    style={{ marginTop: 8, textAlign: "center", fontSize: 18 }}
+                  >
+                    {collection.count}
+                  </div>
                 </StyledKodiList>
               );
             })}
-          </StyledCategoryGrid>
+          </StyledKodiListItems>
         </StyledMainContainer>
       </StyledMain>
     </>
@@ -71,15 +61,15 @@ export default function KodiNailsPage({ kodi }) {
 }
 
 export async function getStaticProps({ locale }) {
-  const { default: kodi } = await import("@/lib/kodiNailsList");
-
+  const { default: kodiNailsCollections } = await import(
+    "@/lib/kodi/kodiNailsCollections"
+  );
   return {
     props: {
-      kodi,
+      kodiNailsCollections,
       ...(await serverSideTranslations(locale, [
         "common",
-        "categoriesNails",
-        "categoriesBeauty",
+        "kodiNailsCollections",
       ])),
     },
   };

@@ -2,6 +2,20 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
+export const StyledKodiListItems = styled.ul`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+`;
+
+export const StyledTitlePegeKodi = styled.h1`
+  margin-bottom: 20px;
+  font-size: 36px;
+`;
+
 export const StyledKodiList = styled.li`
   width: 370px;
   height: 400px;

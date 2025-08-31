@@ -1,5 +1,4 @@
 import Header from "@/components/Header/Header";
-import { StyledBackgroundImgBody } from "@/components/StyledBackgroundImgBody";
 
 import {
   StyledMain,
@@ -10,100 +9,69 @@ import {
   StyledBrandLink,
 } from "@/components/StyledIndex";
 
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function HomePage({
-  // showAboutMe,
-  setShowAboutMe,
-  // handleShowText,
   changeLanguage,
   isCatalogOpen,
   setIsCatalogOpen,
   toggleCatalog,
   closeCatalog,
+  brandsCatalog,
 }) {
-  // function closeModal() {
-  //   setShowAboutMe(false);
-
-  //   setTimeout(() => {
-  //     window.scrollTo({
-  //       top: 0,
-  //       behavior: "smooth",
-  //     });
-  //   }, 0);
-  // }
+  const { t } = useTranslation(["common", "brandsCatalog"]);
 
   return (
     <>
-      <StyledBackgroundImgBody>
-        <Header
-          // isBack={false}
-          changeLanguage={changeLanguage}
-          isCatalogOpen={isCatalogOpen}
-          setIsCatalogOpen={setIsCatalogOpen}
-          toggleCatalog={toggleCatalog}
-          closeCatalog={closeCatalog}
-        />
-        <StyledMain>
-          <StyledMainContainer>
-            <StyledBrandsTitle>Бренди</StyledBrandsTitle>
+      <Header
+        changeLanguage={changeLanguage}
+        isCatalogOpen={isCatalogOpen}
+        setIsCatalogOpen={setIsCatalogOpen}
+        closeCatalog={closeCatalog}
+        toggleCatalog={toggleCatalog}
+        brandsCatalog={brandsCatalog}
+      />
 
-            <StyledBrandsList>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/kodi">Kodi</StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/yo-nails">
-                  YO!Nails
-                </StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/dis">D.I.S</StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/nub">Nub</StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/edlen">Edlen</StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/baby-moon">
-                  Baby Moon
-                </StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/divia">Divia</StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/nailapex">
-                  NailApex
-                </StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/staleks">
-                  Staleks
-                </StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/antiseptics">
-                  Антисептики / Дезінфектори
-                </StyledBrandLink>
-              </StyledBrandItem>
-              <StyledBrandItem>
-                <StyledBrandLink href="/brands/drills">Фрези</StyledBrandLink>
-              </StyledBrandItem>
-            </StyledBrandsList>
-          </StyledMainContainer>
-        </StyledMain>
-      </StyledBackgroundImgBody>
+      <StyledMain>
+        <StyledMainContainer>
+          <StyledBrandsTitle>Бренди</StyledBrandsTitle>
+
+          <StyledBrandsList>
+            {brandsCatalog.map((cat) => {
+              const href =
+                cat.route && cat.route !== "#"
+                  ? cat.route
+                  : `/brandsCatalog/${cat.id}`;
+
+              const label = cat.nameKey
+                ? t(cat.nameKey, {
+                    ns: "brandsCatalog",
+                    defaultValue: cat.name ?? cat.id,
+                  })
+                : cat.name;
+
+              return (
+                <StyledBrandItem key={cat.id}>
+                  <StyledBrandLink href={href}>{label}</StyledBrandLink>
+                </StyledBrandItem>
+              );
+            })}
+          </StyledBrandsList>
+        </StyledMainContainer>
+      </StyledMain>
     </>
   );
 }
 
 export async function getStaticProps({ locale }) {
+  const { default: brandsCatalog } = await import("@/lib/brandsCatalog");
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      brandsCatalog,
+      ...(await serverSideTranslations(locale, ["common", "brandsCatalog"])),
     },
+    revalidate: 60,
   };
 }

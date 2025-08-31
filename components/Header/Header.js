@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-// import Link from "next/link";
-import brandsCatalog from "@/lib/brandsData";
 
 import {
   StyledOverlay,
@@ -23,7 +21,7 @@ import {
   StyledSearchUserContainer,
   StyledSearchContainer,
   StyledUserMenuContainer,
-  StyledUserIconWrapper,
+  // StyledUserIconWrapper,
   StyledFavoritesIconWrapper,
   StyledCartIconWrapper,
   StyledSearchField,
@@ -50,7 +48,7 @@ import {
   StyledCatalogMenuBackLink,
 } from "../BrandCatalogMenuItem/StyledBrandICatalogMenuItem";
 import { StyledMainContainer } from "../StyledIndex";
-// import BrandItem from "../BrandCatalogMenuItem/BrandICatalogMenuItem";
+
 import {
   FaInstagram,
   FaFacebook,
@@ -59,40 +57,38 @@ import {
   FaSearch,
   FaAngleDown,
   FaAngleUp,
-  FaUser,
+  // FaUser,
   FaHeart,
   FaShoppingBasket,
 } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
-import kodiCatalog from "@/lib/kodiCatalog";
+import kodiCatalog from "@/lib/kodi/kodiCatalog";
+import brandsCatalog from "@/lib/brandsCatalog";
 
-export default function Header({ isBack, isBackProject, kodiPage = false }) {
+export default function Header({ isBack, kodiPage = false }) {
   const langRef = useRef(null);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [iconSizeWidth, setIconSizeWidth] = useState(50);
-  const [iconSizeHeight, setIconSizeHeight] = useState(40);
+  const [iconSize, setIconSize] = useState(20);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const { t, i18n } = useTranslation([
     "common",
     "categoriesBeauty",
     "kodiNailsCollections",
+    "brandsCatalog",
   ]);
 
   const onChangeLang = async (lng) => {
     try {
-      await router.push(router.pathname, router.asPath, { locale: lng });
+      await router.push(router.asPath, undefined, { locale: lng });
       setIsLangOpen(false);
       setIsOverlayOpen(false);
     } catch (e) {
       console.error("Failed to change language:", e);
     }
   };
-
-  const getFlagByLang = (lang) => `/flags/${lang === "en" ? "us" : "uk"}.png`;
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -109,11 +105,6 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
   }, [isLangOpen]);
 
   const toggleLanguageMenu = () => {
-    if (!isLangOpen) {
-      setIsOverlayOpen(true);
-    } else {
-      setIsOverlayOpen(false);
-    }
     setIsLangOpen((prev) => !prev);
   };
 
@@ -124,10 +115,14 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 700);
-      setIconSizeWidth(window.innerWidth < 900 ? 25 : 15);
-      setIconSizeHeight(
-        window.innerWidth < 450 ? 30 : window.innerHeight < 750 ? 25 : 15
-      );
+
+      if (window.innerWidth < 450) {
+        setIconSize(30);
+      } else if (window.innerHeight < 750) {
+        setIconSize(25);
+      } else {
+        setIconSize(15);
+      }
     };
 
     handleResize();
@@ -138,50 +133,27 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
     };
   }, []);
 
-  const socialImageSvg = [
+  const socials = [
     {
-      icon: <FaInstagram size={(iconSizeWidth, iconSizeHeight)} />,
+      href: "http://instagram.com/kodi_uzhgorod",
       alt: "Instagram",
+      Icon: FaInstagram,
     },
-    {
-      icon: <FaFacebook size={(iconSizeWidth, iconSizeHeight)} />,
-      alt: "Facebook",
-    },
-    {
-      icon: <FaMapMarkerAlt size={(iconSizeWidth, iconSizeHeight)} />,
-      alt: "Location",
-    },
-  ];
-
-  const socialLinks = [
-    { href: "http://instagram.com/kodi_uzhgorod", alt: "Instagram" },
     {
       href: "https://www.facebook.com/kodi.transcarpathian",
       alt: "Facebook",
+      Icon: FaFacebook,
     },
     {
       href: "https://goo.gl/maps/Naj5BhFDMprcDNuj6",
       alt: "Location",
+      Icon: FaMapMarkerAlt,
     },
-  ];
-
-  const brands = [
-    "Kodi",
-    "YO!Nails",
-    "D.I.S",
-    "Nub",
-    "Edlen",
-    "Baby Moon",
-    "Divia",
-    "NailApex",
-    "Staleks",
-    t("sanitizers"),
-    t("cutters"),
   ];
 
   return (
     <>
-      {(isOverlayOpen || isCatalogOpen) && (
+      {/* {(isOverlayOpen || isCatalogOpen) && (
         <StyledOverlay
           onClick={() => {
             if (isLangOpen) setIsLangOpen(false);
@@ -189,7 +161,16 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
             setIsOverlayOpen(false);
           }}
         />
+      )} */}
+      {(isLangOpen || isCatalogOpen) && (
+        <StyledOverlay
+          onClick={() => {
+            setIsLangOpen(false);
+            setIsCatalogOpen(false);
+          }}
+        />
       )}
+
       <StyledTopStickyBar />
       <StyledHeader>
         <StyledMainContainer>
@@ -242,7 +223,6 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
                     onClick={() => {
                       const next = !isCatalogOpen;
                       setIsCatalogOpen(next);
-                      setIsOverlayOpen(next);
                       if (!next)
                         document.getElementById("catalog-button")?.focus();
                     }}
@@ -273,30 +253,28 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
                               href={href}
                               onClick={() => {
                                 setIsCatalogOpen(false);
-                                setIsOverlayOpen(false);
                                 document
                                   .getElementById("catalog-button")
                                   ?.focus();
                               }}
                             >
-                              {nameKey ? t(nameKey) : name}
+                              {nameKey
+                                ? t(nameKey, { ns: "brandsCatalog" })
+                                : name}
                             </StyledCatalogMenuLink>
-                            <StyledCatalogMenuBackLink
-                              href="/"
-                              onClick={() => {
-                                setIsCatalogOpen(false);
-                                setIsOverlayOpen(false);
-                                document
-                                  .getElementById("catalog-button")
-                                  ?.focus();
-                              }}
-                            >
-                              {t("homePage")}
-                            </StyledCatalogMenuBackLink>
                           </StyledCatalogMenuListItem>
                         );
                       })}
                     </StyledCatalogMenuList>
+                    <StyledCatalogMenuBackLink
+                      href="/"
+                      onClick={() => {
+                        setIsCatalogOpen(false);
+                        document.getElementById("catalog-button")?.focus();
+                      }}
+                    >
+                      {t("homePage")}
+                    </StyledCatalogMenuBackLink>
                   </StyledCatalogMenuWrapper>
                 )}
 
@@ -306,7 +284,7 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
                       router.push(isBack ? "/" : "/certificatesPage")
                     }
                     type="button"
-                    aria-label={isBack ? t("back") : t("certificates")}
+                    aria-label={isBack ? t("back") : t("delivery")}
                   >
                     {isBack ? t("back") : t("delivery")}
                   </StyledNavigationButton>
@@ -323,22 +301,17 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
                 <span>+380999284258</span>
               </StyledTelephoneLink>
 
-              {socialLinks.map(({ href, alt }) => {
-                const matchingIcon = socialImageSvg.find(
-                  (item) => item.alt === alt
-                );
-                return (
-                  <StyledSocialItem key={alt}>
-                    <StyledSocialLink
-                      href={href}
-                      target="_blank"
-                      aria-label={alt}
-                    >
-                      {matchingIcon ? matchingIcon.icon : null}
-                    </StyledSocialLink>
-                  </StyledSocialItem>
-                );
-              })}
+              {socials.map(({ href, alt, Icon }) => (
+                <StyledSocialItem key={alt}>
+                  <StyledSocialLink
+                    href={href}
+                    target="_blank"
+                    aria-label={alt}
+                  >
+                    <Icon size={iconSize} />
+                  </StyledSocialLink>
+                </StyledSocialItem>
+              ))}
             </StyledSocialWrapper>
           </StyledNavigationHeader>
 
@@ -408,10 +381,15 @@ export default function Header({ isBack, isBackProject, kodiPage = false }) {
                         : `/kodi/${cat.id}`,
                   }))
                 : [...Array(2)].flatMap((_, i) =>
-                    brands.map((brand, index) => ({
-                      key: `${i}-${index}`,
-                      label: brand,
-                      href: "#",
+                    brandsCatalog.map((brand) => ({
+                      key: `${i}-${brand.id}`,
+                      label: brand.nameKey
+                        ? t(brand.nameKey, { ns: "brandsCatalog" })
+                        : brand.name,
+                      href:
+                        brand.route && brand.route !== "#"
+                          ? brand.route
+                          : `/brandsCatalog/${brand.id}`,
                     }))
                   )
               ).map((item) => (

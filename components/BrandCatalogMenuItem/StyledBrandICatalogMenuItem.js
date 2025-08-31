@@ -10,12 +10,14 @@ const borderRadiusStyles = css`
 `;
 
 export const StyledCatalogMenuWrapper = styled.div`
-  background-color: #ffffff;
   width: 300px;
   ${sharedFlexStyles};
+  ${borderRadiusStyles};
+  flex-direction: column;
+  gap: 20px;
+  background-color: #ffffff;
   align-items: center;
   justify-content: center;
-  ${borderRadiusStyles};
   position: absolute;
   top: 50px;
   left: 31%;
@@ -33,7 +35,7 @@ export const StyledCatalogMenuList = styled.ul`
   width: 90px;
   flex-direction: column;
   justify-content: space-between;
-  gap: 5px;
+  gap: 15px;
 `;
 
 export const StyledCatalogMenuListItem = styled.li`

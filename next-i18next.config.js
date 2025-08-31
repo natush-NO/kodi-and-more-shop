@@ -9,6 +9,7 @@ module.exports = {
     "categoriesNails",
     "categoriesBeauty",
     "kodiCollections",
+    "brandsCatalog",
   ],
   defaultNS: "common",
 };

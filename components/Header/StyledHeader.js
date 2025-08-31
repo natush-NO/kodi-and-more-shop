@@ -385,7 +385,7 @@ export const StyledMainNavigationList = styled.ul`
 export const StyledMainNavigationListItem = styled.li`
   min-width: 140px;
   height: 40px;
-  font-size: 18px;
+  font-size: 10px;
   background: #ffffff;
   ${borderRadiusStyles};
   display: flex;

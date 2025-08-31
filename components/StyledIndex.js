@@ -39,7 +39,7 @@ export const StyledBrandsList = styled.ul`
 `;
 
 export const StyledBrandItem = styled.li`
-  height: 400px; // фіксована висота
+  height: 400px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -56,8 +56,14 @@ export const StyledBrandItem = styled.li`
 `;
 
 export const StyledBrandLink = styled(Link)`
+  width: 100%;
   text-decoration: none;
-  color: #333;
+  transition: color 0.3s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: color 0.3s ease;
 
   &:hover {
