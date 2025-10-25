@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
+import Cookies from "js-cookie";
 
 import {
   StyledOverlay,
@@ -73,16 +74,23 @@ export default function Header({ isBack, kodiPage = false }) {
   const [iconSize, setIconSize] = useState(20);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
-  const { t, i18n } = useTranslation([
-    "common",
-    "categoriesBeauty",
-    "kodiNailsCollections",
-    "brandsCatalog",
-  ]);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
+  const { t, i18n } = useTranslation(
+    ["common", "categoriesBeauty", "kodiNailsCollections", "brandsCatalog"],
+    { useSuspense: false }
+  );
+
+  const { locale } = router;
 
   const onChangeLang = async (lng) => {
     try {
+      Cookies.set("NEXT_LOCALE", lng, { expires: 365 });
+
+      i18n.changeLanguage(lng);
+
       await router.push(router.asPath, undefined, { locale: lng });
+
       setIsLangOpen(false);
       setIsOverlayOpen(false);
     } catch (e) {

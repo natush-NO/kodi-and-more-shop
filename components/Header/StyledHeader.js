@@ -364,6 +364,7 @@ export const StyledScrollerWrapper = styled.div`
 export const StyledMainNavigationList = styled.ul`
   ${sharedFlexStyles};
   gap: 10px;
+  justify-content: center;
 
   ${(p) =>
     p.$marquee &&
@@ -371,8 +372,8 @@ export const StyledMainNavigationList = styled.ul`
     animation: scroll-left 50s linear infinite;
     &:hover { animation-play-state: paused; }
   `}
-
-  @keyframes scroll-left {
+  @keyframes
+    scroll-left {
     0% {
       transform: translateX(0);
     }
