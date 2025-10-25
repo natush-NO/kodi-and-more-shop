@@ -1,3 +1,15 @@
+// pages/[id].js
+export default function Page() {
+  return null; // тимчасова порожня сторінка
+}
+
+export async function getServerSideProps() {
+  // якщо треба — редірект на потрібну сторінку
+  return {
+    redirect: { destination: "/", permanent: false },
+  };
+}
+
 // // pages/[id].js
 // import { useRouter } from "next/router";
 // import styled from "styled-components";
