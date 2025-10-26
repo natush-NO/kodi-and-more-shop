@@ -1,0 +1,29 @@
+{
+  "colorBases": {
+    "title": "Color Bases",
+    "blackBase": {
+      "name": "Black Rubber Base Gel, 7 ml"
+    },
+    "ultraWhiteBase": {
+      "name": "Ultra White Rubber Base Gel, 7 ml"
+    },
+    "crystalDrops01": {
+      "name": "Reflective Base Coat Crystal Drops 01, 7 ml"
+    },
+    "crystalDrops02": {
+      "name": "Reflective Base Coat Crystal Drops 02, 7 ml"
+    },
+    "crystalDrops03": {
+      "name": "Reflective Base Coat Crystal Drops 03, 7 ml"
+    },
+    "crystalDrops04": {
+      "name": "Reflective Base Coat Crystal Drops 04, 7 ml"
+    },
+    "crystalDrops05": {
+      "name": "Reflective Base Coat Crystal Drops 05, 7 ml"
+    },
+    "colorBaseNeon14": {
+      "name": "Color Rubber Base, Neon 14, 7 ml"
+    }
+  }
+}

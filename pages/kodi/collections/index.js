@@ -19,7 +19,7 @@ export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
       <Header kodiPage />
       <StyledMain>
         <StyledMainContainer>
-          <StyledTitlePegeKodi>Kodi</StyledTitlePegeKodi>
+          <StyledTitlePegeKodi>0</StyledTitlePegeKodi>
 
           <StyledKodiListItems>
             {kodiNailsCollections.map((collection) => {
@@ -62,7 +62,7 @@ export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
 
 export async function getStaticProps({ locale }) {
   const { default: kodiNailsCollections } = await import(
-    "@/lib/kodi/kodiNailsCollections"
+    "@/lib/kodi/baseKodi/kodiNailsCollections"
   );
   return {
     props: {

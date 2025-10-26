@@ -77,7 +77,12 @@ export default function Header({ isBack, kodiPage = false }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const { t, i18n } = useTranslation(
-    ["common", "categoriesBeauty", "kodiNailsCollections", "brandsCatalog"],
+    [
+      "common",
+      "kodi/categoriesBeauty",
+      "kodi/kodiNailsCollections",
+      "brandsCatalog",
+    ],
     { useSuspense: false }
   );
 
@@ -326,8 +331,11 @@ export default function Header({ isBack, kodiPage = false }) {
           <StyledHeaderInfoBar>
             <StyledBrandTitle>
               <StyledBrandTitleSity>{t("sity")}</StyledBrandTitleSity> <br />
-              Kodi
-              <br /> <StyledBrandTitlePro>Professional</StyledBrandTitlePro>
+              kodi and more
+              <br />{" "}
+              <StyledBrandTitlePro>
+                магазин професійної косметики
+              </StyledBrandTitlePro>
             </StyledBrandTitle>
             <StyledSearchUserContainer>
               <StyledUserMenuContainer>
