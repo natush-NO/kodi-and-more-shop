@@ -47,7 +47,10 @@ export async function getStaticProps({ locale }) {
   return {
     props: {
       kodi,
-      ...(await serverSideTranslations(locale, ["common", "categoriesNails"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "kodi/categoriesNails",
+      ])),
     },
   };
 }

@@ -13,7 +13,7 @@ export default function KodiPage() {
       <Header kodiPage />
       <StyledMain>
         <StyledMainContainer>
-          <StyledTitlePegeKodi>Kodi</StyledTitlePegeKodi>
+          <StyledTitlePegeKodi>1</StyledTitlePegeKodi>
         </StyledMainContainer>
       </StyledMain>
     </>
@@ -30,7 +30,6 @@ export async function getStaticProps({ locale }) {
         "common",
         "categoriesBeauty",
         "categoriesNails",
-        "categoriesBeauty",
         "kodiNailsCollections",
       ])),
     },

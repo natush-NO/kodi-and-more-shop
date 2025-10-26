@@ -1,0 +1,29 @@
+{
+  "colorBases": {
+    "title": "Кольорові бази",
+    "blackBase": {
+      "name": "Чорна каучукова основа Rubber Base Gel Black, 7 мл"
+    },
+    "ultraWhiteBase": {
+      "name": "Ультрабіла каучукова основа Rubber Base Gel ULTRA WHITE, 7 мл"
+    },
+    "crystalDrops01": {
+      "name": "Світловідбиваюче базове покриття Crystal Drops 01, 7 мл"
+    },
+    "crystalDrops02": {
+      "name": "Світловідбиваюче базове покриття Crystal Drops 02, 7 мл"
+    },
+    "crystalDrops03": {
+      "name": "Світловідбиваюче базове покриття Crystal Drops 03, 7 мл"
+    },
+    "crystalDrops04": {
+      "name": "Світловідбиваюче базове покриття Crystal Drops 04, 7 мл"
+    },
+    "crystalDrops05": {
+      "name": "Світловідбиваюче базове покриття Crystal Drops 05, 7 мл"
+    },
+    "colorBaseNeon14": {
+      "name": "Кольорове базове покриття Color Rubber Base, Neon 14, 7 мл"
+    }
+  }
+}
