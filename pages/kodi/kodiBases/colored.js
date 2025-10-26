@@ -5,17 +5,17 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { colorBasesKodi } from "@/lib/kodi/baseKodi/colorBasesKodi";
 
 export default function ColoredBasesPage() {
-  const { t } = useTranslation("products");
+  const { t } = useTranslation("colorBasesKodi");
 
   return (
     <>
       <Head>
-        <title>{t("colorBases.title")} | Kodi and More</title>
+        <title>{t("colorBasesKodi.title")} | Kodi and More</title>
       </Head>
 
       <main className="p-6 max-w-5xl mx-auto">
         <h1 className="text-3xl font-semibold mb-6 text-center">
-          {t("colorBases.title")}
+          {t("colorBasesKodi.title")}
         </h1>
 
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -46,7 +46,7 @@ export default function ColoredBasesPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["kodi/colorBasesKodiUa.json"])),
+      ...(await serverSideTranslations(locale, ["colorBasesKodi"])),
     },
   };
 }

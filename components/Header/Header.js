@@ -77,12 +77,7 @@ export default function Header({ isBack, kodiPage = false }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const { t, i18n } = useTranslation(
-    [
-      "common",
-      "kodi/categoriesBeauty",
-      "kodi/kodiNailsCollections",
-      "brandsCatalog",
-    ],
+    ["common", "categoriesBeauty", "kodiNailsCollections", "brandsCatalog"],
     { useSuspense: false }
   );
 
@@ -91,11 +86,8 @@ export default function Header({ isBack, kodiPage = false }) {
   const onChangeLang = async (lng) => {
     try {
       Cookies.set("NEXT_LOCALE", lng, { expires: 365 });
-
       i18n.changeLanguage(lng);
-
       await router.push(router.asPath, undefined, { locale: lng });
-
       setIsLangOpen(false);
       setIsOverlayOpen(false);
     } catch (e) {
@@ -293,9 +285,7 @@ export default function Header({ isBack, kodiPage = false }) {
 
                 <StyledNavigationListItem>
                   <StyledNavigationButton
-                    onClick={() =>
-                      router.push(isBack ? "/" : "/certificatesPage")
-                    }
+                    onClick={() => router.push(isBack ? "/" : "/")}
                     type="button"
                     aria-label={isBack ? t("back") : t("delivery")}
                   >
