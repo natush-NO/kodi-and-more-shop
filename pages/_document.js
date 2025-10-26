@@ -74,6 +74,15 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap"
             rel="stylesheet"
           />
+          <meta
+            property="og:image:secure_url"
+            content="https://kodi-and-more-shop.vercel.app/logos/logo_social.jpeg"
+          />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:site_name" content="Kodi and More" />
+          <meta property="og:locale" content="uk_UA" />
         </Head>
         <body>
           <Main />
