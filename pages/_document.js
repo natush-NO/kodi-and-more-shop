@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
           />
           <meta
             property="og:image"
-            content="https://kodi-studio-app.vercel.app/logos/logo_social.jpg"
+            content="https://kodi-studio-app.vercel.app/logos/logo_social.jpeg"
           />
           <meta
             property="og:url"
