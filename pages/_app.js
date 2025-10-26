@@ -27,7 +27,46 @@ function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <meta property="og:image" content="/logos/logo_social.jpg" />
+        <meta
+          property="og:title"
+          content="Kodi and More — магазин професійної косметики в Ужгороді"
+        />
+        <meta
+          property="og:description"
+          content="Магазин Kodi and More, Ужгород. Професійні товари для бʼюті-майстрів — майстрів манікюру, педикюру, лешмейкерів, бровістів."
+        />
+        <meta
+          property="og:image"
+          content="https://kodi-and-more-shop.vercel.app/logos/logo_social.jpeg"
+        />
+        <meta
+          property="og:url"
+          content="https://kodi-and-more-shop.vercel.app/"
+        />
+        <meta property="og:type" content="website" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Kodi and More — магазин професійної косметики в Ужгороді"
+        />
+        <meta
+          name="twitter:description"
+          content="Магазин Kodi and More, Ужгород. Професійні товари для бʼюті-майстрів — майстрів манікюру, педикюру, лешмейкерів, бровістів."
+        />
+        <meta
+          name="twitter:image"
+          content="https://kodi-and-more-shop.vercel.app/logos/logo_social.jpeg"
+        />
+        <meta
+          property="og:image:secure_url"
+          content="https://kodi-and-more-shop.vercel.app/logos/logo_social.jpeg"
+        />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Kodi and More" />
+        <meta property="og:locale" content="uk_UA" />
       </Head>
       <UpdateOverlayHeight />
 
