@@ -1,6 +1,6 @@
 // pages/[id].js
 export default function Page() {
-  return null; // тимчасова порожня сторінка
+  return null;
 }
 
 export async function getServerSideProps() {

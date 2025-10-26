@@ -32,18 +32,41 @@ export default class MyDocument extends Document {
     return (
       <Html lang="uk">
         <Head>
-          <Head>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link
-              rel="preconnect"
-              href="https://fonts.gstatic.com"
-              crossOrigin="true"
-            />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap"
-              rel="stylesheet"
-            />
-          </Head>
+          <meta property="og:title" content="Kodi Studio Uzhhorod" />
+          <meta
+            property="og:description"
+            content="Офіційний сайт Kodi Professional Uzhhorod — товари для манікюру, гель-лаки, бази, топи."
+          />
+          <meta
+            property="og:image"
+            content="https://kodi-studio-app.vercel.app/logos/logo_social.jpg"
+          />
+          <meta
+            property="og:url"
+            content="https://kodi-studio-app.vercel.app/"
+          />
+          <meta property="og:type" content="website" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Kodi Studio Uzhhorod" />
+          <meta
+            name="twitter:description"
+            content="Офіційний сайт Kodi Professional Uzhhorod — товари для манікюру, гель-лаки, бази, топи."
+          />
+          <meta
+            name="twitter:image"
+            content="https://kodi-studio-app.vercel.app/logos/logo_social.jpg"
+          />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />
