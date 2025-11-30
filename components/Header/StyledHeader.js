@@ -357,7 +357,6 @@ export const StyledMainNavigation = styled.nav`
 
 export const StyledScrollerWrapper = styled.div`
   width: 100%;
-  /* коли $noScroll=true — не ховаємо, інакше ховаємо як раніше */
   overflow: ${(p) => (p.$noScroll ? "visible" : "hidden")};
 `;
 

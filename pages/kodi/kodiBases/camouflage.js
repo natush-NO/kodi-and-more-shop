@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import Header from "@/components/Header/Header";
 import {
   Container,
@@ -7,73 +8,93 @@ import {
   Subtitle,
   Price,
   Button,
+  LoadMoreWrapper,
+  LoadMoreButton,
 } from "@/components/Kodi/kodiBases/StyledTransparentBaseKodi";
-import camouflageBasesKodi from "@/lib/kodi/baseKodi/camouflageBasesKodi";
+import camouflageBasesKodi from "@/lib/kodi/baseKodi/camouflageBaseKodi";
+
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CURRENCY = "грн";
 
-export default function CamouflageBasesPage(
-  changeLanguage,
-  isCatalogOpen,
-  setIsCatalogOpen,
-  toggleCatalog,
-  closeCatalog,
-  brandsCatalog
-) {
+export default function CamouflageBasesPage() {
+  const { t } = useTranslation("camouflageBaseKodi"); // ✅
+
+  const [visibleCount, setVisibleCount] = useState(15);
+
+  const visibleProducts = camouflageBasesKodi.slice(0, visibleCount);
+  const total = camouflageBasesKodi.length;
+  const remaining = total - visibleCount;
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 15, total));
+  };
+
+  console.log("test:", t("camouflage.meta.title")); // ✅ має вивести твій заголовок
+
   return (
     <>
       <Head>
-        <title>Камуфлюючі бази | Kodi and More</title>
-        <meta
-          name="description"
-          content="Камуфлюючі бази Kodi — щільна текстура, делікатні відтінки."
-        />
+        <title>{t("camouflage.meta.title")}</title>
+        <meta name="description" content={t("camouflage.meta.description")} />
       </Head>
 
-      <Header
-        changeLanguage={changeLanguage}
-        isCatalogOpen={isCatalogOpen}
-        setIsCatalogOpen={setIsCatalogOpen}
-        closeCatalog={closeCatalog}
-        toggleCatalog={toggleCatalog}
-        brandsCatalog={brandsCatalog}
-      />
+      <Header />
 
       <Container>
-        <h1>Камуфлюючі бази</h1>
-        <p>Оберіть потрібний відтінок та обʼєм.</p>
+        <h1>{t("camouflage.title")}</h1>
+        <p>{t("camouflage.subtitle")}</p>
 
         <Grid>
-          {camouflageBasesKodi.map((product) => (
+          {visibleProducts.map((product) => (
             <Card key={product.id}>
               {product.image && (
-                <img src={product.image} alt={product.subtitle} />
+                <img src={product.image} alt={t(product.subtitleKey)} />
               )}
 
-              <h3>{product.title}</h3>
-              <Subtitle>{product.subtitle}</Subtitle>
+              <h3>{t(product.titleKey)}</h3>
+              <Subtitle>{t(product.subtitleKey)}</Subtitle>
 
               <Price>
-                <span
-                  style={{
-                    textDecoration: "line-through",
-                    fontWeight: 400,
-                    marginRight: "0.5rem",
-                    opacity: 0.8,
-                  }}
-                >
-                  {product.oldPrice} {CURRENCY}
-                </span>
-                <span>
-                  {product.newPrice} {CURRENCY}
-                </span>
+                {product.price && (
+                  <span
+                    style={{
+                      fontWeight: 400,
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    {product.price} {CURRENCY}
+                  </span>
+                )}
               </Price>
 
-              <Button href={product.href}>Купити</Button>
+              <Button href={product.href}>{t("camouflage.buyButton")}</Button>
             </Card>
           ))}
         </Grid>
+
+        {visibleCount < total && (
+          <LoadMoreWrapper>
+            <LoadMoreButton type="button" onClick={handleLoadMore}>
+              {t("camouflage.loadMore", {
+                count: Math.min(15, remaining),
+              })}
+            </LoadMoreButton>
+          </LoadMoreWrapper>
+        )}
       </Container>
     </>
   );
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "camouflageBaseKodi",
+      ])),
+    },
+  };
 }
