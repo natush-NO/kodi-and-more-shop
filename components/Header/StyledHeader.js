@@ -48,6 +48,14 @@ export const StyledBottomHeader = styled.div`
   border-bottom: 1px solid #e0e0e0;
 `;
 
+export const StyledContainerHeader = styled.div`
+  ${sharedFlexStyles};
+
+  @media (min-width: 1000px) {
+    justify-content: space-between;
+  }
+`;
+
 export const StyledLanguageSelector = styled.div`
   ${sharedFlexStyles};
   flex-direction: row;
@@ -62,9 +70,6 @@ export const StyledLanguageSelectorOpen = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 5px;
-  position: absolute;
-  top: 30px;
-  left: 0;
   background-color: #ffffff;
   padding: 10px;
   ${borderRadiusStyles};
@@ -173,8 +178,8 @@ export const StyledSearchIconWrapper = styled.div`
 
 export const StyledHeaderInfoBar = styled.div`
   ${sharedFlexStyles};
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 15px;
 
   margin-bottom: 50px;
   position: relative;
@@ -182,7 +187,7 @@ export const StyledHeaderInfoBar = styled.div`
 
 export const StyledWorkingHoursSection = styled.div`
   width: 300px;
-  ${sharedContainerStyles};
+  // ${sharedContainerStyles};
   font-weight: 400;
   font-size: 16px;
 
@@ -199,12 +204,11 @@ export const StyledBrandTitle = styled.div`
   text-align: center;
   letter-spacing: 2px;
 
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -60%);
-
   @media (min-width: 800px) {
+    font-size: 48px;
+  }
+
+  @media (min-width: 1000px) {
     font-size: 52px;
   }
 
@@ -212,6 +216,8 @@ export const StyledBrandTitle = styled.div`
     font-size: 72px;
   }
 `;
+
+export const StyledContainerTitleHeader = styled.div``;
 
 export const StyledBrandTitleSity = styled.span`
   font-size: 24px;
@@ -227,11 +233,17 @@ export const StyledWorkingHoursTitle = styled.div`
 `;
 
 export const StyledNavigationHeader = styled.nav`
-  ${sharedContainerStyles};
   ${sharedFlexStyles};
-  justify-content: space-between;
-  padding-bottom: 25px;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+
+  @media (min-width: 1100px) {
+    // flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 25px;
+  }
 `;
 
 export const StyledMenuToggleButton = styled.button`
@@ -251,14 +263,11 @@ export const StyledNavigationList = styled.ul`
   max-width: 350px;
   ${sharedFlexStyles};
   flex-direction: column;
-  gap: 15px;
   flex-wrap: wrap;
   align-items: center;
   position: relative;
-
   text-align: center;
   ${sharedContainerStyles};
-  ${sharedMarginBottom};
 
   @media (min-width: 500px) {
     max-width: 450px;
@@ -276,8 +285,13 @@ export const StyledNavigationList = styled.ul`
     width: 700px;
     font-size: 18px;
     justify-content: flex-start;
+    gap: 15px;
     margin: 0 !important;
     gap: 20px;
+  }
+
+  @media (min-width: 1100px) {
+    ${sharedMarginBottom};
   }
 `;
 
@@ -357,7 +371,6 @@ export const StyledMainNavigation = styled.nav`
 
 export const StyledScrollerWrapper = styled.div`
   width: 100%;
-  /* коли $noScroll=true — не ховаємо, інакше ховаємо як раніше */
   overflow: ${(p) => (p.$noScroll ? "visible" : "hidden")};
 `;
 
@@ -398,5 +411,5 @@ export const StyledMainNavigationListItem = styled.li`
 export const StyledMainNavigationLink = styled(Link)`
   display: block;
   padding: 0 12px;
-  line-height: 40px;
+  line-height: 1.5;
 `;

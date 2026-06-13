@@ -1,11 +1,33 @@
 import Image from "next/image";
 import Head from "next/head";
+import Header from "@/components/Header/Header";
+
+import {
+  Container,
+  Grid,
+  Card,
+  Subtitle,
+  Price,
+  Button,
+  LoadMoreWrapper,
+  LoadMoreButton,
+} from "@/components/Kodi/kodiBases/StyledTransparentBaseKodi";
+
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import { colorBasesKodi } from "@/lib/kodi/baseKodi/colorBasesKodi";
+
+const CURRENCY = "грн";
 
 export default function ColoredBasesPage() {
   const { t } = useTranslation("colorBasesKodi");
+
+  // якщо хочеш "load more" як на camouflage:
+  // const [visibleCount, setVisibleCount] = useState(15);
+  // const visibleProducts = colorBasesKodi.slice(0, visibleCount);
+  // const total = colorBasesKodi.length;
+  // const remaining = total - visibleCount;
 
   return (
     <>
@@ -13,32 +35,56 @@ export default function ColoredBasesPage() {
         <title>{t("colorBasesKodi.title")} | Kodi and More</title>
       </Head>
 
-      <main className="p-6 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-semibold mb-6 text-center">
-          {t("colorBasesKodi.title")}
-        </h1>
+      <Header kodiPage />
 
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Container>
+        <h1>{t("colorBasesKodi.title")}</h1>
+
+        <Grid>
           {colorBasesKodi.map((base) => (
-            <li
-              key={base.id}
-              className="border rounded-2xl shadow-md hover:shadow-lg transition p-4 bg-white"
-            >
-              <Image
-                src={base.image}
-                alt={t(base.nameKey)}
-                width={320}
-                height={320}
-                className="rounded-xl object-cover"
-              />
-              <h2 className="mt-4 text-lg font-medium">{t(base.nameKey)}</h2>
-              <p className="text-gray-700 font-semibold mt-2">
-                {base.price} грн
-              </p>
-            </li>
+            <Card key={base.id}>
+              {base.image && (
+                <Image
+                  src={base.image}
+                  alt={t(base.nameKey)}
+                  width={320}
+                  height={320}
+                  style={{ width: "100%", height: "auto" }} // щоб гарно вписувалось у Card
+                />
+              )}
+
+              <h3>{t(base.nameKey)}</h3>
+
+              {/* якщо у тебе є підзаголовок/опис ключем — підстав сюди,
+                  інакше можеш прибрати Subtitle */}
+              {base.subtitleKey && <Subtitle>{t(base.subtitleKey)}</Subtitle>}
+
+              <Price>
+                <span style={{ fontWeight: 400, marginRight: "0.5rem" }}>
+                  {base.price} {CURRENCY}
+                </span>
+              </Price>
+              {base.href && <Button href={base.href}>{t("buyButton")}</Button>}
+            </Card>
           ))}
-        </ul>
-      </main>
+        </Grid>
+
+        {/* якщо хочеш "load more" як на camouflage — розкоментуй блок нижче */}
+        {/*
+        {visibleCount < total && (
+          <LoadMoreWrapper>
+            <LoadMoreButton
+              type="button"
+              onClick={() =>
+                setVisibleCount((prev) => Math.min(prev + 15, total))
+              }
+            >
+              {t("loadMore", { count: Math.min(15, remaining) })}
+            </LoadMoreButton>
+          </LoadMoreWrapper>
+        )}
+        */}
+      </Container>
     </>
   );
 }
@@ -46,7 +92,13 @@ export default function ColoredBasesPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["colorBasesKodi"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "colorBasesKodi",
+        "brandsCatalog",
+        "categoriesBeauty",
+        "kodiNailsCollections",
+      ])),
     },
   };
 }
