@@ -5,11 +5,13 @@ import Cookies from "js-cookie";
 import {
   StyledOverlay,
   StyledTopStickyBar,
+  StyledContainerTitleHeader,
   StyledBrandTitle,
   StyledBrandTitleSity,
   StyledBrandTitlePro,
   StyledHeader,
   StyledBottomHeader,
+  StyledContainerHeader,
   StyledNavigationHeader,
   StyledMenuToggleButton,
   StyledLanguageSelector,
@@ -179,199 +181,203 @@ export default function Header({ isBack, kodiPage = false }) {
       <StyledTopStickyBar />
       <StyledHeader>
         <StyledMainContainer>
-          <StyledNavigationHeader>
-            {isMobile && (
-              <StyledMenuToggleButton
-                onClick={toggleMenu}
-                aria-label={isMenuOpen ? t("close") : t("menu")}
-              >
-                {isMenuOpen ? t("close") : t("menu")}
-              </StyledMenuToggleButton>
-            )}
-
-            {(isMobile && isMenuOpen) || !isMobile ? (
-              <StyledNavigationList id="burger">
-                <StyledLanguageSelector ref={langRef}>
-                  <StyledLanguageButtonClose
-                    $flag={i18n.language === "en" ? "us" : "uk"}
-                    onClick={toggleLanguageMenu}
-                  >
-                    {i18n.language === "en" ? t("languageEN") : t("languageUA")}
-                    {isLangOpen ? (
-                      <FaAngleUp style={{ marginLeft: "5px" }} />
-                    ) : (
-                      <FaAngleDown style={{ marginLeft: "5px" }} />
-                    )}
-                  </StyledLanguageButtonClose>
-
-                  {isLangOpen && (
-                    <StyledLanguageSelectorOpen>
-                      <StyledLanguageButtonOpen
-                        $flag="uk"
-                        onClick={() => onChangeLang("uk")}
-                      >
-                        {t("languageUA")}
-                      </StyledLanguageButtonOpen>
-
-                      <StyledLanguageButtonOpen
-                        $flag="us"
-                        onClick={() => onChangeLang("en")}
-                      >
-                        {t("languageEN")}
-                      </StyledLanguageButtonOpen>
-                    </StyledLanguageSelectorOpen>
-                  )}
-                </StyledLanguageSelector>
-
-                <StyledNavigationListItem>
-                  <StyledNavigationButton
-                    onClick={() => {
-                      const next = !isCatalogOpen;
-                      setIsCatalogOpen(next);
-                      if (!next)
-                        document.getElementById("catalog-button")?.focus();
-                    }}
-                    type="button"
-                    aria-label={isCatalogOpen ? t("back") : t("catalog")}
-                    id="catalog-button"
-                    aria-haspopup="menu"
-                    aria-expanded={isCatalogOpen}
-                    aria-controls="catalog-menu"
-                  >
-                    {isCatalogOpen ? t("back") : t("catalog")}
-                  </StyledNavigationButton>
-                </StyledNavigationListItem>
-
-                {isCatalogOpen && (
-                  <StyledCatalogMenuWrapper
-                    aria-labelledby="catalog-button"
-                    id="catalog-menu"
-                  >
-                    <StyledCatalogMenuList>
-                      {brandsCatalog.map(({ id, name, nameKey, route }) => {
-                        const href =
-                          route ?? `/brandsCatalog/${encodeURIComponent(id)}`;
-
-                        return (
-                          <StyledCatalogMenuListItem key={id}>
-                            <StyledCatalogMenuLink
-                              href={href}
-                              onClick={() => {
-                                setIsCatalogOpen(false);
-                                document
-                                  .getElementById("catalog-button")
-                                  ?.focus();
-                              }}
-                            >
-                              {nameKey
-                                ? t(nameKey, { ns: "brandsCatalog" })
-                                : name}
-                            </StyledCatalogMenuLink>
-                          </StyledCatalogMenuListItem>
-                        );
-                      })}
-                    </StyledCatalogMenuList>
-                    <StyledCatalogMenuBackLink
-                      href="/"
-                      onClick={() => {
-                        setIsCatalogOpen(false);
-                        document.getElementById("catalog-button")?.focus();
-                      }}
+          <StyledContainerHeader>
+            <StyledNavigationHeader>
+              {isMobile && (
+                <StyledMenuToggleButton
+                  onClick={toggleMenu}
+                  aria-label={isMenuOpen ? t("close") : t("menu")}
+                >
+                  {isMenuOpen ? t("close") : t("menu")}
+                </StyledMenuToggleButton>
+              )}
+              {(isMobile && isMenuOpen) || !isMobile ? (
+                <StyledNavigationList id="burger">
+                  <StyledLanguageSelector ref={langRef}>
+                    <StyledLanguageButtonClose
+                      $flag={i18n.language === "en" ? "us" : "uk"}
+                      onClick={toggleLanguageMenu}
                     >
-                      {t("homePage")}
-                    </StyledCatalogMenuBackLink>
-                  </StyledCatalogMenuWrapper>
-                )}
+                      {i18n.language === "en"
+                        ? t("languageEN")
+                        : t("languageUA")}
+                      {isLangOpen ? (
+                        <FaAngleUp style={{ marginLeft: "5px" }} />
+                      ) : (
+                        <FaAngleDown style={{ marginLeft: "5px" }} />
+                      )}
+                    </StyledLanguageButtonClose>
 
-                <StyledNavigationListItem>
-                  <StyledNavigationButton
-                    onClick={() => router.push(isBack ? "/" : "/")}
-                    type="button"
-                    aria-label={isBack ? t("back") : t("delivery")}
-                  >
-                    {isBack ? t("back") : t("delivery")}
-                  </StyledNavigationButton>
-                </StyledNavigationListItem>
-              </StyledNavigationList>
-            ) : null}
+                    {isLangOpen && (
+                      <StyledLanguageSelectorOpen>
+                        <StyledLanguageButtonOpen
+                          $flag="uk"
+                          onClick={() => onChangeLang("uk")}
+                        >
+                          {t("languageUA")}
+                        </StyledLanguageButtonOpen>
 
-            <StyledSocialWrapper>
-              <StyledTelephoneLink
-                href="tel:+380999284258"
-                aria-label={t("callPhone")}
-              >
-                <FaPhone size={24} />
-                <span>+380999284258</span>
-              </StyledTelephoneLink>
+                        <StyledLanguageButtonOpen
+                          $flag="us"
+                          onClick={() => onChangeLang("en")}
+                        >
+                          {t("languageEN")}
+                        </StyledLanguageButtonOpen>
+                      </StyledLanguageSelectorOpen>
+                    )}
+                  </StyledLanguageSelector>
 
-              {socials.map(({ href, alt, Icon }) => (
-                <StyledSocialItem key={alt}>
-                  <StyledSocialLink
-                    href={href}
-                    target="_blank"
-                    aria-label={alt}
-                  >
-                    <Icon size={iconSize} />
-                  </StyledSocialLink>
-                </StyledSocialItem>
-              ))}
-            </StyledSocialWrapper>
-          </StyledNavigationHeader>
+                  <StyledNavigationListItem>
+                    <StyledNavigationButton
+                      onClick={() => {
+                        const next = !isCatalogOpen;
+                        setIsCatalogOpen(next);
+                        if (!next)
+                          document.getElementById("catalog-button")?.focus();
+                      }}
+                      type="button"
+                      aria-label={isCatalogOpen ? t("back") : t("catalog")}
+                      id="catalog-button"
+                      aria-haspopup="menu"
+                      aria-expanded={isCatalogOpen}
+                      aria-controls="catalog-menu"
+                    >
+                      {isCatalogOpen ? t("back") : t("catalog")}
+                    </StyledNavigationButton>
+                  </StyledNavigationListItem>
 
-          <StyledHeaderInfoBar>
-            <StyledBrandTitle>
-              <StyledBrandTitleSity>{t("sity")}</StyledBrandTitleSity> <br />
-              kodi and more
-              <br />{" "}
-              <StyledBrandTitlePro>
-                магазин професійної косметики
-              </StyledBrandTitlePro>
-            </StyledBrandTitle>
-            <StyledSearchUserContainer>
-              <StyledUserMenuContainer>
-                <StyledFavoritesIconWrapper title="Favorites">
-                  <FaHeart />
-                </StyledFavoritesIconWrapper>
+                  {isCatalogOpen && (
+                    <StyledCatalogMenuWrapper
+                      aria-labelledby="catalog-button"
+                      id="catalog-menu"
+                    >
+                      <StyledCatalogMenuList>
+                        {brandsCatalog.map(({ id, name, nameKey, route }) => {
+                          const href =
+                            route ?? `/brandsCatalog/${encodeURIComponent(id)}`;
 
-                <StyledCartIconWrapper title="Cart">
-                  <FaShoppingBasket />
-                </StyledCartIconWrapper>
-              </StyledUserMenuContainer>
+                          return (
+                            <StyledCatalogMenuListItem key={id}>
+                              <StyledCatalogMenuLink
+                                href={href}
+                                onClick={() => {
+                                  setIsCatalogOpen(false);
+                                  document
+                                    .getElementById("catalog-button")
+                                    ?.focus();
+                                }}
+                              >
+                                {nameKey
+                                  ? t(nameKey, { ns: "brandsCatalog" })
+                                  : name}
+                              </StyledCatalogMenuLink>
+                            </StyledCatalogMenuListItem>
+                          );
+                        })}
+                      </StyledCatalogMenuList>
+                      <StyledCatalogMenuBackLink
+                        href="/"
+                        onClick={() => {
+                          setIsCatalogOpen(false);
+                          document.getElementById("catalog-button")?.focus();
+                        }}
+                      >
+                        {t("homePage")}
+                      </StyledCatalogMenuBackLink>
+                    </StyledCatalogMenuWrapper>
+                  )}
 
-              <StyledSearchContainer>
-                <StyledSearchField
-                  type="text"
-                  name="q"
-                  id="q"
-                  autoComplete="off"
-                  maxLength="90"
-                  spellCheck="false"
-                  placeholder={t("searchPlaceholder")}
-                />
-                <StyledSearchIconWrapper>
-                  <FaSearch size={18} color="#666666" />
-                </StyledSearchIconWrapper>
-              </StyledSearchContainer>
-            </StyledSearchUserContainer>
+                  <StyledNavigationListItem>
+                    <StyledNavigationButton
+                      onClick={() => router.push(isBack ? "/" : "/")}
+                      type="button"
+                      aria-label={isBack ? t("back") : t("delivery")}
+                    >
+                      {isBack ? t("back") : t("delivery")}
+                    </StyledNavigationButton>
+                  </StyledNavigationListItem>
+                </StyledNavigationList>
+              ) : null}
+              <StyledSearchUserContainer>
+                <StyledUserMenuContainer>
+                  <StyledFavoritesIconWrapper title="Favorites">
+                    <FaHeart />
+                  </StyledFavoritesIconWrapper>
 
-            <StyledWorkingHoursSection>
-              <StyledWorkingHoursTitle>
-                {t("workingHours")}:
-              </StyledWorkingHoursTitle>
-              <div>
-                <StyledWorkingHoursLabel>
-                  {t("monFri")}:
-                </StyledWorkingHoursLabel>{" "}
-                10:00–18:00
-              </div>
-              <div>
-                <StyledWorkingHoursLabel>
-                  {t("satSun")}:
-                </StyledWorkingHoursLabel>{" "}
-                10:00–16:00
-              </div>
-            </StyledWorkingHoursSection>
-          </StyledHeaderInfoBar>
+                  <StyledCartIconWrapper title="Cart">
+                    <FaShoppingBasket />
+                  </StyledCartIconWrapper>
+                </StyledUserMenuContainer>
+
+                <StyledSearchContainer>
+                  <StyledSearchField
+                    type="text"
+                    name="q"
+                    id="q"
+                    autoComplete="off"
+                    maxLength="90"
+                    spellCheck="false"
+                    placeholder={t("searchPlaceholder")}
+                  />
+                  <StyledSearchIconWrapper>
+                    <FaSearch size={18} color="#666666" />
+                  </StyledSearchIconWrapper>
+                </StyledSearchContainer>
+              </StyledSearchUserContainer>{" "}
+            </StyledNavigationHeader>
+
+            <StyledContainerTitleHeader>
+              <StyledBrandTitle>
+                <StyledBrandTitleSity>{t("sity")}</StyledBrandTitleSity> <br />
+                kodi and more
+                <br />{" "}
+                <StyledBrandTitlePro>
+                  магазин професійної косметики
+                </StyledBrandTitlePro>
+              </StyledBrandTitle>
+            </StyledContainerTitleHeader>
+
+            <StyledHeaderInfoBar>
+              <StyledSocialWrapper>
+                <StyledTelephoneLink
+                  href="tel:+380999284258"
+                  aria-label={t("callPhone")}
+                >
+                  <FaPhone size={24} />
+                  <span>+380999284258</span>
+                </StyledTelephoneLink>
+
+                {socials.map(({ href, alt, Icon }) => (
+                  <StyledSocialItem key={alt}>
+                    <StyledSocialLink
+                      href={href}
+                      target="_blank"
+                      aria-label={alt}
+                    >
+                      <Icon size={iconSize} />
+                    </StyledSocialLink>
+                  </StyledSocialItem>
+                ))}
+              </StyledSocialWrapper>
+              <StyledWorkingHoursSection>
+                <StyledWorkingHoursTitle>
+                  {t("workingHours")}:
+                </StyledWorkingHoursTitle>
+                <div>
+                  <StyledWorkingHoursLabel>
+                    {t("monFri")}:
+                  </StyledWorkingHoursLabel>{" "}
+                  10:00–18:00
+                </div>
+                <div>
+                  <StyledWorkingHoursLabel>
+                    {t("satSun")}:
+                  </StyledWorkingHoursLabel>{" "}
+                  10:00–16:00
+                </div>
+              </StyledWorkingHoursSection>
+            </StyledHeaderInfoBar>
+          </StyledContainerHeader>
         </StyledMainContainer>
 
         <StyledMainNavigation>

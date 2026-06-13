@@ -94,6 +94,9 @@ export async function getStaticProps({ locale }) {
       ...(await serverSideTranslations(locale, [
         "common",
         "camouflageBaseKodi",
+        "brandsCatalog",
+        "categoriesBeauty",
+        "kodiNailsCollections",
       ])),
     },
   };

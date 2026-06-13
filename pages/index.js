@@ -8,6 +8,7 @@ import {
   StyledBrandItem,
   StyledBrandLink,
 } from "@/components/StyledIndex";
+import Image from "next/image";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -53,7 +54,18 @@ export default function HomePage({
 
               return (
                 <StyledBrandItem key={cat.id}>
-                  <StyledBrandLink href={href}>{label}</StyledBrandLink>
+                  <StyledBrandLink href={href}>
+                    {cat.image && (
+                      <Image
+                        src={cat.image}
+                        alt={label}
+                        width={250}
+                        height={250}
+                      />
+                    )}
+
+                    {label}
+                  </StyledBrandLink>
                 </StyledBrandItem>
               );
             })}

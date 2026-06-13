@@ -47,7 +47,9 @@ export const StyledBrandItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -57,13 +59,15 @@ export const StyledBrandItem = styled.li`
 
 export const StyledBrandLink = styled(Link)`
   width: 100%;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  width: 100%;
   height: 100%;
+
   display: flex;
+  flex-direction: column;
+
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+
+  text-decoration: none;
   transition: color 0.3s ease;
 
   &:hover {
