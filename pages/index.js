@@ -82,7 +82,12 @@ export async function getStaticProps({ locale }) {
   return {
     props: {
       brandsCatalog,
-      ...(await serverSideTranslations(locale, ["common", "brandsCatalog"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "brandsCatalog",
+        "categoriesBeauty",
+        "kodiNailsCollections",
+      ])),
     },
     revalidate: 60,
   };

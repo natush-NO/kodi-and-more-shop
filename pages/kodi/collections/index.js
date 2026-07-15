@@ -61,9 +61,8 @@ export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
 }
 
 export async function getStaticProps({ locale }) {
-  const { default: kodiNailsCollections } = await import(
-    "@/lib/kodi/baseKodi/kodiNailsCollections"
-  );
+  const { default: kodiNailsCollections } =
+    await import("@/lib/kodi/baseKodi/kodiNailsCollections");
   return {
     props: {
       kodiNailsCollections,

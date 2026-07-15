@@ -13,7 +13,7 @@ export const StyledKodiListItems = styled.ul`
 
 export const StyledTitlePegeKodi = styled.h1`
   margin-bottom: 20px;
-  font-size: 36px;
+  font-size: 26px;
 `;
 
 export const StyledKodiList = styled.li`

@@ -80,10 +80,13 @@ export default function Header({ isBack, kodiPage = false }) {
 
   const { t, i18n } = useTranslation(
     ["common", "categoriesBeauty", "kodiNailsCollections", "brandsCatalog"],
-    { useSuspense: false }
+    { useSuspense: false },
   );
 
-  const { locale } = router;
+  console.log("Language:", i18n.language);
+  console.log("Translation:", t("nailAesthetics", { ns: "categoriesBeauty" }));
+
+  // const { locale } = router;
 
   const onChangeLang = async (lng) => {
     try {
@@ -402,7 +405,7 @@ export default function Header({ isBack, kodiPage = false }) {
                         brand.route && brand.route !== "#"
                           ? brand.route
                           : `/brandsCatalog/${brand.id}`,
-                    }))
+                    })),
                   )
               ).map((item) => (
                 <StyledMainNavigationListItem key={item.key}>

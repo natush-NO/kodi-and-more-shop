@@ -2,6 +2,7 @@
 // import { styled } from "styled-components";
 import Header from "@/components/Header/Header";
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
+import Image from "next/image";
 import {
   StyledKodiListItems,
   StyledTitlePegeKodi,
@@ -30,7 +31,17 @@ export default function KodiNailsPage({ kodi }) {
               const label = t(cat.nameKey, { ns: "categoriesNails" });
               return (
                 <StyledKodiList key={cat.id}>
-                  <StyledImageLink href={href} />
+                  <StyledImageLink href={href}>
+                    {cat.image && (
+                      <Image
+                        src={cat.image}
+                        alt={label}
+                        width={250}
+                        height={250}
+                      />
+                    )}
+                  </StyledImageLink>
+
                   <div style={{ textAlign: "center" }}>{label}</div>
                 </StyledKodiList>
               );

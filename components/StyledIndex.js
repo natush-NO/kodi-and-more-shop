@@ -60,6 +60,7 @@ export const StyledBrandItem = styled.li`
 export const StyledBrandLink = styled(Link)`
   width: 100%;
   height: 100%;
+  font-size: 36px;
 
   display: flex;
   flex-direction: column;

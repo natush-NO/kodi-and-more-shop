@@ -31,7 +31,7 @@ export default function CamouflageBasesPage() {
     setVisibleCount((prev) => Math.min(prev + 15, total));
   };
 
-  console.log("test:", t("camouflage.meta.title")); // ✅ має вивести твій заголовок
+  console.log("test:", t("camouflage.meta.title")); 
 
   return (
     <>

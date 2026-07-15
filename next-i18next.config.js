@@ -11,6 +11,7 @@ module.exports = {
     "kodiCollections",
     "brandsCatalog",
     "kodiBases",
+    "kodiBasesList",
     "camouflageBaseKodi",
   ],
   defaultNS: "common",

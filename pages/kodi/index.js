@@ -1,19 +1,42 @@
-// pages/kodiPage.js
+import { useState, useEffect } from "react";
 import Header from "@/components/Header/Header";
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
-import { StyledTitlePegeKodi } from "@/components/Kodi/StyledKodiItem";
+import {
+  StyledKodiListItems,
+  StyledKodiList,
+  StyledTitlePegeKodi,
+} from "@/components/Kodi/StyledKodiItem";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 
-export default function KodiPage() {
-  const { t } = useTranslation(["categoriesNails", "common"]);
+export default function KodiPage({ kodiCatalog }) {
+  const { t } = useTranslation(["categoriesBeauty", "common"]);
+
+  const [shuffledCatalog, setShuffledCatalog] = useState([]);
+
+  useEffect(() => {
+    const shuffled = [...kodiCatalog].sort(() => Math.random() - 0.5);
+    setShuffledCatalog(shuffled);
+  }, [kodiCatalog]);
 
   return (
     <>
       <Header kodiPage />
+
       <StyledMain>
         <StyledMainContainer>
-          <StyledTitlePegeKodi>1</StyledTitlePegeKodi>
+          <StyledKodiListItems>
+            {shuffledCatalog.map((cat) => (
+              <StyledKodiList key={cat.id}>
+                <Link href={cat.route}>
+                  <StyledTitlePegeKodi>
+                    {t(cat.nameKey, { ns: "categoriesBeauty" })}
+                  </StyledTitlePegeKodi>
+                </Link>
+              </StyledKodiList>
+            ))}
+          </StyledKodiListItems>
         </StyledMainContainer>
       </StyledMain>
     </>
@@ -21,17 +44,12 @@ export default function KodiPage() {
 }
 
 export async function getStaticProps({ locale }) {
-  const { default: kodi } = await import("@/lib/kodi/kodiNailsList");
+  const { default: kodiCatalog } = await import("@/lib/kodi/kodiCatalog");
 
   return {
     props: {
-      kodi,
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "categoriesBeauty",
-        "categoriesNails",
-        "kodiNailsCollections",
-      ])),
+      kodiCatalog,
+      ...(await serverSideTranslations(locale, ["common", "categoriesBeauty"])),
     },
   };
 }
