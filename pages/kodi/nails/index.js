@@ -9,7 +9,7 @@ import {
   StyledKodiList,
   StyledImageLink,
   StyledCertificollectioneImage,
-} from "@/components/Kodi/StyledKodiItem";
+} from "@/components/Kodi/StyledCartItem";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 

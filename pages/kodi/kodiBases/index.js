@@ -10,7 +10,7 @@ import {
   StyledTitlePegeKodi,
   StyledImageLink,
   StyledCertificateImage,
-} from "@/components/Kodi/StyledKodiItem";
+} from "@/components/Kodi/StyledCartItem";
 import { kodiBasesList } from "@/lib/kodi/baseKodi/kodiBasesList";
 
 export default function BasesIndex() {
@@ -22,6 +22,8 @@ export default function BasesIndex() {
     const shuffled = [...kodiBasesList].sort(() => Math.random() - 0.5);
     setShuffledCatalog(shuffled);
   }, [kodiBasesList]);
+
+  console.log(kodiBasesList);
 
   return (
     <>

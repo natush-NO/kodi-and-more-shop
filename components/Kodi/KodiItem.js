@@ -2,7 +2,7 @@ import {
   StyledKodiList,
   StyledImageLink,
   StyledCertificateImage,
-} from "./StyledKodiItem";
+} from "./StyledCartItem";
 
 export default function KodiItem() {
   return null;

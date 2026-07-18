@@ -10,9 +10,10 @@ module.exports = {
     "categoriesBeauty",
     "kodiCollections",
     "brandsCatalog",
-    "kodiBases",
+    "transparatBaseListKodi",
     "kodiBasesList",
     "camouflageBaseKodi",
+    "colorBaseCollectionsKodi",
   ],
   defaultNS: "common",
 };

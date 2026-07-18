@@ -1,0 +1,41 @@
+{
+  "basicCollection": {
+    "title": "Color Rubber Base Gel Basic Collection",
+
+    "milky7": {
+      "name": "Молочна каучукова база Rubber Base Gel Basic Collection Milky, 7 мл"
+    },
+
+    "ultraWhite7": {
+      "name": "Ультрабіла каучукова основа Rubber Base Gel Basic Collection Ultra White, 7 мл"
+    },
+
+    "milky8": {
+      "name": "Молочна каучукова база Rubber Base Gel Basic Collection Milky, 8 мл"
+    },
+
+    "watermelon7": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Watermelon, 7 мл"
+    },
+
+    "ultimateGray7": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Ultimate Gray, 7 мл"
+    },
+
+    "illuminating7": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Illuminating, 7 мл"
+    },
+
+    "watermelon8": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Watermelon, 8 мл"
+    },
+
+    "ultimateGray8": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Ultimate Gray, 8 мл"
+    },
+
+    "illuminating8": {
+      "name": "Кольорове базове покриття Color Rubber Base Gel Basic Collection Illuminating, 8 мл"
+    }
+  }
+}

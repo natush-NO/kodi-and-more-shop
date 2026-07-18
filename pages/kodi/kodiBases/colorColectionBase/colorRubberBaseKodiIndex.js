@@ -1,9 +1,7 @@
 import Header from "@/components/Header/Header";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
-
 import {
   StyledKodiListItems,
   StyledKodiList,
@@ -11,10 +9,10 @@ import {
   StyledImageLink,
   StyledCertificateImage,
 } from "@/components/Kodi/StyledCartItem";
+import colorRubberBaseKodi from "@/lib/kodi/baseKodi/colorBaseCollectionsKodi/colorRubberBaseKodiIndex";
 
-import colorBaseCollectionsKodi from "@/lib/kodi/baseKodi/colorBaseCollectionsKodi";
-export default function ColoredBasesIndex() {
-  const { t, i18n } = useTranslation(["colorBaseCollectionsKodi", "common"]);
+export default function BasesIndex() {
+  const { t, i18n } = useTranslation(["colorRubberBaseKodi", "common"]);
 
   return (
     <>
@@ -22,15 +20,15 @@ export default function ColoredBasesIndex() {
 
       <StyledMain>
         <StyledMainContainer>
-          <StyledTitlePegeKodi>{t("coloredBases")}</StyledTitlePegeKodi>
+          <StyledTitlePegeKodi>{t("title")}</StyledTitlePegeKodi>
 
           <StyledKodiListItems>
-            {colorBaseCollectionsKodi.map((collection) => (
-              <StyledKodiList key={collection.id}>
-                <StyledImageLink href={collection.route}>
+            {colorRubberBaseKodi.map((base) => (
+              <StyledKodiList key={base.id}>
+                <StyledImageLink href={base.route}>
                   <StyledCertificateImage
-                    src={collection.image}
-                    alt={t(collection.titleKey)}
+                    src={base.image}
+                    alt={t(base.titleKey)}
                     fill
                   />
                 </StyledImageLink>
@@ -43,7 +41,7 @@ export default function ColoredBasesIndex() {
                     fontWeight: 600,
                   }}
                 >
-                  {t(collection.titleKey)}
+                  {t(base.titleKey)}
                 </div>
               </StyledKodiList>
             ))}
@@ -53,13 +51,13 @@ export default function ColoredBasesIndex() {
     </>
   );
 }
+
 export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, [
         "common",
-        "colorBaseCollectionsKodi",
-        "kodiBasesList",
+        "colorRubberBaseKodi",
         "categoriesBeauty",
         "brandsCatalog",
         "kodiNailsCollections",

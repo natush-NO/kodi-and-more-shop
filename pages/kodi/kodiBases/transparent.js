@@ -1,57 +1,66 @@
-import Head from "next/head";
-import nailAesthetics from "@/lib/kodi/kodi_transparent";
 import Header from "@/components/Header/Header";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
 import {
-  Container,
-  Grid,
-  Card,
-  Subtitle,
-  Price,
-  Button,
-} from "@/components/Kodi/kodiBases/StyledTransparentBaseKodi";
+  StyledKodiListItems,
+  StyledKodiList,
+  StyledTitlePegeKodi,
+  StyledImageLink,
+  StyledCertificateImage,
+} from "@/components/Kodi/StyledCartItem";
+import transparatBaseListKodi from "@/lib/kodi/kodiTransparent";
 
-export default function TransparentBasesPage(
-  changeLanguage,
-  isCatalogOpen,
-  setIsCatalogOpen,
-  toggleCatalog,
-  closeCatalog,
-  brandsCatalog
-) {
+export default function TransparentBasesPage() {
+  const { t, i18n } = useTranslation(["transparatBaseListKodi", "common"]);
   return (
     <>
-      <Head>
-        <title>Прозорі бази | Kodi and More</title>
-        <meta
-          name="description"
-          content="Прозорі бази Kodi — надійна адгезія та природний вигляд."
-        />
-      </Head>
+      <Header kodiPage />
 
-      <Header
-        changeLanguage={changeLanguage}
-        isCatalogOpen={isCatalogOpen}
-        setIsCatalogOpen={setIsCatalogOpen}
-        closeCatalog={closeCatalog}
-        toggleCatalog={toggleCatalog}
-        brandsCatalog={brandsCatalog}
-      />
+      <StyledMain>
+        <StyledMainContainer>
+          <StyledTitlePegeKodi>{t("title")}</StyledTitlePegeKodi>
 
-      <Container>
-        <h2>Прозорі бази</h2>
+          <StyledKodiListItems>
+            {transparatBaseListKodi.map((transparat) => (
+              <StyledKodiList key={transparat.id}>
+                <StyledImageLink href={transparat.route}>
+                  <StyledCertificateImage
+                    src={transparat.image}
+                    alt={t(transparat.titleKey)}
+                    fill
+                  />
+                </StyledImageLink>
 
-        <Grid>
-          {nailAesthetics.map((item) => (
-            <Card key={item.id}>
-              <img src={item.image} alt={item.title} />
-              <h2>{item.title}</h2>
-              <Subtitle>{item.subtitle}</Subtitle>
-              <Price>{item.price}</Price>
-              <Button href={item.route}>Детальніше</Button>
-            </Card>
-          ))}
-        </Grid>
-      </Container>
+                <div
+                  style={{
+                    marginTop: 12,
+                    textAlign: "center",
+                    fontSize: 20,
+                    fontWeight: 600,
+                  }}
+                >
+                  {t(transparat.titleKey)}
+                </div>
+              </StyledKodiList>
+            ))}
+          </StyledKodiListItems>
+        </StyledMainContainer>
+      </StyledMain>
     </>
   );
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "transparatBaseListKodi",
+        "categoriesBeauty",
+        "brandsCatalog",
+        "kodiNailsCollections",
+      ])),
+    },
+  };
 }
