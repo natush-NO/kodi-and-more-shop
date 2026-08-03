@@ -1,7 +1,9 @@
 import Header from "@/components/Header/Header";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
+
 import {
   StyledKodiListItems,
   StyledKodiList,
@@ -11,10 +13,11 @@ import {
   StyledCertificateImage,
   StyledCardTitle,
 } from "@/components/Kodi/StyledCartItem";
+
 import colorRubberBaseKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/colorRubberBase/iIndex";
 
 export default function BasesIndex() {
-  const { t, i18n } = useTranslation(["colorRubberBaseKodi", "common"]);
+  const { t } = useTranslation(["colorRubberBaseKodi", "common"]);
 
   return (
     <>
@@ -27,24 +30,18 @@ export default function BasesIndex() {
           <StyledKodiListItems>
             {colorRubberBaseKodi.map((base) => (
               <StyledKodiList key={base.id}>
-                <StyledImageLink href={base.route}>
-                  <StyledCertificateImage
-                    src={base.image}
-                    alt={t(base.titleKey)}
-                    fill
-                  />
-                </StyledImageLink>
+                <StyledCardLink href={base.href}>
+                  <StyledImageWrapper>
+                    <StyledCertificateImage
+                      src={base.image}
+                      alt={t(base.titleKey)}
+                      fill
+                      sizes="320px"
+                    />
+                  </StyledImageWrapper>
 
-                <div
-                  style={{
-                    marginTop: 12,
-                    textAlign: "center",
-                    fontSize: 20,
-                    fontWeight: 600,
-                  }}
-                >
-                  {t(base.titleKey)}
-                </div>
+                  <StyledCardTitle>{t(base.titleKey)}</StyledCardTitle>
+                </StyledCardLink>
               </StyledKodiList>
             ))}
           </StyledKodiListItems>
