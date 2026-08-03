@@ -6,8 +6,8 @@ module.exports = {
   ns: [
     "common",
     "kodi",
-    "categoriesNails",
-    "categoriesBeauty",
+    "nailsPageKodi",
+    "kodiCatalogList",
     "kodiCollections",
     "brandsCatalog",
     "transparatBaseListKodi",
