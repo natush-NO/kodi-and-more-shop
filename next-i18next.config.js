@@ -6,13 +6,14 @@ module.exports = {
   ns: [
     "common",
     "kodi",
-    "categoriesNails",
-    "categoriesBeauty",
+    "nailsPageKodi",
+    "kodiCatalogList",
     "kodiCollections",
     "brandsCatalog",
-    "kodiBases",
+    "transparatBaseListKodi",
     "kodiBasesList",
     "camouflageBaseKodi",
+    "colorBaseCollectionsKodi",
   ],
   defaultNS: "common",
 };

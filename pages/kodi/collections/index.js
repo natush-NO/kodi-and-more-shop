@@ -5,9 +5,12 @@ import {
   StyledKodiListItems,
   StyledTitlePegeKodi,
   StyledKodiList,
-  StyledImageLink,
+  StyledCardLink,
+  StyledImageWrapper,
   StyledCertificateImage,
-} from "@/components/Kodi/StyledKodiItem";
+  StyledCardTitle,
+  StyledCardCount,
+} from "@/components/Kodi/StyledCartItem";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -31,25 +34,21 @@ export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
 
               return (
                 <StyledKodiList key={collection.id}>
-                  <StyledImageLink href={href}>
-                    <StyledCertificateImage
-                      src={collection.imageUrl || "/placeholder_image.webp"}
-                      alt={label}
-                      title={label}
-                      fill
-                      priority
-                    />
-                  </StyledImageLink>
-                  <div
-                    style={{ marginTop: 8, textAlign: "center", fontSize: 18 }}
-                  >
-                    {label}
-                  </div>
-                  <div
-                    style={{ marginTop: 8, textAlign: "center", fontSize: 18 }}
-                  >
-                    {collection.count}
-                  </div>
+                  <StyledCardLink href={href}>
+                    <StyledImageWrapper>
+                      <StyledCertificateImage
+                        src={collection.imageUrl || "/placeholder_image.webp"}
+                        alt={label}
+                        title={label}
+                        fill
+                        priority
+                      />
+                    </StyledImageWrapper>
+
+                    <StyledCardTitle>{label}</StyledCardTitle>
+
+                    <StyledCardCount>{collection.count}</StyledCardCount>
+                  </StyledCardLink>
                 </StyledKodiList>
               );
             })}
@@ -62,7 +61,7 @@ export default function KodiNailsCollectionsPage({ kodiNailsCollections }) {
 
 export async function getStaticProps({ locale }) {
   const { default: kodiNailsCollections } =
-    await import("@/lib/kodi/baseKodi/kodiNailsCollections");
+    await import("@/lib/kodi/kodiNailsCollections");
   return {
     props: {
       kodiNailsCollections,

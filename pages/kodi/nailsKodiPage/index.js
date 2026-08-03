@@ -4,24 +4,26 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PageLayout from "@/components/PageLayout/PageLayout";
 import CatalogCards from "@/components/Catalog/CatalogCards";
 
-import kodiCatalogList from "@/lib/kodi/kodiCatalogList";
+import nailsPageKodi from "@/lib/kodi/nailsKodiPage";
 
-export default function KodiPage() {
-  const { t } = useTranslation(["common", "kodiCatalogList"]);
+export default function KodiNailsPage() {
+  const { t } = useTranslation(["common", "nailsPageKodi"]);
 
   return (
     <PageLayout title={t("title")} activePage="kodi">
-      <CatalogCards items={kodiCatalogList} namespace="kodiCatalogList" />
+      <CatalogCards items={nailsPageKodi} namespace="nailsPageKodi" />
     </PageLayout>
   );
 }
 
 export async function getStaticProps({ locale }) {
+  const { default: kodi } = await import("@/lib/kodi/nailsKodiPage");
   return {
     props: {
+      kodi,
       ...(await serverSideTranslations(locale, [
         "common",
-        "kodiCatalogList",
+        "nailsPageKodi",
         "brandsCatalog",
       ])),
     },

@@ -1,0 +1,41 @@
+{
+  "basicCollection": {
+    "title": "Color Rubber Base Gel Basic Collection",
+
+    "milky7": {
+      "name": "Rubber Base Gel Basic Collection Milky, 7 ml"
+    },
+
+    "ultraWhite7": {
+      "name": "Rubber Base Gel Basic Collection Ultra White, 7 ml"
+    },
+
+    "milky8": {
+      "name": "Rubber Base Gel Basic Collection Milky, 8 ml"
+    },
+
+    "watermelon7": {
+      "name": "Color Rubber Base Gel Basic Collection Watermelon, 7 ml"
+    },
+
+    "ultimateGray7": {
+      "name": "Color Rubber Base Gel Basic Collection Ultimate Gray, 7 ml"
+    },
+
+    "illuminating7": {
+      "name": "Color Rubber Base Gel Basic Collection Illuminating, 7 ml"
+    },
+
+    "watermelon8": {
+      "name": "Color Rubber Base Gel Basic Collection Watermelon, 8 ml"
+    },
+
+    "ultimateGray8": {
+      "name": "Color Rubber Base Gel Basic Collection Ultimate Gray, 8 ml"
+    },
+
+    "illuminating8": {
+      "name": "Color Rubber Base Gel Basic Collection Illuminating, 8 ml"
+    }
+  }
+}

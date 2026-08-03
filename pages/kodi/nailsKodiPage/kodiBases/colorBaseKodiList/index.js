@@ -4,14 +4,17 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PageLayout from "@/components/PageLayout/PageLayout";
 import CatalogCards from "@/components/Catalog/CatalogCards";
 
-import kodiCatalogList from "@/lib/kodi/kodiCatalogList";
+import colorBaseCollectionsKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi";
 
 export default function KodiPage() {
-  const { t } = useTranslation(["common", "kodiCatalogList"]);
+  const { t } = useTranslation(["common", "colorBaseCollectionsKodi"]);
 
   return (
     <PageLayout title={t("title")} activePage="kodi">
-      <CatalogCards items={kodiCatalogList} namespace="kodiCatalogList" />
+      <CatalogCards
+        items={colorBaseCollectionsKodi}
+        namespace="colorBaseCollectionsKodi"
+      />
     </PageLayout>
   );
 }
@@ -21,7 +24,7 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale, [
         "common",
-        "kodiCatalogList",
+        "colorBaseCollectionsKodi",
         "brandsCatalog",
       ])),
     },

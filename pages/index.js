@@ -1,94 +1,37 @@
 import Header from "@/components/Header/Header";
 
-import {
-  StyledMain,
-  StyledMainContainer,
-  StyledBrandsTitle,
-  StyledBrandsList,
-  StyledBrandItem,
-  StyledBrandLink,
-} from "@/components/StyledIndex";
-import Image from "next/image";
+// import {
+//   StyledMain,
+//   StyledMainContainer,
+//   StyledBrandsTitle,
+//   StyledBrandsList,
+//   StyledBrandItem,
+//   StyledBrandLink,
+// } from "@/components/StyledIndex";
+import brandsCatalog from "@/lib/brandsCatalog";
+
+import PageLayout from "@/components/PageLayout/PageLayout";
+import CatalogCards from "@/components/Catalog/CatalogCards";
+
+// import Image from "next/image";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export default function HomePage({
-  changeLanguage,
-  isCatalogOpen,
-  setIsCatalogOpen,
-  toggleCatalog,
-  closeCatalog,
-  brandsCatalog,
-}) {
+export default function HomePage() {
   const { t } = useTranslation(["common", "brandsCatalog"]);
 
   return (
-    <>
-      <Header
-        changeLanguage={changeLanguage}
-        isCatalogOpen={isCatalogOpen}
-        setIsCatalogOpen={setIsCatalogOpen}
-        closeCatalog={closeCatalog}
-        toggleCatalog={toggleCatalog}
-        brandsCatalog={brandsCatalog}
-      />
-
-      <StyledMain>
-        <StyledMainContainer>
-          <StyledBrandsTitle>Бренди</StyledBrandsTitle>
-
-          <StyledBrandsList>
-            {brandsCatalog.map((cat) => {
-              const href =
-                cat.route && cat.route !== "#"
-                  ? cat.route
-                  : `/brandsCatalog/${cat.id}`;
-
-              const label = cat.nameKey
-                ? t(cat.nameKey, {
-                    ns: "brandsCatalog",
-                    defaultValue: cat.name ?? cat.id,
-                  })
-                : cat.name;
-
-              return (
-                <StyledBrandItem key={cat.id}>
-                  <StyledBrandLink href={href}>
-                    {cat.image && (
-                      <Image
-                        src={cat.image}
-                        alt={label}
-                        width={250}
-                        height={250}
-                      />
-                    )}
-
-                    {label}
-                  </StyledBrandLink>
-                </StyledBrandItem>
-              );
-            })}
-          </StyledBrandsList>
-        </StyledMainContainer>
-      </StyledMain>
-    </>
+    <PageLayout title={t("title")} activePage="kodi">
+      <CatalogCards items={brandsCatalog} namespace="brandsCatalog" />
+    </PageLayout>
   );
 }
 
 export async function getStaticProps({ locale }) {
-  const { default: brandsCatalog } = await import("@/lib/brandsCatalog");
-
   return {
     props: {
-      brandsCatalog,
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "brandsCatalog",
-        "categoriesBeauty",
-        "kodiNailsCollections",
-      ])),
+      ...(await serverSideTranslations(locale, ["common", "brandsCatalog"])),
     },
-    revalidate: 60,
   };
 }

@@ -65,8 +65,8 @@ import {
   FaShoppingBasket,
 } from "react-icons/fa";
 import { useTranslation } from "next-i18next";
-import kodiCatalog from "@/lib/kodi/kodiCatalog";
 import brandsCatalog from "@/lib/brandsCatalog";
+import kodiCatalogList from "@/lib/kodi/kodiCatalogList";
 
 export default function Header({ isBack, kodiPage = false }) {
   const langRef = useRef(null);
@@ -79,14 +79,11 @@ export default function Header({ isBack, kodiPage = false }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const { t, i18n } = useTranslation(
-    ["common", "categoriesBeauty", "kodiNailsCollections", "brandsCatalog"],
-    { useSuspense: false },
+    ["common", "brandsCatalog", "kodiCatalogList"],
+    {
+      useSuspense: false,
+    },
   );
-
-  console.log("Language:", i18n.language);
-  console.log("Translation:", t("nailAesthetics", { ns: "categoriesBeauty" }));
-
-  // const { locale } = router;
 
   const onChangeLang = async (lng) => {
     try {
@@ -255,28 +252,21 @@ export default function Header({ isBack, kodiPage = false }) {
                       id="catalog-menu"
                     >
                       <StyledCatalogMenuList>
-                        {brandsCatalog.map(({ id, name, nameKey, route }) => {
-                          const href =
-                            route ?? `/brandsCatalog/${encodeURIComponent(id)}`;
-
-                          return (
-                            <StyledCatalogMenuListItem key={id}>
-                              <StyledCatalogMenuLink
-                                href={href}
-                                onClick={() => {
-                                  setIsCatalogOpen(false);
-                                  document
-                                    .getElementById("catalog-button")
-                                    ?.focus();
-                                }}
-                              >
-                                {nameKey
-                                  ? t(nameKey, { ns: "brandsCatalog" })
-                                  : name}
-                              </StyledCatalogMenuLink>
-                            </StyledCatalogMenuListItem>
-                          );
-                        })}
+                        {brandsCatalog.map(({ id, titleKey, href }) => (
+                          <StyledCatalogMenuListItem key={id}>
+                            <StyledCatalogMenuLink
+                              href={href}
+                              onClick={() => {
+                                setIsCatalogOpen(false);
+                                document
+                                  .getElementById("catalog-button")
+                                  ?.focus();
+                              }}
+                            >
+                              {t(titleKey, { ns: "brandsCatalog" })}
+                            </StyledCatalogMenuLink>
+                          </StyledCatalogMenuListItem>
+                        ))}
                       </StyledCatalogMenuList>
                       <StyledCatalogMenuBackLink
                         href="/"
@@ -387,23 +377,23 @@ export default function Header({ isBack, kodiPage = false }) {
           <StyledScrollerWrapper $noScroll={kodiPage}>
             <StyledMainNavigationList $marquee={!kodiPage}>
               {(kodiPage
-                ? kodiCatalog.map((cat) => ({
+                ? kodiCatalogList.map((cat) => ({
                     key: cat.id,
-                    label: t(cat.nameKey, { ns: "categoriesBeauty" }),
+                    label: t(cat.titleKey, { ns: "kodiCatalogList" }),
                     href:
-                      cat.route && cat.route !== "#"
-                        ? cat.route
+                      cat.href && cat.href !== "#"
+                        ? cat.href
                         : `/kodi/${cat.id}`,
                   }))
                 : [...Array(2)].flatMap((_, i) =>
                     brandsCatalog.map((brand) => ({
                       key: `${i}-${brand.id}`,
-                      label: brand.nameKey
-                        ? t(brand.nameKey, { ns: "brandsCatalog" })
+                      label: brand.titleKey
+                        ? t(brand.titleKey, { ns: "brandsCatalog" })
                         : brand.name,
                       href:
-                        brand.route && brand.route !== "#"
-                          ? brand.route
+                        brand.href && brand.href !== "#"
+                          ? brand.href
                           : `/brandsCatalog/${brand.id}`,
                     })),
                   )
