@@ -13,52 +13,70 @@ import {
 } from "@/components/Catalog/StyledCatalogCards";
 
 import crystalDropsKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/crystalDropsBaseKodi";
+import { VOLUMES } from "@/lib/constants/volumes";
+import { COLORS } from "@/lib/constants/colors";
+import { BRANDS } from "@/lib/constants/brands";
+import { COLLECTIONS } from "@/lib/constants/collections";
 
 export default function CrystalDropsPage() {
-  const { t } = useTranslation(["common", "crystalDropsKodi"]);
-
+  const { t } = useTranslation(["common", "colors", "crystalDropsKodi"]);
   const [filters, setFilters] = useState({
     collections: [],
     colors: [],
     volumes: [],
+    brands: [],
   });
 
-  const collections = ["Crystal Drops"];
+  const filteredProducts = crystalDropsKodi.filter((product) => {
+    // Бренд
+    if (
+      filters.brands.length > 0 &&
+      !filters.brands.includes(product.brand.toLowerCase())
+    ) {
+      return false;
+    }
 
-  const colors = [
-    {
-      name: "white",
-      label: "Білий",
-      code: "#ffffff",
-    },
-    {
-      name: "milk",
-      label: "Молочний",
-      code: "#f5f5f5",
-    },
-    {
-      name: "pink",
-      label: "Рожевий",
-      code: "#f7b6d2",
-    },
-  ];
+    // Колекція
+    if (
+      filters.collections.length > 0 &&
+      !filters.collections.includes(product.collection)
+    ) {
+      return false;
+    }
 
-  const volumes = [7, 12, 30];
+    // Колір
+    if (
+      filters.colors.length > 0 &&
+      !filters.colors.includes(product.color.id)
+    ) {
+      return false;
+    }
 
+    // Об'єм
+    if (
+      filters.volumes.length > 0 &&
+      !filters.volumes.includes(product.volume.value)
+    ) {
+      return false;
+    }
+
+    return true;
+  });
   return (
     <PageLayout title={t("title")} activePage="kodi">
       <StyledCatalogLayout>
         <Filters
-          collections={collections}
-          colors={colors}
-          volumes={volumes}
+          collections={COLLECTIONS}
+          colors={Object.values(COLORS)}
+          volumes={VOLUMES}
+          brands={Object.values(BRANDS)}
           filters={filters}
           setFilters={setFilters}
         />
 
         <StyledProducts>
           <ProductGrid
-            products={crystalDropsKodi}
+            products={filteredProducts}
             namespace="crystalDropsKodi"
           />
         </StyledProducts>
@@ -72,6 +90,8 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale, [
         "common",
+        "colors",
+        "brands",
         "crystalDropsKodi",
         "brandsCatalog",
       ])),

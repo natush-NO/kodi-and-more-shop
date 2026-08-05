@@ -14,6 +14,7 @@ module.exports = {
     "kodiBasesList",
     "camouflageBaseKodi",
     "colorBaseCollectionsKodi",
+    "colors",
   ],
   defaultNS: "common",
 };

@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import {
   StyledFilters,
   StyledFilterBlock,
@@ -14,7 +15,9 @@ export default function Filters({
   volumes = [],
   filters,
   setFilters,
-}) {
+  brands = [],
+})
+{
   const handleCheckbox = (type, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -23,33 +26,68 @@ export default function Filters({
         : [...prev[type], value],
     }));
   };
-
+const { t } = useTranslation("colors");
+  
   return (
     <StyledFilters>
-      {/* Колекції */}
-      {collections.length > 0 && (
-        <StyledFilterBlock>
-          <StyledFilterTitle>Колекції</StyledFilterTitle>
+    {/* Бренди та колекції */}
+{brands.length > 0 && (
+  <StyledFilterBlock>
+    <StyledFilterTitle>Бренди</StyledFilterTitle>
 
-          <StyledFilterList>
-            {collections.map((collection) => (
-              <StyledFilterItem key={collection}>
-                <label>
-                  <StyledCheckbox
-                    type="checkbox"
-                    checked={filters.collections.includes(collection)}
-                    onChange={() =>
-                      handleCheckbox("collections", collection)
-                    }
-                  />
+    {brands.map((brand) => {
+      const brandCollections = collections.filter(
+        (collection) => collection.brand === brand.id
+      );
 
-                  {collection}
-                </label>
-              </StyledFilterItem>
-            ))}
-          </StyledFilterList>
-        </StyledFilterBlock>
-      )}
+      return (
+        <div key={brand.id}>
+          <StyledFilterItem>
+            <label>
+              <StyledCheckbox
+                type="checkbox"
+                checked={filters.brands.includes(brand.id)}
+                onChange={() =>
+                  handleCheckbox("brands", brand.id)
+                }
+              />
+
+              <strong>{brand.name}</strong>
+            </label>
+          </StyledFilterItem>
+
+          {brandCollections.length > 0 && (
+            <StyledFilterList>
+              {brandCollections.map((collection) => (
+                <StyledFilterItem
+                  key={collection.id}
+                  style={{ marginLeft: "24px" }}
+                >
+                  <label>
+                    <StyledCheckbox
+                      type="checkbox"
+                      checked={filters.collections.includes(
+                        collection.id
+                      )}
+                      onChange={() =>
+                        handleCheckbox(
+                          "collections",
+                          collection.id
+                        )
+                      }
+                    />
+
+                    {collection.name}
+                  </label>
+                </StyledFilterItem>
+              ))}
+            </StyledFilterList>
+          )}
+        </div>
+      );
+    })}
+  </StyledFilterBlock>
+)}
 
       {/* Кольори */}
       {colors.length > 0 && (
@@ -57,25 +95,25 @@ export default function Filters({
           <StyledFilterTitle>Кольори</StyledFilterTitle>
 
           <StyledFilterList>
-            {colors.map((color) => (
-              <StyledFilterItem key={color.name}>
-                <label>
-                  <StyledCheckbox
-                    type="checkbox"
-                    checked={filters.colors.includes(color.name)}
-                    onChange={() =>
-                      handleCheckbox("colors", color.name)
-                    }
-                  />
+{colors.map((color) => (
+  <StyledFilterItem key={color.id}>
+    <label>
+      <StyledCheckbox
+        type="checkbox"
+        checked={filters.colors.includes(color.id)}
+        onChange={() =>
+          handleCheckbox("colors", color.id)
+        }
+      />
 
-                  <StyledColor
-                    style={{ backgroundColor: color.code }}
-                  />
+      <StyledColor
+        style={{ backgroundColor: color.code }}
+      />
 
-                  {color.label}
-                </label>
-              </StyledFilterItem>
-            ))}
+      {t(color.titleKey)}
+    </label>
+  </StyledFilterItem>
+))}
           </StyledFilterList>
         </StyledFilterBlock>
       )}
@@ -104,6 +142,8 @@ export default function Filters({
           </StyledFilterList>
         </StyledFilterBlock>
       )}
+
+
     </StyledFilters>
   );
 }
