@@ -27,24 +27,17 @@ export default function BasesIndex() {
           <StyledKodiListItems>
             {colorRubberBaseKodi.map((base) => (
               <StyledKodiList key={base.id}>
-                <StyledImageLink href={base.route}>
-                  <StyledCertificateImage
-                    src={base.image}
-                    alt={t(base.titleKey)}
-                    fill
-                  />
-                </StyledImageLink>
+                <StyledCardLink href={base.route}>
+                  <StyledImageWrapper>
+                    <StyledCertificateImage
+                      src={base.image}
+                      alt={t(base.titleKey)}
+                      fill
+                    />
+                  </StyledImageWrapper>
 
-                <div
-                  style={{
-                    marginTop: 12,
-                    textAlign: "center",
-                    fontSize: 20,
-                    fontWeight: 600,
-                  }}
-                >
-                  {t(base.titleKey)}
-                </div>
+                  <StyledCardTitle>{t(base.titleKey)}</StyledCardTitle>
+                </StyledCardLink>
               </StyledKodiList>
             ))}
           </StyledKodiListItems>
