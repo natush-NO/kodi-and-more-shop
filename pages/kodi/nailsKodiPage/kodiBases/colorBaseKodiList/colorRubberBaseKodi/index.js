@@ -30,7 +30,7 @@ export default function BasesIndex() {
           <StyledKodiListItems>
             {colorRubberBaseKodi.map((base) => (
               <StyledKodiList key={base.id}>
-                <StyledCardLink href={base.route}>
+                <StyledCardLink href={base.href}>
                   <StyledImageWrapper>
                     <StyledCertificateImage
                       src={base.image}
