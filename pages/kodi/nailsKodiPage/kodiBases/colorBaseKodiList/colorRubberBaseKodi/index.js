@@ -1,7 +1,9 @@
 import Header from "@/components/Header/Header";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import { StyledMain, StyledMainContainer } from "@/components/StyledIndex";
+
 import {
   StyledKodiListItems,
   StyledKodiList,
@@ -11,10 +13,11 @@ import {
   StyledCertificateImage,
   StyledCardTitle,
 } from "@/components/Kodi/StyledCartItem";
+
 import colorRubberBaseKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/colorRubberBase/iIndex";
 
 export default function BasesIndex() {
-  const { t, i18n } = useTranslation(["colorRubberBaseKodi", "common"]);
+  const { t } = useTranslation(["colorRubberBaseKodi", "common"]);
 
   return (
     <>
@@ -33,6 +36,7 @@ export default function BasesIndex() {
                       src={base.image}
                       alt={t(base.titleKey)}
                       fill
+                      sizes="320px"
                     />
                   </StyledImageWrapper>
 
