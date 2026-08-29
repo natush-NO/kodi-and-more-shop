@@ -70,4 +70,49 @@ export const StyledCatalogLayout = styled.div`
 
 export const StyledProducts = styled.div`
   flex: 1;
+  background: #fff;
+`;
+
+export const StyledCatalogPage = styled.div`
+  color: #fff;
+  min-height: 100vh;
+`;
+
+export const StyledCatalogHeader = styled.div`
+  width: 100%;
+
+  background: #111;
+  color: #fff;
+
+  padding: 50px 40px 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    margin-bottom: 25px;
+  }
+`;
+
+export const StyledCatalogTitle = styled.h1`
+  margin: 0 0 12px;
+
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1px;
+
+  color: #fff;
+`;
+
+export const StyledCatalogSubtitle = styled.p`
+  margin: 0;
+
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 400;
+  line-height: 1.4;
+
+  color: rgba(255, 255, 255, 0.85);
 `;

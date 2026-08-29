@@ -1,4 +1,9 @@
+import { useTranslation } from "next-i18next";
+
+import { useCart } from "../Cart/CartContext";
+
 import { Button } from "../shared/Button";
+
 import { CardImage } from "../shared/Image";
 
 import {
@@ -13,39 +18,64 @@ import {
   StyledBadge,
 } from "./StyledProductCard";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, namespace }) {
+  const { t: tProduct } = useTranslation(namespace);
+  const { t } = useTranslation("common");
+
+  const { addToCart } = useCart();
+
+  const productName = tProduct(product.titleKey);
+
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      translationNamespace: namespace,
+    });
+  };
+
   return (
     <StyledProductCard>
       <StyledProductBadges>
-        {product.isNew && <StyledBadge>NEW</StyledBadge>}
+        {product.isNew && (
+          <StyledBadge>
+            {t("new")}
+          </StyledBadge>
+        )}
 
-        {product.sale && <StyledBadge>SALE</StyledBadge>}
+        {product.isSale && (
+          <StyledBadge>
+            {t("sale")}
+          </StyledBadge>
+        )}
       </StyledProductBadges>
 
       <StyledProductImageWrapper>
         <CardImage
           src={product.image}
-          alt={product.name}
+          alt={productName}
           fill
         />
       </StyledProductImageWrapper>
 
       <StyledProductInfo>
         <StyledProductTitle>
-          {product.name}
+          {productName}
         </StyledProductTitle>
 
         <StyledProductArticle>
-          Арт.: {product.article}
+          {t("article")} {product.article}
         </StyledProductArticle>
 
         <StyledProductBottom>
           <StyledProductPrice>
-            {product.price} грн
+            {product.salePrice ?? product.price} грн
           </StyledProductPrice>
 
-          <Button>
-            🛒 Додати у кошик
+          <Button
+            type="button"
+            onClick={handleAddToCart}
+          >
+            🛒 {t("addToCart")}
           </Button>
         </StyledProductBottom>
       </StyledProductInfo>

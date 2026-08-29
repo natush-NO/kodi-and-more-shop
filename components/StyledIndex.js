@@ -10,7 +10,6 @@ export const StyledMain = styled.main`
 export const StyledMainContainer = styled.div`
   max-width: 1300px;
   width: 100%;
-  padding: 0 25px;
   margin: 0 auto;
 
   display: flex;

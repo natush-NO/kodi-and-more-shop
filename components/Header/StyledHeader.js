@@ -1,415 +1,220 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Link from "next/link";
 
-const sharedContainerStyles = css`
-  margin: 0 auto;
-`;
-
-const sharedFlexStyles = css`
-  display: flex;
-`;
-
-const sharedMarginBottom = css`
-  margin-bottom: 50px;
-`;
-
-const borderRadiusStyles = css`
-  border-radius: 10px;
-`;
-
-export const StyledOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  z-index: 9;
-`;
-
-export const StyledTopStickyBar = styled.div`
-  border-top: 8px solid rgba(255, 0, 0, 0.795);
+export const StyledMobileHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1000;
-`;
 
-export const StyledHeader = styled.header`
-  min-height: 100px;
-  padding-top: 20px;
-  margin-bottom: 30px;
+  height: 74px;
+  background: #111;
 
-  @media (min-width: 1000px) {
-    margin-bottom: 50px;
-  }
-`;
-
-export const StyledBottomHeader = styled.div`
-  border-bottom: 1px solid #e0e0e0;
-`;
-
-export const StyledContainerHeader = styled.div`
-  ${sharedFlexStyles};
-
-  @media (min-width: 1000px) {
-    justify-content: space-between;
-  }
-`;
-
-export const StyledLanguageSelector = styled.div`
-  ${sharedFlexStyles};
-  flex-direction: row;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 5px;
-  position: relative;
-  font-size: 14px;
+
+  padding: 0 18px;
+
+  @media (min-width: 993px) {
+    display: none;
+  }
 `;
 
-export const StyledLanguageSelectorOpen = styled.div`
-  ${sharedFlexStyles};
-  flex-direction: column;
+export const StyledDesktopHeader = styled.header`
+  width: 100%;
+  background: #111;
+  color: #fff;
+
+  padding: 20px 40px;
+
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 5px;
-  background-color: #ffffff;
-  padding: 10px;
-  ${borderRadiusStyles};
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 `;
 
-export const StyledLanguageButtonOpen = styled.button`
-  padding: 5px 10px;
-
-  ${sharedFlexStyles};
+export const StyledDesktopNav = styled.nav`
+  display: flex;
   align-items: center;
+  gap: 30px;
+  s a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
 
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 15px;
-    height: 10px;
-    background-image: ${({ $flag }) => `url("/flags/${$flag}.png")`};
-    background-size: cover;
-    background-position: center;
-    margin-right: 3px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-`;
-
-export const StyledLanguageButtonClose = styled.button`
-  padding: 5px 10px;
-
-  ${sharedFlexStyles};
-  align-items: center;
-
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 15px;
-    height: 10px;
-    background-image: ${({ $flag }) => `url("/flags/${$flag}.png")`};
-    background-size: cover;
-    background-position: center;
-    margin-right: 5px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-`;
-
-export const StyledSearchUserContainer = styled.div`
-  ${sharedFlexStyles};
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  width: 300px;
-`;
-
-export const StyledUserMenuContainer = styled.div`
-  ${sharedFlexStyles};
-  justify-content: space-between;
-  gap: 25px;
-  max-width: 80%;
-`;
-
-const BaseIconWrapper = styled.div`
-  color: #333333;
-  cursor: pointer;
-  transition: color 0.9s ease;
-
-  &:hover {
-    color: #595959;
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const StyledUserIconWrapper = BaseIconWrapper;
-export const StyledFavoritesIconWrapper = BaseIconWrapper;
-export const StyledCartIconWrapper = BaseIconWrapper;
-
-export const StyledSearchContainer = styled.div`
-  position: relative;
-`;
-
-export const StyledSearchField = styled.input`
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-  width: 300px;
-  background-color: rgba(255, 255, 255, 0.95);
-
-  &:focus {
-    border-color: #888;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-export const StyledSearchIconWrapper = styled.div`
-  position: absolute;
-  right: 5px;
-  top: 45%;
-  transform: translateY(-50%);
-`;
-
-export const StyledHeaderInfoBar = styled.div`
-  ${sharedFlexStyles};
-  flex-direction: column;
-  gap: 15px;
-
-  margin-bottom: 50px;
-  position: relative;
-`;
-
-export const StyledWorkingHoursSection = styled.div`
-  width: 300px;
-  // ${sharedContainerStyles};
-  font-weight: 400;
-  font-size: 16px;
-
-  @media (min-width: 1000px) {
-    max-width: 400px;
-    margin: 0 !important;
-  }
-`;
-
-export const StyledWorkingHoursLabel = styled.span``;
-
-export const StyledBrandTitle = styled.div`
-  font-size: 45px;
-  text-align: center;
-  letter-spacing: 2px;
-
-  @media (min-width: 800px) {
-    font-size: 48px;
-  }
-
-  @media (min-width: 1000px) {
-    font-size: 52px;
-  }
-
-  @media (min-width: 1200px) {
-    font-size: 72px;
-  }
-`;
-
-export const StyledContainerTitleHeader = styled.div``;
-
-export const StyledBrandTitleSity = styled.span`
-  font-size: 24px;
-`;
-
-export const StyledBrandTitlePro = styled.span`
-  font-size: 18px;
-`;
-
-export const StyledWorkingHoursTitle = styled.div`
-  margin-bottom: 5px;
-  font-weight: 600;
-`;
-
-export const StyledNavigationHeader = styled.nav`
-  ${sharedFlexStyles};
-  flex-direction: column;
-  gap: 5px;
-  align-items: center;
-
-  @media (min-width: 1100px) {
-    // flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-    padding-bottom: 25px;
-  }
-`;
-
-export const StyledMenuToggleButton = styled.button`
-  min-width: 100px;
-  font-size: 18px;
-  padding: 15px 0;
-  ${sharedMarginBottom};
-
-  @media (min-width: 500px) {
-    padding: 5px;
-    font-size: 22px;
-  }
-`;
-
-export const StyledNavigationList = styled.ul`
-  font-size: 14px;
-  max-width: 350px;
-  ${sharedFlexStyles};
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  position: relative;
-  text-align: center;
-  ${sharedContainerStyles};
-
-  @media (min-width: 500px) {
-    max-width: 450px;
-    font-size: 18px;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 5px;
-  }
-
-  @media (min-width: 650px) {
-    max-width: 500px;
-  }
-
-  @media (min-width: 1000px) {
-    width: 700px;
-    font-size: 18px;
-    justify-content: flex-start;
-    gap: 15px;
-    margin: 0 !important;
-    gap: 20px;
-  }
-
-  @media (min-width: 1100px) {
-    ${sharedMarginBottom};
-  }
-`;
-
-export const StyledNavigationListItem = styled.li``;
-
-export const StyledNavigationButton = styled.button`
-  width: 100px;
-`;
-
-export const StyledSocialWrapper = styled.ul`
-  // max-width: 250px;
-  ${sharedFlexStyles};
-  gap: 15px;
-  flex-wrap: wrap;
-  ${sharedContainerStyles};
-
-  @media (min-width: 1000px) {
-    width: 300px;
-    justify-content: flex-end;
-    margin: 0 !important;
-  }
-`;
-
-export const StyledSocialItem = styled.li`
-  ${sharedContainerStyles};
-`;
-
-export const StyledSocialLink = styled(Link)`
-  width: 40px;
-  height: 40px;
-  ${sharedFlexStyles};
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  ${borderRadiusStyles};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: color 0.6s ease-in;
-
-  @media (min-width: 600px) {
-    width: 50px;
-    height: 50px;
-  }
-
-  @media (min-width: 1000px) {
-    width: 35px;
-    height: 35px;
-  }
-
-  @media (hover: hover) {
     &:hover {
-      color: rgba(0, 0, 255, 0.452);
-      transition: color 0.9s ease;
+      opacity: 0.7;
     }
   }
 `;
 
-export const StyledTelephoneLink = styled.a`
-  ${sharedFlexStyles};
+export const StyledHeaderLeft = styled.div`
+  display: flex;
   align-items: center;
-  font-size: 16px;
 `;
 
-export const StyledMainNavigation = styled.nav`
-  width: 100%;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid #e0e0e0;
-  justify-content: center;
-  align-items: center;
-  ${sharedFlexStyles};
-
-  // border: 1px solid rgba(255, 0, 0, 0.795);
-
-  background-color: #ffffff;
-`;
-
-export const StyledScrollerWrapper = styled.div`
-  width: 100%;
-  overflow: ${(p) => (p.$noScroll ? "visible" : "hidden")};
-`;
-
-export const StyledMainNavigationList = styled.ul`
-  ${sharedFlexStyles};
-  gap: 10px;
-  justify-content: center;
-
-  ${(p) =>
-    p.$marquee &&
-    `
-    animation: scroll-left 50s linear infinite;
-    &:hover { animation-play-state: paused; }
-  `}
-  @keyframes
-    scroll-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-`;
-
-export const StyledMainNavigationListItem = styled.li`
-  min-width: 140px;
-  height: 40px;
-  font-size: 10px;
-  background: #ffffff;
-  ${borderRadiusStyles};
+export const StyledHeaderCenter = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
 `;
 
-export const StyledMainNavigationLink = styled(Link)`
-  display: block;
-  padding: 0 12px;
-  line-height: 1.5;
+export const StyledHeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 18px;
+`;
+
+export const StyledHeaderButton = styled.button`
+  position: relative;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  color: #fff;
+  cursor: pointer;
+
+  svg {
+    width: 26px;
+    height: 26px;
+    stroke-width: 1.8;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  span {
+    position: absolute;
+
+    top: 2px;
+    right: 2px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e11d48;
+    color: #fff;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+`;
+
+export const StyledLogo = styled.div`
+  color: #fff;
+
+  font-size: 78px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  @media (max-width: 992px) {
+    font-size: 20px;
+  }
+`;
+
+export const StyledMenuLogo = styled(Link)`
+  color: #111;
+  text-decoration: none;
+
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  margin-bottom: 40px;
+`;
+
+export const StyledMobileMenuOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+
+  z-index: 999;
+`;
+
+export const StyledMobileMenu = styled.aside`
+  position: fixed;
+
+  top: 74px;
+  left: 0;
+  right: 0;
+
+  width: 100%;
+  min-height: calc(100vh - 74px);
+
+  background: #fff;
+
+  z-index: 1000;
+
+  padding: 28px 24px 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow-y: auto;
+`;
+
+export const StyledMobileMenuClose = styled.button`
+  position: absolute;
+
+  top: 18px;
+  right: 24px;
+
+  background: transparent;
+  border: none;
+
+  font-size: 32px;
+  cursor: pointer;
+
+  color: #111;
+`;
+
+export const StyledMobileMenuList = styled.ul`
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 26px;
+
+  list-style: none;
+`;
+
+export const StyledMobileMenuItem = styled.li``;
+
+export const StyledMobileMenuLink = styled(Link)`
+  color: #111;
+  text-decoration: none;
+
+  font-size: 24px;
+  font-weight: 500;
+
+  transition: 0.25s;
+
+  &:hover {
+    color: #777;
+  }
 `;

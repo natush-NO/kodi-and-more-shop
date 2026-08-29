@@ -2,16 +2,32 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import PageLayout from "@/components/PageLayout/PageLayout";
-import CatalogCards from "@/components/Catalog/CatalogCards";
 
-import kodiBasesList from "@/lib/kodi/nailsKodiPage/baseKodiList";
+import {
+  StyledCatalogGrid,
+  StyledCatalogCard,
+  StyledCardLink,
+  StyledCardTitle,
+} from "@/components/Catalog/StyledCatalogCards";
 
-export default function KodiPage() {
-  const { t } = useTranslation(["common", "kodiBasesList"]);
+import { COLLECTIONSBASES } from "@/lib/constants/collectionsBases";
+
+export default function KodiBasesPage() {
+  const { t } = useTranslation("common");
 
   return (
-    <PageLayout title={t("title")} activePage="kodi">
-      <CatalogCards items={kodiBasesList} namespace="kodiBasesList" />
+    <PageLayout activePage="kodi">
+      <StyledCatalogGrid>
+        {COLLECTIONSBASES.map((collection) => (
+          <StyledCatalogCard key={collection.id}>
+            <StyledCardLink
+              href={`/kodi/nailsKodiPage/kodiBases/${collection.id}`}
+            >
+              <StyledCardTitle>{collection.name}</StyledCardTitle>
+            </StyledCardLink>
+          </StyledCatalogCard>
+        ))}
+      </StyledCatalogGrid>
     </PageLayout>
   );
 }
@@ -19,11 +35,7 @@ export default function KodiPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "kodiBasesList",
-        "brandsCatalog",
-      ])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 }

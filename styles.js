@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
 *,
 *::before,
 *::after {
@@ -42,50 +44,21 @@ h6 {
 
 html {
   font-size: 10px;
+  font-family: "Manrope", sans-serif;
 }
   
 body {
- font-family: 'Lora', serif;
+  font-family: "Manrope", sans-serif;
   line-height: 1;
-  font-weight: 600;
-  background-color: rgba(255, 255, 255, 0.95);
-  color: #000;
-  min-height: 100vh; 
+  font-weight: 500;
+  background-color: rgba(255,255,255,.95);
+  color: #111;
+  min-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   height: var(--body-height);
   z-index: 0;
 }
-
-// body::after {
-//   content: "";
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   width: 100%;
-//   height: 100%;
-//   pointer-events: none;
-//   background: linear-gradient(
-//     to left,
-//     rgba(50, 49, 49, 0.153) 0%,
-//     rgba(50, 49, 49, 0) 30%
-//   );
-// }
-
-// body::before {
-//   content: "";
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   width: 100%;
-//   height: 100%;
-//   pointer-events: none;
-//   background: linear-gradient(
-//     to right,
-//     rgba(50, 49, 49, 0.153) 0%,
-//     rgba(50, 49, 49, 0) 30%
-//   );
-// }
 
 
 input,

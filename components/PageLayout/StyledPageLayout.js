@@ -5,9 +5,7 @@ export const StyledMain = styled.main`
 `;
 
 export const StyledMainContainer = styled.div`
-  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 25px;
 `;
 
 export const StyledPageTitle = styled.h1`

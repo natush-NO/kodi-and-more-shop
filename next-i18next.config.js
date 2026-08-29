@@ -15,6 +15,7 @@ module.exports = {
     "camouflageBaseKodi",
     "colorBaseCollectionsKodi",
     "colors",
+    "crystalDropsKodi",
   ],
   defaultNS: "common",
 };
