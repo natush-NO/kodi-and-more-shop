@@ -107,12 +107,15 @@ export default function CheckoutPage() {
   useEffect(() => {
     const query = form.city.trim();
 
-    if (selectedCity || query.length < 2) {
+    if (selectedCity || query.length < 1) {
       setCitySuggestions([]);
+      setCityLoading(false);
       return;
     }
 
-    const timeoutId = setTimeout(async () => {
+    const controller = new AbortController();
+
+    const loadCities = async () => {
       setCityLoading(true);
 
       try {
@@ -125,9 +128,12 @@ export default function CheckoutPage() {
             action: "settlements",
             query,
           }),
+          signal: controller.signal,
         });
 
         const data = await response.json();
+
+        console.log("NOVA POSHTA RESPONSE:", data);
 
         if (!response.ok || !data.success) {
           console.error("Nova Poshta settlements error:", data.message);
@@ -138,15 +144,25 @@ export default function CheckoutPage() {
 
         setCitySuggestions(data.data || []);
       } catch (error) {
+        if (error.name === "AbortError") {
+          return;
+        }
+
         console.error("Nova Poshta settlements error:", error);
 
         setCitySuggestions([]);
       } finally {
-        setCityLoading(false);
+        if (!controller.signal.aborted) {
+          setCityLoading(false);
+        }
       }
-    }, 300);
+    };
 
-    return () => clearTimeout(timeoutId);
+    loadCities();
+
+    return () => {
+      controller.abort();
+    };
   }, [form.city, selectedCity]);
 
   // ---------------------------------------------------------
