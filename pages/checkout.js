@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { useRouter } from "next/router";
-
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -50,8 +48,11 @@ export default function CheckoutPage() {
     phone: "",
     city: "",
     novaPoshta: "",
+    address: "",
     comment: "",
   });
+
+  const [deliveryType, setDeliveryType] = useState("novaPoshta");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -182,6 +183,10 @@ export default function CheckoutPage() {
     setSelectedWarehouse(null);
     setWarehouseSuggestions([]);
 
+    // Для адресної доставки відділення не потрібно.
+    // Але список відділень завантажуємо заздалегідь,
+    // щоб при перемиканні на Нову пошту воно вже було готове.
+
     setWarehouseLoading(true);
 
     try {
@@ -213,6 +218,31 @@ export default function CheckoutPage() {
   };
 
   // ---------------------------------------------------------
+  // Вибір способу доставки
+  // ---------------------------------------------------------
+
+  const handleDeliveryTypeChange = (type) => {
+    setDeliveryType(type);
+    setSubmitError("");
+
+    if (type === "novaPoshta") {
+      setForm((prev) => ({
+        ...prev,
+        address: "",
+      }));
+    }
+
+    if (type === "address") {
+      setSelectedWarehouse(null);
+
+      setForm((prev) => ({
+        ...prev,
+        novaPoshta: "",
+      }));
+    }
+  };
+
+  // ---------------------------------------------------------
   // Вибір відділення
   // ---------------------------------------------------------
 
@@ -238,17 +268,21 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Не дозволяємо відправити замовлення,
-    // якщо місто не вибране зі списку.
+    // Місто обов'язково повинно бути вибране зі списку.
     if (!selectedCity) {
       setSubmitError(t("selectCity"));
       return;
     }
 
-    // Не дозволяємо відправити замовлення,
-    // якщо відділення не вибране зі списку.
-    if (!selectedWarehouse) {
+    // Якщо Нова пошта — обов'язково вибрати відділення.
+    if (deliveryType === "novaPoshta" && !selectedWarehouse) {
       setSubmitError(t("selectWarehouse"));
+      return;
+    }
+
+    // Якщо адресна доставка — обов'язково вказати адресу.
+    if (deliveryType === "address" && !form.address.trim()) {
+      setSubmitError("Вкажіть адресу доставки");
       return;
     }
 
@@ -278,10 +312,22 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           customer: {
             ...form,
+
+            deliveryType,
+
             cityRef: selectedCity.ref,
             cityName: selectedCity.name,
-            warehouseRef: selectedWarehouse.ref,
-            warehouseName: selectedWarehouse.description,
+
+            warehouseRef:
+              deliveryType === "novaPoshta" ? selectedWarehouse?.ref || "" : "",
+
+            warehouseName:
+              deliveryType === "novaPoshta"
+                ? selectedWarehouse?.description || ""
+                : "",
+
+            deliveryAddress:
+              deliveryType === "address" ? form.address.trim() : "",
           },
 
           products: currentProducts,
@@ -529,99 +575,200 @@ export default function CheckoutPage() {
               </div>
             </StyledCheckoutField>
 
-            {/* Нова пошта */}
+            {/* СПОСІБ ОТРИМАННЯ */}
 
             <StyledCheckoutField>
-              <StyledCheckoutLabel htmlFor="novaPoshta">
-                {t("novaPoshta")}
-              </StyledCheckoutLabel>
+              <StyledCheckoutLabel>Спосіб отримання</StyledCheckoutLabel>
 
               <div
                 style={{
-                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "14px",
+                  marginTop: "4px",
                 }}
               >
-                <StyledCheckoutInput
-                  id="novaPoshta"
-                  name="novaPoshta"
-                  type="text"
-                  value={form.novaPoshta}
-                  placeholder={
-                    selectedCity
-                      ? t("novaPoshtaPlaceholder")
-                      : t("selectCityFirst")
-                  }
-                  onChange={handleChange}
-                  autoComplete="off"
-                  required
-                  disabled={!selectedCity || isSubmitting || isSubmitted}
-                />
+                {/* Нова пошта */}
 
-                {selectedCity && !selectedWarehouse && !isSubmitted && (
-                  <div
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    cursor: "pointer",
+                    width: "fit-content",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="deliveryType"
+                    value="novaPoshta"
+                    checked={deliveryType === "novaPoshta"}
+                    onChange={() => handleDeliveryTypeChange("novaPoshta")}
+                    disabled={isSubmitting || isSubmitted}
                     style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      right: 0,
-                      zIndex: 20,
-                      maxHeight: "260px",
-                      overflowY: "auto",
-                      background: "#fff",
-                      border: "1px solid #ddd",
-                      borderTop: "none",
-                      borderRadius: "0 0 8px 8px",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                      width: "18px",
+                      minWidth: "18px",
+                      height: "18px",
+                      margin: 0,
+                      padding: 0,
+                      cursor: "pointer",
                     }}
-                  >
-                    {warehouseLoading && (
-                      <div
-                        style={{
-                          padding: "12px 14px",
-                          color: "#777",
-                        }}
-                      >
-                        {t("loading")}
-                      </div>
-                    )}
+                  />
 
-                    {!warehouseLoading && warehouseSuggestions.length === 0 && (
-                      <div
-                        style={{
-                          padding: "12px 14px",
-                          color: "#777",
-                        }}
-                      >
-                        {t("nothingFound")}
-                      </div>
-                    )}
+                  <span>Відділення / поштомат Нової пошти</span>
+                </label>
 
-                    {!warehouseLoading &&
-                      warehouseSuggestions.map((warehouse) => (
-                        <button
-                          key={warehouse.ref}
-                          type="button"
-                          onClick={() => handleWarehouseSelect(warehouse)}
-                          style={{
-                            display: "block",
-                            width: "100%",
-                            padding: "12px 14px",
-                            border: "none",
-                            borderBottom: "1px solid #eee",
-                            background: "#fff",
-                            color: "#111",
-                            textAlign: "left",
-                            cursor: "pointer",
-                            fontSize: "15px",
-                          }}
-                        >
-                          {warehouse.description}
-                        </button>
-                      ))}
-                  </div>
-                )}
+                {/* Адресна доставка */}
+
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    cursor: "pointer",
+                    width: "fit-content",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="deliveryType"
+                    value="address"
+                    checked={deliveryType === "address"}
+                    onChange={() => handleDeliveryTypeChange("address")}
+                    disabled={isSubmitting || isSubmitted}
+                    style={{
+                      width: "18px",
+                      minWidth: "18px",
+                      height: "18px",
+                      margin: 0,
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  />
+
+                  <span>Адресна доставка</span>
+                </label>
               </div>
             </StyledCheckoutField>
+
+            {/* НОВА ПОШТА */}
+
+            {deliveryType === "novaPoshta" && (
+              <StyledCheckoutField>
+                <StyledCheckoutLabel htmlFor="novaPoshta">
+                  Відділення / поштомат Нової пошти
+                </StyledCheckoutLabel>
+
+                <div
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <StyledCheckoutInput
+                    id="novaPoshta"
+                    name="novaPoshta"
+                    type="text"
+                    value={form.novaPoshta}
+                    placeholder={
+                      selectedCity
+                        ? t("novaPoshtaPlaceholder")
+                        : t("selectCityFirst")
+                    }
+                    onChange={handleChange}
+                    autoComplete="off"
+                    required
+                    disabled={!selectedCity || isSubmitting || isSubmitted}
+                  />
+
+                  {selectedCity && !selectedWarehouse && !isSubmitted && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: 0,
+                        right: 0,
+                        zIndex: 20,
+                        maxHeight: "260px",
+                        overflowY: "auto",
+                        background: "#fff",
+                        border: "1px solid #ddd",
+                        borderTop: "none",
+                        borderRadius: "0 0 8px 8px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                      }}
+                    >
+                      {warehouseLoading && (
+                        <div
+                          style={{
+                            padding: "12px 14px",
+                            color: "#777",
+                          }}
+                        >
+                          {t("loading")}
+                        </div>
+                      )}
+
+                      {!warehouseLoading &&
+                        warehouseSuggestions.length === 0 && (
+                          <div
+                            style={{
+                              padding: "12px 14px",
+                              color: "#777",
+                            }}
+                          >
+                            {t("nothingFound")}
+                          </div>
+                        )}
+
+                      {!warehouseLoading &&
+                        warehouseSuggestions.map((warehouse) => (
+                          <button
+                            key={warehouse.ref}
+                            type="button"
+                            onClick={() => handleWarehouseSelect(warehouse)}
+                            style={{
+                              display: "block",
+                              width: "100%",
+                              padding: "12px 14px",
+                              border: "none",
+                              borderBottom: "1px solid #eee",
+                              background: "#fff",
+                              color: "#111",
+                              textAlign: "left",
+                              cursor: "pointer",
+                              fontSize: "15px",
+                            }}
+                          >
+                            {warehouse.description}
+                          </button>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              </StyledCheckoutField>
+            )}
+
+            {/* АДРЕСНА ДОСТАВКА */}
+
+            {deliveryType === "address" && (
+              <StyledCheckoutField>
+                <StyledCheckoutLabel htmlFor="address">
+                  Адреса доставки
+                </StyledCheckoutLabel>
+
+                <StyledCheckoutInput
+                  id="address"
+                  name="address"
+                  type="text"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Вулиця, будинок, квартира"
+                  required
+                  disabled={isSubmitting || isSubmitted}
+                />
+              </StyledCheckoutField>
+            )}
 
             {/* Коментар */}
 
