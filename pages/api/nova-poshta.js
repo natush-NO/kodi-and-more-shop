@@ -80,13 +80,19 @@ export default async function handler(req, res) {
 
       const addresses = data.data?.[0]?.Addresses || [];
 
-      const settlements = addresses.map((item) => ({
-        ref: item.DeliveryCity || item.Ref || "",
-        name: item.Present || item.MainDescription || "",
-        mainDescription: item.MainDescription || "",
-        areaDescription: item.AreaDescription || "",
-        region: item.Region || "",
-      }));
+      const settlements = addresses
+        .map((item) => ({
+          ref: item.DeliveryCity || item.Ref || "",
+
+          name: item.Present || item.MainDescription || "",
+
+          mainDescription: item.MainDescription || "",
+
+          areaDescription: item.AreaDescription || "",
+
+          region: item.Region || "",
+        }))
+        .filter((item) => item.ref && item.name);
 
       return res.status(200).json({
         success: true,
@@ -99,7 +105,9 @@ export default async function handler(req, res) {
     // =========================================================
 
     if (action === "warehouses") {
-      if (!cityRef) {
+      const selectedCityRef = typeof cityRef === "string" ? cityRef.trim() : "";
+
+      if (!selectedCityRef) {
         return res.status(200).json({
           success: true,
           data: [],
@@ -116,7 +124,7 @@ export default async function handler(req, res) {
           modelName: "AddressGeneral",
           calledMethod: "getWarehouses",
           methodProperties: {
-            CityRef: cityRef,
+            CityRef: selectedCityRef,
             Limit: 100,
             Page: 1,
           },
@@ -150,20 +158,31 @@ export default async function handler(req, res) {
         });
       }
 
-      const warehouses = (data.data || []).map((item) => ({
-        ref: item.Ref,
-        description: item.Description,
-        shortAddress: item.ShortAddress,
-        typeOfWarehouse: item.TypeOfWarehouse,
-        number: item.Number,
-        categoryOfWarehouse: item.CategoryOfWarehouse,
-      }));
+      const warehouses = (data.data || [])
+        .map((item) => ({
+          ref: item.Ref || "",
+
+          description: item.Description || "",
+
+          shortAddress: item.ShortAddress || "",
+
+          typeOfWarehouse: item.TypeOfWarehouse || "",
+
+          number: item.Number || "",
+
+          categoryOfWarehouse: item.CategoryOfWarehouse || "",
+        }))
+        .filter((item) => item.ref && item.description);
 
       return res.status(200).json({
         success: true,
         data: warehouses,
       });
     }
+
+    // =========================================================
+    // НЕВІДОМА ДІЯ
+    // =========================================================
 
     return res.status(400).json({
       success: false,
