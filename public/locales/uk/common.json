@@ -69,5 +69,8 @@
   "yourOrder": "Ваше замовлення",
   "checkoutItems": "Товарів:",
   "checkoutTotal": "Разом:",
-  "currency": "грн"
+  "currency": "грн",
+
+  "favoritesTitle": "Вибране",
+"favoritesEmpty": "У вас поки немає вибраних товарів"
 }

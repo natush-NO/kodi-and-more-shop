@@ -13,6 +13,8 @@ import {
   StyledHeaderRight,
 } from "./StyledHeader";
 
+import FavoritesButton from "./FavoritesButton";
+
 export default function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -45,10 +47,11 @@ export default function MobileHeader() {
           <Logo />
         </StyledHeaderCenter>
 
-        <StyledHeaderRight>
-          <SearchButton />
-          <CartButton />
-        </StyledHeaderRight>
+   <StyledHeaderRight>
+  <SearchButton />
+  <FavoritesButton />
+  <CartButton />
+</StyledHeaderRight>
       </StyledMobileHeader>
 
       <MobileMenu

@@ -21,6 +21,10 @@ export const StyledMobileHeader = styled.header`
 `;
 
 export const StyledDesktopHeader = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
   width: 100%;
   background: #111;
   color: #fff;
@@ -90,6 +94,17 @@ export const StyledHeaderButton = styled.button`
     height: 26px;
     stroke-width: 1.8;
   }
+
+  ${({ $hasFavorites }) =>
+    $hasFavorites &&
+    `
+      color: #e11d48;
+
+      svg {
+        fill: #e11d48;
+        stroke: #e11d48;
+      }
+    `}
 
   &:hover {
     opacity: 0.8;

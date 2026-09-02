@@ -6,16 +6,25 @@ export const StyledCatalogGrid = styled.ul`
   width: 100%;
 
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
 
   justify-content: center;
 
   gap: 30px;
 
+  margin: 0;
   padding: 0;
 
   list-style: none;
+
+  @media (max-width: 600px) {
+    grid-template-columns: minmax(0, 320px);
+
+    justify-content: center;
+
+    width: 100%;
+    padding: 0 16px;
+  }
 `;
 
 export const StyledCatalogCard = styled.li`

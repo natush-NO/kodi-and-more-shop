@@ -96,3 +96,41 @@ export const StyledProductPrice = styled.p`
 
   margin-bottom: 18px;
 `;
+
+export const StyledFavoriteButton = styled.button`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  cursor: pointer;
+
+  font-size: 24px;
+  line-height: 1;
+
+  color: #e8a0a8;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    color: #dc7f89;
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.98);
+  }
+`;

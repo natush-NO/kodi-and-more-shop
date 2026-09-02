@@ -1,9 +1,9 @@
 import { useTranslation } from "next-i18next";
 
 import { useCart } from "../Cart/CartContext";
+import { useFavorites } from "../Favorites/FavoritesContext";
 
 import { Button } from "../shared/Button";
-
 import { CardImage } from "../shared/Image";
 
 import {
@@ -16,6 +16,7 @@ import {
   StyledProductPrice,
   StyledProductBadges,
   StyledBadge,
+  StyledFavoriteButton,
 } from "./StyledProductCard";
 
 export default function ProductCard({ product, namespace }) {
@@ -24,10 +25,24 @@ export default function ProductCard({ product, namespace }) {
 
   const { addToCart } = useCart();
 
+  const {
+    toggleFavorite,
+    isFavorite,
+  } = useFavorites();
+
   const productName = tProduct(product.titleKey);
+
+  const favorite = isFavorite(product.id);
 
   const handleAddToCart = () => {
     addToCart({
+      ...product,
+      translationNamespace: namespace,
+    });
+  };
+
+  const handleToggleFavorite = () => {
+    toggleFavorite({
       ...product,
       translationNamespace: namespace,
     });
@@ -55,6 +70,18 @@ export default function ProductCard({ product, namespace }) {
           alt={productName}
           fill
         />
+
+        <StyledFavoriteButton
+          type="button"
+          onClick={handleToggleFavorite}
+          aria-label={
+            favorite
+              ? "Remove from favorites"
+              : "Add to favorites"
+          }
+        >
+          {favorite ? "♥" : "♡"}
+        </StyledFavoriteButton>
       </StyledProductImageWrapper>
 
       <StyledProductInfo>

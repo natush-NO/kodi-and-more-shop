@@ -10,6 +10,8 @@ import {
   StyledHeaderRight,
 } from "./StyledHeader";
 
+import FavoritesButton from "./FavoritesButton";
+
 export default function DesktopHeader() {
   const { t } = useTranslation("common");
 
@@ -23,10 +25,11 @@ export default function DesktopHeader() {
 
       <Logo />
 
-      <StyledHeaderRight>
-        <SearchButton />
-        <CartButton />
-      </StyledHeaderRight>
+    <StyledHeaderRight>
+  <SearchButton />
+  <FavoritesButton />
+  <CartButton />
+</StyledHeaderRight>
     </StyledDesktopHeader>
   );
 }

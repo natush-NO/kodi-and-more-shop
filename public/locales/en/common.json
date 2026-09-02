@@ -66,5 +66,8 @@
   "yourOrder": "Your order",
   "checkoutItems": "Items:",
   "checkoutTotal": "Total:",
-  "currency": "UAH"
+  "currency": "UAH",
+
+  "favoritesTitle": "Favorites",
+"favoritesEmpty": "You don't have any favorite products yet"
 }

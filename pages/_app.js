@@ -11,6 +11,7 @@ import { appWithTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config";
 
 import { CartProvider } from "@/components/Cart/CartContext";
+import { FavoritesProvider } from "@/components/Favorites/FavoritesContext";
 
 function App({ Component, pageProps }) {
   const router = useRouter();
@@ -37,19 +38,21 @@ function App({ Component, pageProps }) {
 
   return (
     <CartProvider>
-      <UpdateOverlayHeight />
+      <FavoritesProvider>
+        <UpdateOverlayHeight />
 
-      <Component
-        {...pageProps}
-        selectedItemId={selectedItemId}
-        changeLanguage={changeLanguage}
-        isCatalogOpen={isCatalogOpen}
-        setIsCatalogOpen={setIsCatalogOpen}
-        toggleCatalog={toggleCatalog}
-        closeCatalog={closeCatalog}
-      />
+        <Component
+          {...pageProps}
+          selectedItemId={selectedItemId}
+          changeLanguage={changeLanguage}
+          isCatalogOpen={isCatalogOpen}
+          setIsCatalogOpen={setIsCatalogOpen}
+          toggleCatalog={toggleCatalog}
+          closeCatalog={closeCatalog}
+        />
 
-      <GlobalStyle />
+        <GlobalStyle />
+      </FavoritesProvider>
     </CartProvider>
   );
 }
