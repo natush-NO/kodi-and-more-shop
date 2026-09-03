@@ -6,24 +6,22 @@ export const StyledCatalogGrid = styled.ul`
   width: 100%;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
-
+  grid-template-columns: minmax(0, 320px);
   justify-content: center;
 
-  gap: 30px;
+  gap: 20px;
 
   margin: 0;
-  padding: 0;
+  padding: 0 16px;
 
   list-style: none;
 
-  @media (max-width: 600px) {
-    grid-template-columns: minmax(0, 320px);
+  @media (min-width: 601px) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
 
-    justify-content: center;
+    gap: 30px;
 
-    width: 100%;
-    padding: 0 16px;
+    padding: 0;
   }
 `;
 
@@ -93,7 +91,7 @@ export const StyledCatalogHeader = styled.div`
   background: #111;
   color: #fff;
 
-  padding: 50px 40px 40px;
+  // padding: 50px 40px 40px;
 
   display: flex;
   flex-direction: column;

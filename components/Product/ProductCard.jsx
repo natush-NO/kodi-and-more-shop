@@ -19,19 +19,18 @@ import {
   StyledFavoriteButton,
 } from "./StyledProductCard";
 
-export default function ProductCard({ product, namespace }) {
+export default function ProductCard({
+  product,
+  namespace,
+  stock = null,
+}) {
   const { t: tProduct } = useTranslation(namespace);
   const { t } = useTranslation("common");
 
   const { addToCart } = useCart();
-
-  const {
-    toggleFavorite,
-    isFavorite,
-  } = useFavorites();
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   const productName = tProduct(product.titleKey);
-
   const favorite = isFavorite(product.id);
 
   const handleAddToCart = () => {
@@ -52,15 +51,11 @@ export default function ProductCard({ product, namespace }) {
     <StyledProductCard>
       <StyledProductBadges>
         {product.isNew && (
-          <StyledBadge>
-            {t("new")}
-          </StyledBadge>
+          <StyledBadge>{t("new")}</StyledBadge>
         )}
 
         {product.isSale && (
-          <StyledBadge>
-            {t("sale")}
-          </StyledBadge>
+          <StyledBadge>{t("sale")}</StyledBadge>
         )}
       </StyledProductBadges>
 
@@ -89,21 +84,24 @@ export default function ProductCard({ product, namespace }) {
           {productName}
         </StyledProductTitle>
 
-        <StyledProductArticle>
-          {t("article")} {product.article}
-        </StyledProductArticle>
+    <StyledProductArticle>
+  {stock === null || stock === 0
+    ? t("outOfStock")
+    : `${t("stock")}: ${stock}`}
+</StyledProductArticle>
 
         <StyledProductBottom>
           <StyledProductPrice>
             {product.salePrice ?? product.price} грн
           </StyledProductPrice>
 
-          <Button
-            type="button"
-            onClick={handleAddToCart}
-          >
-            🛒 {t("addToCart")}
-          </Button>
+        <Button
+  type="button"
+  onClick={handleAddToCart}
+  disabled={stock === null || stock === 0}
+>
+  🛒 {t("addToCart")}
+</Button>
         </StyledProductBottom>
       </StyledProductInfo>
     </StyledProductCard>

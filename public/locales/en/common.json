@@ -21,7 +21,7 @@
   "backNotFound": "Back",
   "title": "Cart",
   "empty": "Your cart is empty",
-  "article": "Article:",
+ "barcode": "Barcode:",
   "order": "Your order",
   "items": "Items:",
   "total": "Total:",
@@ -69,5 +69,8 @@
   "currency": "UAH",
 
   "favoritesTitle": "Favorites",
-"favoritesEmpty": "You don't have any favorite products yet"
+"favoritesEmpty": "You don't have any favorite products yet",
+
+"stock": "In stock",
+"outOfStock": "Out of stock"
 }
