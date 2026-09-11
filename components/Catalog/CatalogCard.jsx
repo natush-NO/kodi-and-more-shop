@@ -1,41 +1,18 @@
-import Link from "next/link";
+import {
+  StyledCatalogCard,
+  StyledCardLink,
+  StyledCardTitle,
+} from "./StyledCatalogCards";
 
-import { Card, CardImageWrapper } from "../shared/Card";
-import { CardImage } from "../shared/Image";
-
-import styled from "styled-components";
-
-const CardLink = styled(Link)`
-    display:block;
-    color:inherit;
-    text-decoration:none;
-`;
-
-const CardTitle = styled.h2`
-    padding:18px;
-    text-align:center;
-`;
-
-
-export default function CatalogCard ({
-    image,
-    title,
-    href,
+export default function CatalogCard({
+  title,
+  href,
 }) {
-    return (
-
-<Card>
-  <CardLink href={href}>
-    <CardImageWrapper>
-      <CardImage
-        src={image}
-        alt={title}
-        fill
-      />
-    </CardImageWrapper>
-
-    <CardTitle>{title}</CardTitle>
-  </CardLink>
-</Card>
-    );
+  return (
+    <StyledCatalogCard>
+      <StyledCardLink href={href}>
+        <StyledCardTitle>{title}</StyledCardTitle>
+      </StyledCardLink>
+    </StyledCatalogCard>
+  );
 }

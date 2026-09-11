@@ -6,31 +6,31 @@ export const StyledProductCard = styled.li`
 
   background: #fff;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   overflow: hidden;
 
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
 
   transition: 0.25s;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   }
 `;
 
 export const StyledProductBadges = styled.div`
   display: flex;
 
-  gap: 8px;
+  gap: 6px;
 
-  padding: 15px 15px 0;
+  padding: 10px 12px 0;
 `;
 
 export const StyledBadge = styled.span`
-  padding: 4px 10px;
+  padding: 3px 8px;
 
   border-radius: 5px;
 
@@ -38,7 +38,7 @@ export const StyledBadge = styled.span`
 
   color: white;
 
-  font-size: 12px;
+  font-size: 11px;
 
   font-weight: 600;
 `;
@@ -48,9 +48,9 @@ export const StyledProductImageWrapper = styled.div`
 
   width: 100%;
 
-  height: 300px;
+  height: 220px;
 
-  padding: 20px;
+  padding: 12px;
 `;
 
 export const StyledProductInfo = styled.div`
@@ -60,29 +60,29 @@ export const StyledProductInfo = styled.div`
 
   flex: 1;
 
-  padding: 20px;
+  padding: 14px;
 `;
 
 export const StyledProductTitle = styled.h3`
-  font-size: 18px;
+  font-size: 16px;
 
   font-weight: 600;
 
-  line-height: 1.4;
+  line-height: 1.3;
 
-  height: 52px;
+  height: 42px;
 
   overflow: hidden;
 
-  margin-bottom: 10px;
+  margin: 0 0 8px;
 `;
 
 export const StyledProductArticle = styled.p`
   color: #888;
 
-  font-size: 14px;
+  font-size: 13px;
 
-  margin-bottom: 20px;
+  margin: 0 0 14px;
 `;
 
 export const StyledProductBottom = styled.div`
@@ -90,35 +90,44 @@ export const StyledProductBottom = styled.div`
 `;
 
 export const StyledProductPrice = styled.p`
-  font-size: 28px;
+  font-size: 22px;
 
   font-weight: 700;
 
-  margin-bottom: 18px;
+  margin: 0 0 12px;
 `;
 
 export const StyledFavoriteButton = styled.button`
   position: absolute;
-  top: 12px;
-  right: 12px;
+
+  top: 10px;
+
+  right: 10px;
+
   z-index: 5;
 
-  width: 40px;
-  height: 40px;
+  width: 34px;
+
+  height: 34px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   padding: 0;
+
   border: none;
+
   border-radius: 50%;
 
   background: rgba(255, 255, 255, 0.9);
 
   cursor: pointer;
 
-  font-size: 24px;
+  font-size: 21px;
+
   line-height: 1;
 
   color: #e8a0a8;
@@ -130,7 +139,9 @@ export const StyledFavoriteButton = styled.button`
 
   &:hover {
     color: #dc7f89;
+
     transform: scale(1.05);
+
     background: rgba(255, 255, 255, 0.98);
   }
 `;

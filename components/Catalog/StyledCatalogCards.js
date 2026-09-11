@@ -1,68 +1,58 @@
 import styled from "styled-components";
 import Link from "next/link";
-import Image from "next/image";
 
 export const StyledCatalogGrid = styled.ul`
   width: 100%;
 
-  display: grid;
-  grid-template-columns: minmax(0, 320px);
-  justify-content: center;
-
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
 
   margin: 0;
-  padding: 0 16px;
+  padding: 0;
 
   list-style: none;
-
-  @media (min-width: 601px) {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
-
-    gap: 30px;
-
-    padding: 0;
-  }
 `;
 
 export const StyledCatalogCard = styled.li`
   width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #fff;
 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-
-  transition: 0.25s;
-
-  &:hover {
-    transform: translateY(-4px);
-
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-  }
+  border-bottom: 1px solid #e5e5e5;
 `;
 
 export const StyledCardLink = styled(Link)`
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 18px 0;
+
   color: inherit;
   text-decoration: none;
-`;
 
-export const StyledCardImage = styled(Image)`
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
+  font-size: 18px;
+  font-weight: 500;
+
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.65;
+  }
+
+  &::after {
+    content: "→";
+
+    font-size: 20px;
+    flex-shrink: 0;
+  }
 `;
 
 export const StyledCardTitle = styled.h2`
-  padding: 18px;
-
-  text-align: center;
+  margin: 0;
 
   font-size: 18px;
-
-  font-weight: 600;
+  font-weight: 500;
 `;
 
 export const StyledCatalogLayout = styled.div`
@@ -76,8 +66,15 @@ export const StyledCatalogLayout = styled.div`
 `;
 
 export const StyledProducts = styled.div`
+  width: 100%;
   flex: 1;
   background: #fff;
+
+  @media (max-width: 992px) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
 export const StyledCatalogPage = styled.div`
@@ -90,8 +87,6 @@ export const StyledCatalogHeader = styled.div`
 
   background: #111;
   color: #fff;
-
-  // padding: 50px 40px 40px;
 
   display: flex;
   flex-direction: column;

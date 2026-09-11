@@ -1,9 +1,9 @@
-import { Grid } from "../shared/Grid";
+import { StyledCatalogGrid } from "./StyledCatalogCards";
 
 export default function CatalogGrid({ children }) {
-    return (
-        <Grid>
-            {children}
-        </Grid>
-    );
+  return (
+    <StyledCatalogGrid>
+      {children}
+    </StyledCatalogGrid>
+  );
 }

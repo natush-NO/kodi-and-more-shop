@@ -9,29 +9,40 @@ export default async function handler(req, res) {
   try {
     const { barcodes } = req.body;
 
-    if (!Array.isArray(barcodes) || barcodes.length === 0) {
+    if (!Array.isArray(barcodes)) {
       return res.status(400).json({
         success: false,
-        message: "Barcodes are required",
+        message: "barcodes must be an array",
+      });
+    }
+
+    const requestedBarcodes = [
+      ...new Set(
+        barcodes.filter(Boolean).map((barcode) => String(barcode).trim()),
+      ),
+    ];
+
+    if (requestedBarcodes.length === 0) {
+      return res.status(200).json({
+        success: true,
+        stock: {},
       });
     }
 
     const licenseKey = process.env.CHECKBOX_LICENSE_KEY;
-
     const cashierPin = process.env.CHECKBOX_CASHIER_PIN;
 
     if (!licenseKey || !cashierPin) {
       return res.status(500).json({
         success: false,
-        message: "Checkbox credentials are not configured",
+        message: "Checkbox environment variables are missing",
       });
     }
 
-    // ==========================================
-    // 1. Авторизація касира
-    // ==========================================
-
-    const authResponse = await fetch(
+    /*
+     * 1. Авторизація в Checkbox
+     */
+    const signinResponse = await fetch(
       "https://api.checkbox.in.ua/api/v1/cashier/signinPinCode",
       {
         method: "POST",
@@ -45,143 +56,143 @@ export default async function handler(req, res) {
       },
     );
 
-    const authData = await authResponse.json();
+    const signinData = await signinResponse.json();
 
-    if (!authResponse.ok) {
-      console.error("Checkbox auth error:", authData);
+    if (!signinResponse.ok) {
+      console.error("Checkbox signin error:", signinData);
 
-      return res.status(authResponse.status).json({
+      return res.status(signinResponse.status).json({
         success: false,
-        message:
-          authData?.message ||
-          authData?.detail ||
-          authData?.error ||
-          "Checkbox authorization failed",
+        message: signinData?.message || "Failed to authorize in Checkbox",
       });
     }
 
-    const accessToken = authData.access_token;
+    const token = signinData?.access_token || signinData?.token;
 
-    if (!accessToken) {
-      return res.status(400).json({
+    if (!token) {
+      console.error("Checkbox signin response without token:", signinData);
+
+      return res.status(500).json({
         success: false,
-        message: "Checkbox access token was not received",
+        message: "Checkbox token was not received",
       });
     }
 
-    // ==========================================
-    // 2. Barcode, які нам потрібні
-    // ==========================================
+    /*
+     * 2. Запитуємо товари ПАРАЛЕЛЬНО.
+     *
+     * Важливо:
+     * Checkbox search є нечітким.
+     * Тому після відповіді ми завжди
+     * перевіряємо точний barcode.
+     */
+    const loadStockForBarcode = async (barcode) => {
+      try {
+        const url =
+          "https://api.checkbox.in.ua/api/v1/goods" +
+          `?query=${encodeURIComponent(barcode)}` +
+          "&limit=100" +
+          "&offset=0";
 
-    const requestedBarcodes = new Set(
-      barcodes.map((barcode) => String(barcode).trim()).filter(Boolean),
-    );
-
-    const stock = {};
-
-    // ==========================================
-    // 3. Отримуємо товари Checkbox сторінками
-    // ==========================================
-
-    const limit = 100;
-    let offset = 0;
-
-    while (true) {
-      const goodsUrl =
-        `https://api.checkbox.in.ua/api/v1/goods` +
-        `?limit=${limit}&offset=${offset}`;
-
-      const goodsResponse = await fetch(goodsUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const goodsData = await goodsResponse.json();
-
-      if (!goodsResponse.ok) {
-        console.error("Checkbox goods error:", goodsData);
-
-        return res.status(goodsResponse.status).json({
-          success: false,
-          message:
-            goodsData?.message ||
-            goodsData?.detail ||
-            "Failed to load Checkbox goods",
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
         });
-      }
 
-      const goods = goodsData?.results || goodsData?.data || [];
+        const data = await response.json();
 
-      // ========================================
-      // 4. Шукаємо потрібні barcode
-      // ========================================
+        if (!response.ok) {
+          console.error(`Checkbox goods error for ${barcode}:`, data);
 
-      goods.forEach((item) => {
-        const barcode = String(
-          item.barcode ?? item.bar_code ?? item.barCode ?? item.ean ?? "",
-        ).trim();
-
-        if (!barcode || !requestedBarcodes.has(barcode)) {
-          return;
+          return {
+            barcode,
+            stock: null,
+          };
         }
 
-        const count =
-          typeof item.count === "number" ? item.count : Number(item.count);
+        const goods = data?.results || data?.data || [];
 
-        stock[barcode] = Number.isFinite(count) ? count / 1000 : null;
-      });
+        /*
+         * ОБОВ'ЯЗКОВО шукаємо саме той barcode,
+         * який запросили.
+         *
+         * Не беремо просто перший результат,
+         * тому що Checkbox search може бути fuzzy.
+         */
+        const exactGood = goods.find(
+          (good) => String(good?.barcode || "").trim() === barcode,
+        );
 
-      // ========================================
-      // 5. Якщо знайшли всі потрібні товари —
-      //    більше сторінок не треба
-      // ========================================
+        if (!exactGood) {
+          console.warn(`Exact Checkbox barcode not found: ${barcode}`);
 
-      const foundAll = Array.from(requestedBarcodes).every((barcode) =>
-        Object.prototype.hasOwnProperty.call(stock, barcode),
-      );
+          return {
+            barcode,
+            stock: null,
+          };
+        }
 
-      if (foundAll) {
-        break;
+        /*
+         * Checkbox може повертати count
+         * у тисячних частинах одиниці:
+         *
+         * 1000 = 1
+         * 2000 = 2
+         * 500  = 0.5
+         */
+        const rawCount = exactGood?.count ?? exactGood?.quantity ?? 0;
+
+        const stock = Number(rawCount) / 1000;
+
+        return {
+          barcode,
+          stock: Number.isFinite(stock) ? stock : 0,
+        };
+      } catch (error) {
+        console.error(`Checkbox request failed for ${barcode}:`, error);
+
+        return {
+          barcode,
+          stock: null,
+        };
       }
+    };
 
-      // ========================================
-      // 6. Якщо сторінка неповна —
-      //    це була остання сторінка
-      // ========================================
+    /*
+     * 3. Виконуємо всі запити паралельно.
+     */
+    const results = await Promise.all(
+      requestedBarcodes.map(loadStockForBarcode),
+    );
 
-      if (goods.length < limit) {
-        break;
-      }
+    /*
+     * 4. Формуємо:
+     *
+     * {
+     *   "20117504": 1,
+     *   "20117511": 3,
+     *   "20117528": 0
+     * }
+     */
+    const stock = {};
 
-      offset += limit;
-    }
-
-    // ==========================================
-    // 7. Для barcode, яких Checkbox не знайшов,
-    //    явно ставимо null
-    // ==========================================
-
-    requestedBarcodes.forEach((barcode) => {
-      if (!Object.prototype.hasOwnProperty.call(stock, barcode)) {
-        stock[barcode] = null;
-      }
+    results.forEach(({ barcode, stock: quantity }) => {
+      stock[barcode] = quantity;
     });
-
-    console.log("Checkbox stock result:", stock);
 
     return res.status(200).json({
       success: true,
       stock,
     });
   } catch (error) {
-    console.error("Checkbox API error:", error);
+    console.error("Checkbox stock API error:", error);
 
     return res.status(500).json({
       success: false,
-      message: error?.message || "Server error",
+      message: "Failed to load Checkbox stock",
     });
   }
 }

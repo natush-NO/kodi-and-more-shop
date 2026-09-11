@@ -7,7 +7,6 @@ import {
   StyledCatalogGrid,
   StyledCatalogCard,
   StyledCardLink,
-  StyledCardImage,
   StyledCardTitle,
 } from "@/components/Catalog/StyledCatalogCards";
 
@@ -22,15 +21,6 @@ export default function NailsKodiPage() {
         {nailsPageKodi.map((item) => (
           <StyledCatalogCard key={item.id}>
             <StyledCardLink href={item.href}>
-              {item.image && (
-                <StyledCardImage
-                  src={item.image}
-                  alt={t(item.titleKey)}
-                  width={400}
-                  height={400}
-                />
-              )}
-
               <StyledCardTitle>{t(item.titleKey)}</StyledCardTitle>
             </StyledCardLink>
           </StyledCatalogCard>

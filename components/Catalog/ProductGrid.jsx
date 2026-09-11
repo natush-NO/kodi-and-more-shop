@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 import ProductCard from "../Product/ProductCard";
-
-import { StyledCatalogGrid } from "./StyledCatalogCards";
+import { Grid } from "../shared/Grid";
 
 export default function ProductGrid({
   products,
@@ -18,34 +17,27 @@ export default function ProductGrid({
       .map((barcode) => String(barcode));
 
     if (barcodes.length === 0) {
-      setStockMap({});
       setStockLoading(false);
       return;
     }
 
     const loadStock = async () => {
       try {
-        setStockLoading(true);
-
-        const response = await fetch(
-          "/api/checkbox-stock",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              barcodes,
-            }),
-          }
-        );
+        const response = await fetch("/api/checkbox-stock", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            barcodes,
+          }),
+        });
 
         const data = await response.json();
 
         if (!response.ok || !data.success) {
           throw new Error(
-            data.message ||
-              "Failed to load Checkbox stock"
+            data.message || "Failed to load Checkbox stock"
           );
         }
 
@@ -55,8 +47,6 @@ export default function ProductGrid({
           "Failed to load Checkbox stock:",
           error
         );
-
-        setStockMap({});
       } finally {
         setStockLoading(false);
       }
@@ -66,7 +56,7 @@ export default function ProductGrid({
   }, [products]);
 
   return (
-    <StyledCatalogGrid>
+    <Grid>
       {products.map((product) => {
         const productBarcode = product.barcode
           ? String(product.barcode)
@@ -86,10 +76,11 @@ export default function ProductGrid({
             key={product.id}
             product={product}
             namespace={namespace}
-            stock={stockLoading ? null : stock}
+            stock={stock}
+            stockLoading={stockLoading}
           />
         );
       })}
-    </StyledCatalogGrid>
+    </Grid>
   );
 }
