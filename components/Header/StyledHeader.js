@@ -44,7 +44,7 @@ export const StyledDesktopNav = styled.nav`
   display: flex;
   align-items: center;
   gap: 30px;
-  s a {
+  & a {
     color: #fff;
     text-decoration: none;
     font-size: 16px;

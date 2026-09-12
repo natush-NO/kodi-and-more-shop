@@ -9,7 +9,6 @@
   "languageEN": "Англ",
   "sity": "Ужгород",
   "callPhone": "Зателефонувати",
-  "searchPlaceholder": "Пошук...",
   "workingHours": "Години роботи",
   "monFri": "Пн–Пт",
   "satSun": "Сб–Нд",
@@ -58,7 +57,6 @@
   "novaPoshtaPlaceholder": "Оберіть відділення або поштомат",
   "selectCityFirst": "Спочатку виберіть населений пункт",
   "loading": "Завантаження...",
-  "nothingFound": "Нічого не знайдено",
 
   "submitting": "Надсилання...",
   "submit": "Надіслати замовлення",
@@ -75,5 +73,10 @@
 "favoritesEmpty": "У вас поки немає вибраних товарів",
 
 "stock": "В наявності",
-"outOfStock": "Немає в наявності"
+"outOfStock": "Немає в наявності",
+
+
+  "search": "Пошук",
+  "searchPlaceholder": "Пошук товарів...",
+  "nothingFound": "Нічого не знайдено"
 }

@@ -6,7 +6,6 @@
   "certificates": "Certificates",
   "sity": "Uzhhorod",
   "callPhone": "Call phone",
-  "searchPlaceholder": "Search...",
   "workingHours": "Working Hours",
   "monFri": "Mon–Fri",
   "satSun": "Sat–Sun",
@@ -72,5 +71,8 @@
 "favoritesEmpty": "You don't have any favorite products yet",
 
 "stock": "In stock",
-"outOfStock": "Out of stock"
+"outOfStock": "Out of stock",
+
+  "search": "Search",
+  "searchPlaceholder": "Search products..."
 }
