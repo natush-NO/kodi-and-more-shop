@@ -37,7 +37,12 @@ export default function KodiPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "kodiCatalogList"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "nailsPageKodi",
+        "brandsCatalog",
+        "kodiCatalogList",
+      ])),
     },
   };
 }

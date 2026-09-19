@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import getPageTranslations from "@/lib/i18n/getPageTranslations";
 
 import PageLayout from "@/components/PageLayout/PageLayout";
 
@@ -32,8 +32,6 @@ export default function NailsKodiPage() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common", "nailsPageKodi"])),
-    },
+    props: await getPageTranslations(locale, ["nailsPageKodi"]),
   };
 }

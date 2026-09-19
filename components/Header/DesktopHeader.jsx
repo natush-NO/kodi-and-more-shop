@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import Logo from "./Logo";
+import CatalogDropdown from "./CatalogDropdown";
 import SearchButton from "./SearchButton";
 import Search from "./Search";
 import CartButton from "./CartButton";
@@ -22,9 +23,15 @@ export default function DesktopHeader() {
     <>
       <StyledDesktopHeader>
         <StyledDesktopNav>
-          <a href="/kodi">{t("catalog")}</a>
-          <a href="/delivery">{t("delivery")}</a>
-          <a href="/contacts">{t("contacts")}</a>
+          <CatalogDropdown />
+
+          <a href="/delivery">
+            {t("delivery")}
+          </a>
+
+          <a href="/contacts">
+            {t("contacts")}
+          </a>
         </StyledDesktopNav>
 
         <Logo />

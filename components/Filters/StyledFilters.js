@@ -12,22 +12,27 @@ export const StyledFilters = styled.aside`
 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 
+  position: sticky;
+  top: 90px;
+
+  align-self: flex-start;
+
   @media (max-width: 992px) {
     ${({ $mobile }) =>
       $mobile
         ? `
-      width: 100%;
-      min-width: 100%;
-      color: #fff;
-      
-      display: block;
-      box-shadow: none;
-      border-radius: 0;
-      padding: 20px;
-    `
+          position: static;
+          width: 100%;
+          min-width: 100%;
+          color: #fff;
+          display: block;
+          box-shadow: none;
+          border-radius: 0;
+          padding: 20px;
+        `
         : `
-      display: none;
-    `}
+          display: none;
+        `}
   }
 `;
 
@@ -93,31 +98,48 @@ export const StyledProducts = styled.div`
 
 export const StyledFilterOverlay = styled.div`
   position: fixed;
-  inset: 0;
+
+  top: 74px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   background: rgba(0, 0, 0, 0.45);
 
-  z-index: 998;
+  z-index: 1199;
+
+  @media (min-width: 993px) {
+    display: none;
+  }
 `;
 
 export const StyledMobileFilters = styled.div`
   position: fixed;
 
-  top: 0;
+  top: 74px;
   left: 0;
 
   width: 340px;
   max-width: 92vw;
-  height: 100vh;
 
-  background: #000;
+  height: calc(100vh - 74px);
+
+  background: #fff;
+  color: #000;
 
   overflow-y: auto;
 
-  z-index: 999;
+  z-index: 1200;
 
-  margin-top: 50px;
   animation: slideIn 0.28s ease;
+
+  h2,
+  h3,
+  p,
+  label,
+  span {
+    color: #000;
+  }
 
   @keyframes slideIn {
     from {
@@ -127,6 +149,10 @@ export const StyledMobileFilters = styled.div`
     to {
       transform: translateX(0);
     }
+  }
+
+  @media (min-width: 993px) {
+    display: none;
   }
 `;
 

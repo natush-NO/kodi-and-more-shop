@@ -19,7 +19,12 @@ export default function HomePage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "brandsCatalog"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "brandsCatalog",
+        "nailsPageKodi",
+        "kodiCatalogList",
+      ])),
     },
   };
 }
