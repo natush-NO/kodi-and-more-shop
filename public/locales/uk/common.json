@@ -78,5 +78,11 @@
 
   "search": "Пошук",
   "searchPlaceholder": "Пошук товарів...",
-  "nothingFound": "Нічого не знайдено"
+  "nothingFound": "Нічого не знайдено",
+
+  "article": "Артикул:",
+"volume": "Об'єм",
+"color": "Колір",
+"addToFavorites": "Додати до вибраного",
+"removeFromFavorites": "Видалити з вибраного"
 }

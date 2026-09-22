@@ -65,9 +65,7 @@ export const StyledProductInfo = styled.div`
 
 export const StyledProductTitle = styled.h3`
   font-size: 16px;
-
   font-weight: 600;
-
   line-height: 1.3;
 
   height: 42px;
@@ -75,6 +73,15 @@ export const StyledProductTitle = styled.h3`
   overflow: hidden;
 
   margin: 0 0 8px;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    opacity: 0.65;
+  }
 `;
 
 export const StyledProductArticle = styled.p`

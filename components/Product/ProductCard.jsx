@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 import { useCart } from "../Cart/CartContext";
 import { useFavorites } from "../Favorites/FavoritesContext";
@@ -51,20 +52,29 @@ export default function ProductCard({
     <StyledProductCard>
       <StyledProductBadges>
         {product.isNew && (
-          <StyledBadge>{t("new")}</StyledBadge>
+          <StyledBadge>
+            {t("new")}
+          </StyledBadge>
         )}
 
         {product.isSale && (
-          <StyledBadge>{t("sale")}</StyledBadge>
+          <StyledBadge>
+            {t("sale")}
+          </StyledBadge>
         )}
       </StyledProductBadges>
 
       <StyledProductImageWrapper>
-        <CardImage
-          src={product.image}
-          alt={productName}
-          fill
-        />
+        <Link
+          href={`/product/${product.id}`}
+          aria-label={productName}
+        >
+          <CardImage
+            src={product.image}
+            alt={productName}
+            fill
+          />
+        </Link>
 
         <StyledFavoriteButton
           type="button"
@@ -81,27 +91,29 @@ export default function ProductCard({
 
       <StyledProductInfo>
         <StyledProductTitle>
-          {productName}
+          <Link href={`/product/${product.id}`}>
+            {productName}
+          </Link>
         </StyledProductTitle>
 
-    <StyledProductArticle>
-  {stock === null || stock === 0
-    ? t("outOfStock")
-    : `${t("stock")}: ${stock}`}
-</StyledProductArticle>
+        <StyledProductArticle>
+          {stock === null || stock === 0
+            ? t("outOfStock")
+            : `${t("stock")}: ${stock}`}
+        </StyledProductArticle>
 
         <StyledProductBottom>
           <StyledProductPrice>
             {product.salePrice ?? product.price} грн
           </StyledProductPrice>
 
-        <Button
-  type="button"
-  onClick={handleAddToCart}
-  disabled={stock === null || stock === 0}
->
-  🛒 {t("addToCart")}
-</Button>
+          <Button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={stock === null || stock === 0}
+          >
+            🛒 {t("addToCart")}
+          </Button>
         </StyledProductBottom>
       </StyledProductInfo>
     </StyledProductCard>

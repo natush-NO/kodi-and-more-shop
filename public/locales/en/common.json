@@ -74,5 +74,11 @@
 "outOfStock": "Out of stock",
 
   "search": "Search",
-  "searchPlaceholder": "Search products..."
+  "searchPlaceholder": "Search products...",
+
+  "article": "Article:",
+"volume": "Volume",
+"color": "Color",
+"addToFavorites": "Add to favorites",
+"removeFromFavorites": "Remove from favorites"
 }
