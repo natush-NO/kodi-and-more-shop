@@ -1,0 +1,20 @@
+{
+  "title": "Delivery",
+
+  "novaPoshta": {
+    "title": "Delivery by Nova Poshta",
+    "description": "We deliver orders via Nova Poshta.",
+    "department": "Delivery to a Nova Poshta branch",
+    "postomat": "Delivery to a Nova Poshta parcel locker"
+  },
+
+  "payment": {
+    "title": "Payment",
+    "description": "You can pay for your order in full before it is shipped. Payment upon receipt at a Nova Poshta branch is also available. Nova Poshta charges a money transfer fee for cash on delivery. A partial prepayment may be required for cash-on-delivery orders. The amount of the prepayment is agreed upon when the order is confirmed."
+  },
+
+  "terms": {
+    "title": "Delivery time",
+    "description": "The dispatch and delivery time depends on the delivery method and destination."
+  }
+}

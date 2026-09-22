@@ -19,6 +19,7 @@ import {
 import LanguageSwitcher from "./LanguageSwitcher";
 
 import brandsCatalog from "@/lib/kodi/brandsCatalog";
+import ContactDropdown from "./ContactDropdown";
 
 export default function MobileMenu({
   open,
@@ -73,56 +74,41 @@ export default function MobileMenu({
         <LanguageSwitcher />
 
         {!catalogOpen ? (
-          <StyledMobileMenuList>
-            <StyledMobileMenuItem>
-              <StyledMobileMenuLink
-                href="/"
-                onClick={handleClose}
-              >
-                {tCommon("homePage")}
-              </StyledMobileMenuLink>
-            </StyledMobileMenuItem>
+        <StyledMobileMenuList>
+  <StyledMobileMenuItem>
+    <StyledMobileMenuLink
+      href="/"
+      onClick={handleClose}
+    >
+      {tCommon("homePage")}
+    </StyledMobileMenuLink>
+  </StyledMobileMenuItem>
 
-            <StyledMobileMenuItem>
-              <StyledMobileCatalogButton
-                type="button"
-                onClick={openCatalog}
-              >
-                <span>
-                  {tCommon("catalog")}
-                </span>
+  <StyledMobileMenuItem>
+    <StyledMobileCatalogButton
+      type="button"
+      onClick={openCatalog}
+    >
+      <span>
+        {tCommon("catalog")}
+      </span>
+      <span>→</span>
+    </StyledMobileCatalogButton>
+  </StyledMobileMenuItem>
 
-                <span>→</span>
-              </StyledMobileCatalogButton>
-            </StyledMobileMenuItem>
+  <StyledMobileMenuItem>
+    <StyledMobileMenuLink
+      href="/delivery"
+      onClick={handleClose}
+    >
+      {tCommon("delivery")}
+    </StyledMobileMenuLink>
+  </StyledMobileMenuItem>
 
-            <StyledMobileMenuItem>
-              <StyledMobileMenuLink
-                href="/delivery"
-                onClick={handleClose}
-              >
-                {tCommon("delivery")}
-              </StyledMobileMenuLink>
-            </StyledMobileMenuItem>
-
-            <StyledMobileMenuItem>
-              <StyledMobileMenuLink
-                href="/about"
-                onClick={handleClose}
-              >
-                {tCommon("about")}
-              </StyledMobileMenuLink>
-            </StyledMobileMenuItem>
-
-            <StyledMobileMenuItem>
-              <StyledMobileMenuLink
-                href="/contacts"
-                onClick={handleClose}
-              >
-                {tCommon("contacts")}
-              </StyledMobileMenuLink>
-            </StyledMobileMenuItem>
-          </StyledMobileMenuList>
+  <StyledMobileMenuItem>
+    <ContactDropdown mobile />
+  </StyledMobileMenuItem>
+</StyledMobileMenuList>
         ) : (
           <>
             <StyledMobileBackButton

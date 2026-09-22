@@ -16,6 +16,7 @@ module.exports = {
     "colorBaseCollectionsKodi",
     "colors",
     "crystalDropsKodi",
+    "delivery",
   ],
   defaultNS: "common",
 };
