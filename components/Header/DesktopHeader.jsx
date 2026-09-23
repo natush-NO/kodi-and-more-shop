@@ -7,7 +7,7 @@ import SearchButton from "./SearchButton";
 import Search from "./Search";
 import CartButton from "./CartButton";
 import FavoritesButton from "./FavoritesButton";
-import ContactDropdown from "./ContactDropdown";
+import ContactSidebar from "./ContactSidebar";
 
 import {
   StyledDesktopHeader,
@@ -33,8 +33,6 @@ export default function DesktopHeader() {
           <a href="/delivery">
             {t("delivery")}
           </a>
-
-          <ContactDropdown />
         </StyledDesktopNav>
 
         <Logo />
@@ -48,6 +46,8 @@ export default function DesktopHeader() {
           <CartButton />
         </StyledHeaderRight>
       </StyledDesktopHeader>
+
+      <ContactSidebar />
 
       <Search
         open={searchOpen}

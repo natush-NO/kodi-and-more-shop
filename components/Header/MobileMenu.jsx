@@ -19,7 +19,6 @@ import {
 import LanguageSwitcher from "./LanguageSwitcher";
 
 import brandsCatalog from "@/lib/kodi/brandsCatalog";
-import ContactDropdown from "./ContactDropdown";
 
 export default function MobileMenu({
   open,
@@ -105,9 +104,6 @@ export default function MobileMenu({
     </StyledMobileMenuLink>
   </StyledMobileMenuItem>
 
-  <StyledMobileMenuItem>
-    <ContactDropdown mobile />
-  </StyledMobileMenuItem>
 </StyledMobileMenuList>
         ) : (
           <>

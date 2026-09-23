@@ -404,148 +404,119 @@ export const StyledCatalogClose = styled.button`
 `;
 
 /* =========================================================
-   CONTACTS
-========================================================= */
+   CONTACT SIDEBAR
+   ========================================================= */
 
-export const StyledContactsDropdown = styled.div`
-  position: relative;
-
-  ${({ $mobile }) =>
-    $mobile &&
-    `
-      width: 100%;
-    `}
-`;
-
-export const StyledContactsButton = styled.button`
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.7;
-  }
-
-  ${({ $mobile }) =>
-    $mobile &&
-    `
-      width: 100%;
-      color: #111;
-      font-size: 24px;
-      font-weight: 500;
-      text-align: left;
-
-      &:hover {
-        color: #777;
-        opacity: 1;
-      }
-    `}
-`;
-
-export const StyledContactsMenu = styled.div`
+export const StyledContactsSidebar = styled.aside`
   position: fixed;
-  top: 86px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(360px, calc(100vw - 40px));
-  padding: 32px;
-  background: #fff;
-  color: #111;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
-  z-index: 1100;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1200;
 
-  ${({ $mobile }) =>
-    $mobile &&
-    `
-      position: fixed;
-      top: 74px;
-      left: 0;
-      transform: none;
-      width: 100%;
-      height: calc(100vh - 74px);
-      box-sizing: border-box;
-      padding: 45px 24px;
-      background: #fff;
-      box-shadow: none;
-      overflow-y: auto;
-    `}
-`;
+  width: 150px;
 
-export const StyledContactsClose = styled.button`
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #111;
-  font-size: 30px;
-  font-weight: 300;
-  line-height: 1;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.5;
-  }
-`;
-
-export const StyledContactsTitle = styled.h2`
-  margin: 0 0 36px;
-  font-size: 24px;
-  font-weight: 500;
-  text-align: center;
-`;
-
-export const StyledContactsList = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 28px;
+  align-items: flex-end;
 
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  overflow: visible;
 `;
 
-export const StyledContactsItem = styled.li`
-  width: 100%;
+export const StyledContactsItem = styled.div`
+  width: 100px;
+  height: 50px;
+
   margin: 0;
   padding: 0;
+
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+
+  overflow: visible;
 `;
 
 export const StyledContactsLink = styled.a`
+  position: relative;
+
+  width: 48px;
+  height: 44px;
+
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
 
-  color: #111;
+  box-sizing: border-box;
+
+  color: #fff !important;
   text-decoration: none;
-  font-size: 17px;
-  line-height: 1.4;
-  text-align: center;
 
-  transition: opacity 0.2s ease;
+  background: ${({ $type }) => {
+    switch ($type) {
+      case "phone":
+        return "#d9232e";
+      case "instagram":
+        return "#8a4b32";
+      case "whatsapp":
+        return "#20bca9";
+      case "telegram":
+        return "#35a9df";
+      case "viber":
+        return "#87459c";
+      default:
+        return "#111";
+    }
+  }};
 
   svg {
-    width: 32px;
-    height: 32px;
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+
+    color: #fff !important;
+    fill: currentColor;
+  }
+`;
+
+export const StyledContactsText = styled.span`
+  position: absolute;
+
+  right: 48px;
+  top: 0;
+
+  height: 44px;
+
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  white-space: nowrap;
+
+  color: #fff !important;
+
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.1s;
+
+  background: inherit;
+
+  ${StyledContactsLink}:hover & {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.05s;
   }
 
-  &:hover {
-    opacity: 0.55;
+  @media (max-width: 992px) {
+    display: none;
   }
 `;
