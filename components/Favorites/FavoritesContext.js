@@ -6,7 +6,6 @@ export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Завантажуємо вибране з localStorage
   useEffect(() => {
     try {
       const savedFavorites = localStorage.getItem("favorites");
@@ -21,7 +20,6 @@ export function FavoritesProvider({ children }) {
     }
   }, []);
 
-  // Зберігаємо вибране в localStorage
   useEffect(() => {
     if (!isLoaded) {
       return;
@@ -34,7 +32,6 @@ export function FavoritesProvider({ children }) {
     }
   }, [favorites, isLoaded]);
 
-  // Додати або прибрати товар з вибраного
   const toggleFavorite = (product) => {
     setFavorites((prevFavorites) => {
       const exists = prevFavorites.some((item) => item.id === product.id);
@@ -47,12 +44,10 @@ export function FavoritesProvider({ children }) {
     });
   };
 
-  // Перевірити, чи товар у вибраному
   const isFavorite = (productId) => {
     return favorites.some((item) => item.id === productId);
   };
 
-  // Додати товар
   const addToFavorites = (product) => {
     setFavorites((prevFavorites) => {
       const exists = prevFavorites.some((item) => item.id === product.id);
@@ -65,14 +60,12 @@ export function FavoritesProvider({ children }) {
     });
   };
 
-  // Видалити товар
   const removeFromFavorites = (productId) => {
     setFavorites((prevFavorites) =>
       prevFavorites.filter((item) => item.id !== productId),
     );
   };
 
-  // Очистити все вибране
   const clearFavorites = () => {
     setFavorites([]);
   };

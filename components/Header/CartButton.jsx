@@ -20,9 +20,13 @@ export default function CartButton() {
       onClick={handleCartClick}
       aria-label="Кошик"
     >
-      <HiOutlineShoppingBag />
+      <span className="cart-icon">
+        <HiOutlineShoppingBag />
 
-      {cartCount > 0 && <span>{cartCount}</span>}
+        <span className="cart-count">
+          {cartCount}
+        </span>
+      </span>
     </StyledHeaderButton>
   );
 }

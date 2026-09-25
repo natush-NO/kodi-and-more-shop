@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 export const StyledProductCard = styled.li`
   display: flex;
@@ -53,6 +54,10 @@ export const StyledProductImageWrapper = styled.div`
   padding: 12px;
 `;
 
+export const StyledProductImage = styled(Image)`
+  object-fit: contain;
+`;
+
 export const StyledProductInfo = styled.div`
   display: flex;
 
@@ -90,6 +95,41 @@ export const StyledProductArticle = styled.p`
   font-size: 13px;
 
   margin: 0 0 14px;
+`;
+
+export const StyledAddToCartButton = styled.button`
+  width: 100%;
+
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #111827;
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: #e11d48;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+    transform: none;
+  }
 `;
 
 export const StyledProductBottom = styled.div`

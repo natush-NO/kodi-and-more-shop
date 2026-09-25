@@ -1,138 +1,45 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
-
-*,
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-  border: none;
-  box-sizing: border-box;
-}
-
-*::before,
-*::after {
-  display: inline-block;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-}
-
-li {
-  list-style: none;
-}
-
-img {
-  vertical-align: top;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: inherit;
-  font-size: inherit;
-}
-
-html {
-  font-size: 10px;
-  font-family: "Manrope", sans-serif;
-}
-  
-body {
-  font-family: "Manrope", sans-serif;
-  line-height: 1;
-  font-weight: 500;
-  background-color: rgba(255,255,255,.95);
-  color: #111;
-  min-height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: var(--body-height);
-  z-index: 0;
-}
-
-
-input,
-button,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-input,
-textarea {
-  width: 100%;
-  background-color: transparent;
-}
-
-label {
-  display: inline-block;
-}
-
-
-button {
-  padding: 10px;
-  text-align: center;
-  overflow: hidden;
-  border-radius: 10px;
-  background-color: #ffffff;
-
-
-
-  border-radius: 10px;
-  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  
-}
-
-li,
-button, 
-a {
-  cursor: pointer;
-  transition: color 0.9s ease;
-}
-
-@media (hover: hover) {
-  li:hover,
-  button:hover,
-  a:hover {
-    color: rgba(0, 0, 255, 0.452);
+  @font-face {
+    font-family: "Manrope";
+    src: url("/fonts/Manrope-Variable.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
   }
-}
 
+  @font-face {
+    font-family: "Cormorant Garamond";
+    src: url("/fonts/CormorantGaramond-Variable.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+  }
 
-select,
-option {
-  cursor: pointer;
-}
+  @font-face {
+    font-family: "Allura";
+    src: url("/fonts/Allura-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-input[type="number"] {
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
+  body {
+    margin: 0;
+    font-family: "Manrope", sans-serif;
+  }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
+  button,
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+  }
 `;

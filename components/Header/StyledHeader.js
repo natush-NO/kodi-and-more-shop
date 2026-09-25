@@ -9,12 +9,19 @@ export const StyledMobileHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 74px;
-  background: #111;
+
+  width: 100%;
+  height: 64px;
+
+  background: #2f2f2f;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 18px;
+
+  box-sizing: border-box;
 
   @media (min-width: 993px) {
     display: none;
@@ -29,13 +36,20 @@ export const StyledDesktopHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1000;
+
   width: 100%;
-  background: #111;
+  height: 68px;
+
+  background: #2f2f2f;
   color: #fff;
-  padding: 20px 40px;
+
+  padding: 40px 40px 50px 40px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  box-sizing: border-box;
 
   @media (max-width: 992px) {
     display: none;
@@ -81,54 +95,165 @@ export const StyledHeaderRight = styled.div`
 
 export const StyledHeaderButton = styled.button`
   position: relative;
-  width: 44px;
-  height: 44px;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
   background: transparent;
   border: none;
-  padding: 0;
+
   color: #fff;
+
   cursor: pointer;
 
-  svg {
-    width: 26px;
-    height: 26px;
-    stroke-width: 1.8;
-  }
+  /* =========================
+     FAVORITES
+  ========================= */
 
-  ${({ $hasFavorites }) =>
-    $hasFavorites &&
-    `
-      color: #e11d48;
+  .favorite-icon {
+    position: relative;
 
-      svg {
-        fill: #e11d48;
-        stroke: #e11d48;
-      }
-    `}
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  span {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e11d48;
-    color: #fff;
+
+    width: 28px;
+    height: 28px;
+  }
+
+  .favorite-icon svg {
+    width: 25px;
+    height: 25px;
+
+    display: block;
+  }
+
+  .favorite-count {
+    position: absolute;
+
+    top: -5px;
+    right: -6px;
+
+    width: 15px;
+    height: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border-radius: 50%;
-    font-size: 11px;
-    font-weight: 700;
+
+    background: #d9b9aa;
+    color: #2f2f2f;
+
+    font-size: 9px;
+    font-weight: 600;
     line-height: 1;
+  }
+
+  /* =========================
+     CART
+  ========================= */
+
+  .cart-icon {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+  }
+
+  .cart-icon svg {
+    width: 25px;
+    height: 25px;
+
+    stroke-width: 1.4;
+  }
+
+  .cart-count {
+    position: absolute;
+
+    top: -3px;
+    right: -4px;
+
+    width: 15px;
+    height: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #d9b9aa;
+    color: #2f2f2f;
+
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  /* =========================
+     SEARCH
+  ========================= */
+
+  ${({ $isSearch }) =>
+    $isSearch &&
+    `
+    width: 150px;
+    height: 42px;
+
+    justify-content: flex-start;
+    gap: 9px;
+
+    padding: 0 12px;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+
+    font-size: 11px;
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 992px) {
+      width: 42px;
+      padding: 0;
+
+      justify-content: center;
+
+      border-left: none;
+
+      span {
+        display: none;
+      }
+    }
+  `}
+
+  &:hover {
+    opacity: 0.8;
   }
 `;
 
@@ -137,14 +262,60 @@ export const StyledHeaderButton = styled.button`
 ========================================================= */
 
 export const StyledLogo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+`;
+
+export const StyledLogoTitle = styled.div`
+  position: relative;
+
   color: #fff;
-  font-size: 78px;
+
+  font-size: 54px;
   font-weight: 700;
   letter-spacing: 1px;
+  line-height: 0.9;
 
   @media (max-width: 992px) {
     font-size: 20px;
   }
+`;
+
+export const StyledLogoHeart = styled.span`
+  position: absolute;
+
+  top: 2px;
+  right: -18px;
+
+  color: #d9b9aa;
+
+  font-size: 18px;
+  line-height: 1;
+
+  @media (max-width: 992px) {
+    top: -2px;
+    right: -9px;
+
+    font-size: 7px;
+  }
+`;
+
+export const StyledLogoSubtitle = styled.span`
+  margin-top: 8px;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-family: "Manrope", sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 1;
+
+  letter-spacing: 4px;
+  text-transform: uppercase;
+
+  white-space: nowrap;
 `;
 
 export const StyledMenuLogo = styled(Link)`

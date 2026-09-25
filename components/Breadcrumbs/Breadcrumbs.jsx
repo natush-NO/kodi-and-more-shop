@@ -4,6 +4,7 @@ import { BRANDS } from "@/lib/constants/brands";
 import { CATEGORIESNAILS } from "@/lib/constants/categoriesNails";
 import { COLLECTIONSBASES } from "@/lib/constants/collectionsBases";
 
+
 import {
   StyledBreadcrumbs,
   StyledBreadcrumbLink,
@@ -23,12 +24,12 @@ export default function Breadcrumbs({
     },
   ];
 
-  if (brand && BRANDS[brand]) {
-    items.push({
-      label: BRANDS[brand].shortName,
-      href: `/${BRANDS[brand].slug}`,
-    });
-  }
+if (brand && BRANDS[brand]) {
+  items.push({
+    label: BRANDS[brand].shortName,
+    href: `/${BRANDS[brand].slug}`,
+  });
+}
 
   const categoryItem = CATEGORIESNAILS.find(
     (item) => item.id === category
@@ -37,17 +38,6 @@ export default function Breadcrumbs({
   if (categoryItem) {
     items.push({
       label: categoryItem.name,
-      href:
-        category === "base"
-          ? "/kodi/nailsKodiPage"
-          : undefined,
-    });
-  }
-
-  if (category === "base") {
-    items.push({
-      label: "Кольорові бази",
-      href: "/kodi/nailsKodiPage/kodiBases",
     });
   }
 
@@ -75,16 +65,15 @@ export default function Breadcrumbs({
               gap: 8,
             }}
           >
-            {last ? (
-              <StyledBreadcrumbCurrent>
-                {item.label}
-              </StyledBreadcrumbCurrent>
-            ) : (
-              <StyledBreadcrumbLink href={item.href}>
-                {item.label}
-              </StyledBreadcrumbLink>
-            )}
-
+         {last || !item.href ? (
+  <StyledBreadcrumbCurrent>
+    {item.label}
+  </StyledBreadcrumbCurrent>
+) : (
+  <StyledBreadcrumbLink href={item.href}>
+    {item.label}
+  </StyledBreadcrumbLink>
+)}
             {!last && (
               <StyledBreadcrumbSeparator>
                 <HiChevronRight />

@@ -34,12 +34,19 @@
   "checkoutTitle": "Checkout",
   "checkoutEmpty": "Your cart is empty",
   "goToCatalog": "Go to catalog",
-
   "customerData": "Customer information",
   "name": "Name",
   "namePlaceholder": "Your name",
   "phone": "Phone number",
   "city": "City",
+
+
+  "beautyShop": "BEAUTY SHOP",
+
+    "professionalBrands": "Professional brands",
+  "forYourBeauty": "for your beauty",
+  "chooseYourFavoriteBrands": "Choose your favorite brands and categories",
+
 
   "deliveryMethod": "Delivery method",
   "novaPoshtaDelivery": "Nova Poshta branch / parcel locker",

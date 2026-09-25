@@ -4,15 +4,14 @@ import Link from "next/link";
 import { useCart } from "../Cart/CartContext";
 import { useFavorites } from "../Favorites/FavoritesContext";
 
-import { Button } from "../shared/Button";
-import { CardImage } from "../shared/Image";
-
 import {
   StyledProductCard,
   StyledProductImageWrapper,
+   StyledProductImage,
   StyledProductInfo,
   StyledProductTitle,
   StyledProductArticle,
+  StyledAddToCartButton,
   StyledProductBottom,
   StyledProductPrice,
   StyledProductBadges,
@@ -69,11 +68,11 @@ export default function ProductCard({
           href={`/product/${product.id}`}
           aria-label={productName}
         >
-          <CardImage
-            src={product.image}
-            alt={productName}
-            fill
-          />
+        <StyledProductImage
+  src={product.image}
+  alt={productName}
+  fill
+/>
         </Link>
 
         <StyledFavoriteButton
@@ -107,13 +106,13 @@ export default function ProductCard({
             {product.salePrice ?? product.price} грн
           </StyledProductPrice>
 
-          <Button
-            type="button"
-            onClick={handleAddToCart}
-            disabled={stock === null || stock === 0}
-          >
-            🛒 {t("addToCart")}
-          </Button>
+      <StyledAddToCartButton
+  type="button"
+  onClick={handleAddToCart}
+  disabled={stock === null || stock === 0}
+>
+  🛒 {t("addToCart")}
+</StyledAddToCartButton>
         </StyledProductBottom>
       </StyledProductInfo>
     </StyledProductCard>
