@@ -1,17 +1,37 @@
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 import brandsCatalog from "@/lib/kodi/brandsCatalog";
 
 import PageLayout from "@/components/PageLayout/PageLayout";
 import CatalogCards from "@/components/Catalog/CatalogCards";
 
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import {
+  StyledContentHeader,
+  StyledContentTitle,
+  StyledContentTitleAccent,
+  StyledContentSubtitle,
+} from "@/components/PageLayout/StyledPageLayout";
 
 export default function HomePage() {
   const { t } = useTranslation(["common", "brandsCatalog"]);
 
   return (
     <PageLayout title={t("title", { ns: "common" })} activePage="kodi">
-      <CatalogCards items={brandsCatalog} namespace="brandsCatalog" />
+      <StyledContentHeader>
+        <StyledContentTitle>
+          {t("professionalBrands", { ns: "common" })}
+          <StyledContentTitleAccent>
+            {t("forYourBeauty", { ns: "common" })}
+          </StyledContentTitleAccent>
+        </StyledContentTitle>
+
+        <StyledContentSubtitle>
+          {t("chooseYourFavoriteBrands", { ns: "common" })}
+        </StyledContentSubtitle>
+      </StyledContentHeader>
+
+      <CatalogCards items={brandsCatalog} />
     </PageLayout>
   );
 }

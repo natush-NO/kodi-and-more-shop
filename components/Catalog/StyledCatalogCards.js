@@ -11,6 +11,32 @@ export const StyledCatalogSection = styled.section`
   box-sizing: border-box;
 `;
 
+export const StyledCatalogHeader = styled.div`
+  margin-bottom: 30px;
+`;
+
+export const StyledCatalogTitle = styled.h1`
+  margin: 0;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 0.95;
+
+  color: #171615;
+`;
+
+export const StyledCatalogSubtitle = styled.p`
+  margin: 10px 0 0;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+
+  color: #777;
+`;
+
 export const StyledCatalogGrid = styled.ul`
   width: 100%;
 

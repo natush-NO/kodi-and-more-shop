@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 import PageLayout from "@/components/PageLayout/PageLayout";
 
@@ -20,7 +21,7 @@ import {
 } from "@/components/Catalog/StyledCatalogCards";
 
 import crystalDropsKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/crystalDropsBaseKodi";
-import reflectiveKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/reflectiveBaseKodi";
+// import reflectiveKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/reflectiveBaseKodi";
 // import colorRubberBaseKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/colorRubberBaseKodi";
 
 import { COLLECTIONSBASES } from "@/lib/constants/collectionsBases";
@@ -30,6 +31,7 @@ import { VOLUMES } from "@/lib/constants/volumes";
 import { BRANDS } from "@/lib/constants/brands";
 
 export default function KodiBaseCollectionPage({ collection, products }) {
+  const { t } = useTranslation("common");
   const [filters, setFilters] = useState({
     categories: [],
     collections: [collection.id],
@@ -107,7 +109,7 @@ export default function KodiBaseCollectionPage({ collection, products }) {
           <StyledCatalogTitle>{collection.name}</StyledCatalogTitle>
 
           <StyledCatalogSubtitle>
-            Кольорові бази для нігтів
+            {t("coloredNailBases", { ns: "common" })}
           </StyledCatalogSubtitle>
         </StyledCatalogHeader>
 

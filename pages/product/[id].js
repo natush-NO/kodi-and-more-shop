@@ -9,7 +9,6 @@ import { useCart } from "@/components/Cart/CartContext";
 import { useFavorites } from "@/components/Favorites/FavoritesContext";
 
 import { CardImage } from "@/components/shared/Image";
-import { Button } from "@/components/shared/Button";
 
 import { getProductById, getAllProducts } from "@/lib/products/getProductById";
 
@@ -33,6 +32,7 @@ import {
   StyledQuantity,
   StyledQuantityButton,
   StyledQuantityValue,
+  StyledAddToCartButton,
   StyledFavoriteButton,
   StyledProductNotFound,
 } from "@/components/ProductPage/StyledProductPage";
@@ -177,7 +177,7 @@ export default function ProductPage({ product }) {
                 </StyledQuantityButton>
               </StyledQuantity>
 
-              <Button
+              <StyledAddToCartButton
                 type="button"
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
@@ -186,7 +186,7 @@ export default function ProductPage({ product }) {
                 {t("addToCart", {
                   ns: "common",
                 })}
-              </Button>
+              </StyledAddToCartButton>
             </StyledProductActions>
 
             <StyledFavoriteButton type="button" onClick={handleToggleFavorite}>

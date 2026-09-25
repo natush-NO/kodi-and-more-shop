@@ -18,20 +18,6 @@ export default function PageLayout({ children, title }) {
       <StyledMainContainer>
         {title && <StyledPageTitle>{title}</StyledPageTitle>}
 
-        <StyledContentHeader>
-          <StyledContentTitle>
-            {t("professionalBrands", { ns: "common" })}
-
-            <StyledContentTitleAccent>
-              {t("forYourBeauty", { ns: "common" })}
-            </StyledContentTitleAccent>
-          </StyledContentTitle>
-
-          <StyledContentSubtitle>
-            {t("chooseYourFavoriteBrands", { ns: "common" })}
-          </StyledContentSubtitle>
-        </StyledContentHeader>
-
         {children}
       </StyledMainContainer>
     </StyledMain>

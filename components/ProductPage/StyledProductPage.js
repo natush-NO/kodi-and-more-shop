@@ -197,6 +197,50 @@ export const StyledQuantityValue = styled.span`
   font-size: 16px;
 `;
 
+export const StyledAddToCartButton = styled.button`
+  flex: 1;
+  min-height: 48px;
+  padding: 12px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #111827;
+  color: #fff;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    background: #2f2f2f;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: #d1d5db;
+    color: #6b7280;
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
 export const StyledFavoriteButton = styled.button`
   align-self: flex-start;
 
