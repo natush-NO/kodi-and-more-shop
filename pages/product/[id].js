@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 import PageLayout from "@/components/PageLayout/PageLayout";
@@ -10,8 +9,7 @@ import { useFavorites } from "@/components/Favorites/FavoritesContext";
 
 import { CardImage } from "@/components/shared/Image";
 
-import { getProductById, getAllProducts } from "@/lib/products/getProductById";
-
+import prisma from "@/lib/prisma";
 import getPageTranslations from "@/lib/i18n/getPageTranslations";
 
 import {
@@ -28,6 +26,8 @@ import {
   StyledProductDetailRow,
   StyledProductPrice,
   StyledProductOldPrice,
+  StyledProductSalePrice,
+  StyledProductDiscount,
   StyledProductActions,
   StyledQuantity,
   StyledQuantityButton,
@@ -38,18 +38,12 @@ import {
 } from "@/components/ProductPage/StyledProductPage";
 
 export default function ProductPage({ product }) {
-  const router = useRouter();
-
   const { t } = useTranslation(["common", "crystalDropsKodi", "colors"]);
 
   const { addToCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const [quantity, setQuantity] = useState(1);
-
-  if (router.isFallback) {
-    return null;
-  }
 
   if (!product) {
     return (
@@ -75,7 +69,17 @@ export default function ProductPage({ product }) {
 
   const favorite = isFavorite(product.id);
 
-  const price = product.salePrice ?? product.price;
+  // Перевіряємо, чи товар справді акційний
+  const hasSale =
+    product.isSale === true &&
+    product.salePrice !== null &&
+    product.salePrice !== undefined &&
+    product.salePrice < product.price;
+
+  // Розраховуємо відсоток знижки
+  const discount = hasSale
+    ? Math.round(((product.price - product.salePrice) / product.price) * 100)
+    : 0;
 
   const handleAddToCart = () => {
     addToCart({
@@ -115,7 +119,9 @@ export default function ProductPage({ product }) {
           </StyledProductGallery>
 
           <StyledProductInfo>
-            <StyledProductBrand>KODI</StyledProductBrand>
+            <StyledProductBrand>
+              {product.brand.toUpperCase()}
+            </StyledProductBrand>
 
             <StyledProductTitle>{productName}</StyledProductTitle>
 
@@ -144,23 +150,26 @@ export default function ProductPage({ product }) {
                 <span>
                   {product.inStock
                     ? t("stock", { ns: "common" })
-                    : t("outOfStock", {
-                        ns: "common",
-                      })}
+                    : t("outOfStock", { ns: "common" })}
                 </span>
               </StyledProductDetailRow>
             </StyledProductDetails>
 
             <StyledProductPrice>
-              {product.salePrice ? (
+              {hasSale ? (
                 <>
+                  <StyledProductSalePrice>
+                    {product.salePrice} грн
+                  </StyledProductSalePrice>
+
                   <StyledProductOldPrice>
                     {product.price} грн
                   </StyledProductOldPrice>
-                  {product.salePrice} грн
+
+                  <StyledProductDiscount>-{discount}%</StyledProductDiscount>
                 </>
               ) : (
-                `${price} грн`
+                `${product.price} грн`
               )}
             </StyledProductPrice>
 
@@ -206,14 +215,43 @@ export default function ProductPage({ product }) {
   );
 }
 
-export async function getStaticProps({ params, locale }) {
-  const product = getProductById(params.id);
+export async function getServerSideProps({ params, locale }) {
+  const dbProduct = await prisma.product.findUnique({
+    where: {
+      id: params.id,
+    },
+  });
 
-  if (!product) {
+  // Якщо товару немає в базі
+  if (!dbProduct) {
     return {
-      notFound: true,
+      props: {
+        product: null,
+        ...(await getPageTranslations(locale, ["crystalDropsKodi", "colors"])),
+      },
     };
   }
+
+  // Перетворюємо дані бази у формат,
+  // який використовує сторінка товару
+  const product = {
+    ...dbProduct,
+
+    color: {
+      id: dbProduct.colorId,
+      titleKey: dbProduct.colorTitleKey,
+      code: dbProduct.colorCode,
+    },
+
+    volume: {
+      value: dbProduct.volumeValue,
+      unit: dbProduct.volumeUnit,
+    },
+
+    // Дати перетворюємо на рядки для Next.js
+    createdAt: dbProduct.createdAt.toISOString(),
+    updatedAt: dbProduct.updatedAt.toISOString(),
+  };
 
   return {
     props: {
@@ -221,19 +259,5 @@ export async function getStaticProps({ params, locale }) {
 
       ...(await getPageTranslations(locale, ["crystalDropsKodi", "colors"])),
     },
-  };
-}
-
-export async function getStaticPaths() {
-  const products = getAllProducts();
-
-  return {
-    paths: products.map((product) => ({
-      params: {
-        id: product.id,
-      },
-    })),
-
-    fallback: false,
   };
 }

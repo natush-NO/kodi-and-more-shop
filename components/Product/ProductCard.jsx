@@ -1,3 +1,4 @@
+
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 
@@ -7,7 +8,7 @@ import { useFavorites } from "../Favorites/FavoritesContext";
 import {
   StyledProductCard,
   StyledProductImageWrapper,
-   StyledProductImage,
+  StyledProductImage,
   StyledProductInfo,
   StyledProductTitle,
   StyledProductArticle,
@@ -17,6 +18,10 @@ import {
   StyledProductBadges,
   StyledBadge,
   StyledFavoriteButton,
+  StyledProductPriceWrapper,
+  StyledOldPrice,
+  StyledSalePrice,
+  StyledDiscountBadge,
 } from "./StyledProductCard";
 
 export default function ProductCard({
@@ -32,6 +37,25 @@ export default function ProductCard({
 
   const productName = tProduct(product.titleKey);
   const favorite = isFavorite(product.id);
+
+  // Перевіряємо, чи товар справді має акційну ціну
+  const hasSale =
+    product.isSale === true &&
+    product.salePrice !== null &&
+    product.salePrice !== undefined &&
+    Number.isFinite(Number(product.price)) &&
+    Number.isFinite(Number(product.salePrice)) &&
+    Number(product.salePrice) < Number(product.price) &&
+    Number(product.price) > 0;
+
+  // Розраховуємо відсоток знижки
+  const discount = hasSale
+    ? Math.round(
+        ((Number(product.price) - Number(product.salePrice)) /
+          Number(product.price)) *
+          100
+      )
+    : 0;
 
   const handleAddToCart = () => {
     addToCart({
@@ -56,7 +80,7 @@ export default function ProductCard({
           </StyledBadge>
         )}
 
-        {product.isSale && (
+        {hasSale && (
           <StyledBadge>
             {t("sale")}
           </StyledBadge>
@@ -68,11 +92,11 @@ export default function ProductCard({
           href={`/product/${product.id}`}
           aria-label={productName}
         >
-        <StyledProductImage
-  src={product.image}
-  alt={productName}
-  fill
-/>
+          <StyledProductImage
+            src={product.image}
+            alt={productName}
+            fill
+          />
         </Link>
 
         <StyledFavoriteButton
@@ -102,17 +126,33 @@ export default function ProductCard({
         </StyledProductArticle>
 
         <StyledProductBottom>
-          <StyledProductPrice>
-            {product.salePrice ?? product.price} грн
-          </StyledProductPrice>
+          {hasSale ? (
+            <StyledProductPriceWrapper>
+              <StyledSalePrice>
+                {product.salePrice} грн
+              </StyledSalePrice>
 
-      <StyledAddToCartButton
-  type="button"
-  onClick={handleAddToCart}
-  disabled={stock === null || stock === 0}
->
-  🛒 {t("addToCart")}
-</StyledAddToCartButton>
+              <StyledOldPrice>
+                {product.price} грн
+              </StyledOldPrice>
+
+              <StyledDiscountBadge>
+                -{discount}%
+              </StyledDiscountBadge>
+            </StyledProductPriceWrapper>
+          ) : (
+            <StyledProductPrice>
+              {product.price} грн
+            </StyledProductPrice>
+          )}
+
+          <StyledAddToCartButton
+            type="button"
+            onClick={handleAddToCart}
+            disabled={stock === null || stock === 0}
+          >
+            🛒 {t("addToCart")}
+          </StyledAddToCartButton>
         </StyledProductBottom>
       </StyledProductInfo>
     </StyledProductCard>

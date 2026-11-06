@@ -268,19 +268,19 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Місто обов'язково повинно бути вибране зі списку.
+    // Місто обов'язково повинно бути вибране зі списку
     if (!selectedCity) {
       setSubmitError(t("selectCity"));
       return;
     }
 
-    // Якщо Нова пошта — обов'язково вибрати відділення.
+    // Для Нової пошти обов'язково вибрати відділення
     if (deliveryType === "novaPoshta" && !selectedWarehouse) {
       setSubmitError(t("selectWarehouse"));
       return;
     }
 
-    // Якщо адресна доставка — обов'язково вказати адресу.
+    // Для адресної доставки обов'язково вказати адресу
     if (deliveryType === "address" && !form.address.trim()) {
       setSubmitError("Вкажіть адресу доставки");
       return;
@@ -292,23 +292,20 @@ export default function CheckoutPage() {
     try {
       const currentProducts = [...cart];
 
+      if (currentProducts.length === 0) {
+        throw new Error("Кошик порожній");
+      }
+
       const currentCartCount = currentProducts.reduce(
         (total, item) => total + item.quantity,
         0,
       );
 
-      const currentCartTotal = currentProducts.reduce(
-        (total, item) => total + (item.salePrice ?? item.price) * item.quantity,
-        0,
-      );
-
       const response = await fetch("/api/send-order", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           customer: {
             ...form,
@@ -331,10 +328,6 @@ export default function CheckoutPage() {
           },
 
           products: currentProducts,
-
-          cartCount: currentCartCount,
-          cartTotal: currentCartTotal,
-
           locale: router.locale,
         }),
       });
@@ -342,23 +335,50 @@ export default function CheckoutPage() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Помилка відправлення");
+        throw new Error(data.message || t("submitError"));
       }
 
-      // Зберігаємо замовлення на сторінці
-      setSubmittedProducts(currentProducts);
-      setSubmittedCartCount(currentCartCount);
-      setSubmittedCartTotal(currentCartTotal);
+      // Перевіряємо, що сервер повернув товари замовлення
+      if (!Array.isArray(data.items)) {
+        throw new Error(t("submitError"));
+      }
+
+      // Отримуємо підтверджені ціни з PostgreSQL
+      const serverItemsMap = new Map(
+        data.items.map((item) => [item.productId, item]),
+      );
+
+      // Зберігаємо початкові дані товарів для відображення,
+      // але ціну та кількість беремо з відповіді сервера
+      const confirmedProducts = currentProducts.map((item) => {
+        const serverItem = serverItemsMap.get(item.id);
+
+        if (!serverItem) {
+          throw new Error(t("submitError"));
+        }
+
+        return {
+          ...item,
+          price: serverItem.price,
+          salePrice: null,
+          quantity: serverItem.quantity,
+        };
+      });
+
+      // Зберігаємо підтверджене замовлення
+      setSubmittedProducts(confirmedProducts);
+      setSubmittedCartCount(data.cartCount);
+      setSubmittedCartTotal(data.total);
 
       // Показуємо успішний стан
       setIsSubmitted(true);
 
-      // Очищаємо справжній кошик
+      // Очищаємо кошик
       clearCart();
     } catch (error) {
       console.error("SEND ORDER ERROR:", error);
 
-      setSubmitError(t("submitError"));
+      setSubmitError(error.message || t("submitError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -878,7 +898,11 @@ export default function CheckoutPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "crystalDropsKodi"])),
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "crystalDropsKodi",
+        "brandsCatalog",
+      ])),
     },
   };
 }

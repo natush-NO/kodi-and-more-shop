@@ -19,8 +19,8 @@ import {
   StyledCatalogLayout,
   StyledProducts,
 } from "@/components/Catalog/StyledCatalogCards";
+import prisma from "@/lib/prisma";
 
-import crystalDropsKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/crystalDropsBaseKodi";
 // import reflectiveKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/reflectiveBaseKodi";
 // import colorRubberBaseKodi from "@/lib/kodi/nailsKodiPage/baseKodiList/colorBaseCollectionsKodi/colorRubberBaseKodi";
 
@@ -158,11 +158,39 @@ export async function getStaticProps({ params, locale }) {
     };
   }
 
-  const products = [
-    ...crystalDropsKodi,
-    // ...reflectiveKodi,
-    // ...colorRubberBaseKodi,
-  ];
+  const dbProducts = await prisma.product.findMany({
+    where: {
+      collection: params.collectionbase,
+    },
+  });
+
+  const products = dbProducts.map((product) => ({
+    id: product.id,
+    brand: product.brand,
+    category: product.category,
+    collection: product.collection,
+    titleKey: product.titleKey,
+    barcode: product.barcode,
+
+    color: {
+      id: product.colorId,
+      titleKey: product.colorTitleKey,
+      code: product.colorCode,
+    },
+
+    volume: {
+      value: product.volumeValue,
+      unit: product.volumeUnit,
+    },
+
+    price: product.price,
+    salePrice: product.salePrice,
+    isNew: product.isNew,
+    isSale: product.isSale,
+    inStock: product.inStock,
+    image: product.image,
+    href: product.href,
+  }));
 
   return {
     props: {

@@ -19,6 +19,12 @@ import Header from "@/components/Header/Header";
 function App({ Component, pageProps }) {
   const router = useRouter();
 
+  console.log("APP LOCALE:", router.locale);
+  console.log(
+    "COMMON TRANSLATIONS:",
+    pageProps?._nextI18Next?.initialI18nStore?.[router.locale]?.common,
+  );
+
   const [selectedItemId, setSelectedItemId] = useState(null);
 
   const changeLanguage = (lng) => {

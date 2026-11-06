@@ -144,6 +144,38 @@ export const StyledProductPrice = styled.p`
   margin: 0 0 12px;
 `;
 
+export const StyledProductPriceWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+`;
+
+export const StyledOldPrice = styled.span`
+  font-size: 16px;
+  font-weight: 400;
+  color: #999;
+  text-decoration: line-through;
+`;
+
+export const StyledSalePrice = styled.span`
+  font-size: 22px;
+  font-weight: 700;
+  color: #e91e63;
+`;
+
+export const StyledDiscountBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: #e91e63;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+`;
+
 export const StyledFavoriteButton = styled.button`
   position: absolute;
 

@@ -1,0 +1,84 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id            String   @id
+  brand         String
+  category      String
+  collection    String
+  titleKey      String
+  barcode       String   @unique
+
+  colorId       String
+  colorTitleKey String
+  colorCode     String
+
+  volumeValue   Int
+  volumeUnit    String
+
+  price         Int
+  salePrice     Int?
+
+  isNew         Boolean
+  isSale        Boolean
+  inStock       Boolean
+
+  stockQuantity Int      @default(0)
+
+  image         String
+  href          String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+
+  customerName    String
+  phone           String
+  city            String
+
+  deliveryType    String      @default("novaPoshta")
+  novaPoshta      String?
+  deliveryAddress String?
+
+  cityRef         String?
+  warehouseRef    String?
+  warehouseName   String?
+
+  comment         String?
+  locale          String      @default("uk")
+
+  total           Int
+  cartCount       Int
+
+  status          String      @default("NEW")
+
+  items           OrderItem[]
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId   String
+  productName String
+  barcode     String
+
+  price       Int
+  quantity    Int
+  lineTotal   Int
+}
