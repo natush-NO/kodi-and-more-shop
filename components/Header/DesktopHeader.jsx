@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
 import Logo from "./Logo";
@@ -24,15 +26,15 @@ export default function DesktopHeader() {
     <>
       <StyledDesktopHeader>
         <StyledDesktopNav>
-          <a href="/">
+          <Link href="/">
             {t("homePage")}
-          </a>
+          </Link>
 
           <CatalogDropdown />
 
-          <a href="/delivery">
+          <Link href="/delivery">
             {t("delivery")}
-          </a>
+          </Link>
         </StyledDesktopNav>
 
         <Logo />

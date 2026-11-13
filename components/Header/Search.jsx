@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 
 import { useTranslation } from "next-i18next";
@@ -19,6 +20,17 @@ import {
   StyledSearchResultPrice,
   StyledSearchEmpty,
 } from "./StyledSearch";
+
+// Отримуємо назву товару поточною мовою
+function getProductName(product, i18n) {
+  if (!product.translationNamespace) {
+    return product.titleKey;
+  }
+
+  return i18n.t(product.titleKey, {
+    ns: product.translationNamespace,
+  });
+}
 
 function SearchResultItem({
   product,
@@ -48,112 +60,74 @@ function SearchResultItem({
   );
 }
 
-export default function Search({
-  open,
-  onClose,
-}) {
-  const { t: tCommon, i18n } =
-    useTranslation("common");
+export default function Search({ open, onClose }) {
+  const { t: tCommon, i18n } = useTranslation("common");
 
   const [query, setQuery] = useState("");
-  const [translationsReady, setTranslationsReady] =
-    useState(false);
+  const [loadedLanguage, setLoadedLanguage] = useState(null);
 
-  /*
-   * Отримуємо всі namespace-и товарів.
-   *
-   * Зараз це, наприклад:
-   * crystalDropsKodi
-   *
-   * У майбутньому сюди автоматично
-   * додадуться namespace-и інших товарів.
-   */
-  const productNamespaces = useMemo(() => {
-    return [
+  // Отримуємо namespace-и всіх товарів
+  const productNamespaces = useMemo(
+    () => [
       ...new Set(
         allProducts
-          .map(
-            (product) =>
-              product.translationNamespace
-          )
-          .filter(Boolean)
+          .map((product) => product.translationNamespace)
+          .filter(Boolean),
       ),
-    ];
-  }, []);
+    ],
+    [],
+  );
 
-  /*
-   * Завантажуємо переклади товарів.
-   *
-   * Це важливо, тому що Search відкривається
-   * поверх будь-якої сторінки, а namespace товару
-   * може бути не завантажений на поточній сторінці.
-   */
+  // Перевіряємо готовність перекладів поточною мовою
+  const translationsReady = loadedLanguage === i18n.language;
+
+  // Завантажуємо переклади товарів
   useEffect(() => {
-    let active = true;
-
-    if (!open) {
+    if (!open || translationsReady) {
       return;
     }
 
-    setTranslationsReady(false);
+    let active = true;
 
     i18n
       .loadNamespaces(productNamespaces)
       .then(() => {
         if (active) {
-          setTranslationsReady(true);
+          setLoadedLanguage(i18n.language);
         }
       })
       .catch((error) => {
         console.error(
           "Failed to load product translations:",
-          error
+          error,
         );
 
         if (active) {
-          setTranslationsReady(true);
+          setLoadedLanguage(i18n.language);
         }
       });
 
     return () => {
       active = false;
     };
-  }, [open, i18n, productNamespaces]);
+  }, [
+    open,
+    i18n,
+    i18n.language,
+    productNamespaces,
+    translationsReady,
+  ]);
 
-  /*
-   * Отримуємо назву товару поточною мовою.
-   */
-  const getProductName = (product) => {
-    if (!product.translationNamespace) {
-      return product.titleKey;
-    }
+  const searchValue = query.trim().toLowerCase();
 
-    return i18n.t(product.titleKey, {
-      ns: product.translationNamespace,
-    });
-  };
-
-  const searchValue = query
-    .trim()
-    .toLowerCase();
-
-  /*
-   * Фільтруємо товари.
-   *
-   * Пошук працює по:
-   * - перекладеній назві товару;
-   * - barcode;
-   * - brand;
-   * - collection.
-   */
+  // Фільтруємо товари
   const filteredProducts = useMemo(() => {
     if (!searchValue || !translationsReady) {
       return [];
     }
 
     return allProducts.filter((product) => {
-      const productName =
-        getProductName(product);
+      const productName = getProductName(product, i18n);
 
       const searchableText = [
         productName,
@@ -165,15 +139,9 @@ export default function Search({
         .join(" ")
         .toLowerCase();
 
-      return searchableText.includes(
-        searchValue
-      );
+      return searchableText.includes(searchValue);
     });
-  }, [
-    searchValue,
-    translationsReady,
-    i18n,
-  ]);
+  }, [searchValue, translationsReady, i18n]);
 
   const handleClose = () => {
     setQuery("");
@@ -185,25 +153,17 @@ export default function Search({
   }
 
   return (
-    <StyledSearchOverlay
-      onClick={handleClose}
-    >
+    <StyledSearchOverlay onClick={handleClose}>
       <StyledSearchWindow
-        onClick={(event) =>
-          event.stopPropagation()
-        }
+        onClick={(event) => event.stopPropagation()}
       >
         <StyledSearchHeader>
           <StyledSearchInputWrapper>
             <StyledSearchInput
               type="search"
               value={query}
-              onChange={(event) =>
-                setQuery(event.target.value)
-              }
-              placeholder={tCommon(
-                "searchPlaceholder"
-              )}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={tCommon("searchPlaceholder")}
               autoFocus
             />
           </StyledSearchInputWrapper>
@@ -226,9 +186,7 @@ export default function Search({
                 <SearchResultItem
                   key={product.id}
                   product={product}
-                  productName={getProductName(
-                    product
-                  )}
+                  productName={getProductName(product, i18n)}
                   onClose={handleClose}
                 />
               ))

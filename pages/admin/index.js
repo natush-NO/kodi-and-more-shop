@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { getSession } from "@/lib/session";
 
 export default function AdminPage() {
+  const router = useRouter();
   const [products, setProducts] = useState([]);
 
   const [search, setSearch] = useState("");
@@ -327,7 +329,7 @@ export default function AdminPage() {
         throw new Error("Не вдалося вийти з адмінпанелі");
       }
 
-      window.location.href = "/admin/login";
+      router.push("/admin/login");
     } catch (error) {
       setError(error.message);
     }

@@ -1,37 +1,91 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useSyncExternalStore } from "react";
 
 const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
-  const [isCartLoaded, setIsCartLoaded] = useState(false);
+const EMPTY_CART = [];
 
-  // Завантажуємо кошик із localStorage
-  useEffect(() => {
+let cartSnapshot = null;
+const listeners = new Set();
+
+// Отримуємо кошик із localStorage
+function getCartSnapshot() {
+  if (typeof window === "undefined") {
+    return EMPTY_CART;
+  }
+
+  if (cartSnapshot !== null) {
+    return cartSnapshot;
+  }
+
+  try {
     const savedCart = localStorage.getItem("cart");
+    const parsedCart = savedCart ? JSON.parse(savedCart) : [];
 
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (error) {
-        console.error("Помилка завантаження кошика:", error);
-        localStorage.removeItem("cart");
-      }
+    cartSnapshot = Array.isArray(parsedCart) ? parsedCart : [];
+  } catch (error) {
+    console.error("Помилка завантаження кошика:", error);
+    localStorage.removeItem("cart");
+    cartSnapshot = [];
+  }
+
+  return cartSnapshot;
+}
+
+// Стан для серверного рендерингу
+function getServerSnapshot() {
+  return EMPTY_CART;
+}
+
+// Повідомляємо компоненти про зміну кошика
+function notifyListeners() {
+  listeners.forEach((listener) => listener());
+}
+
+// Підписка на зміни localStorage
+function subscribe(listener) {
+  listeners.add(listener);
+
+  function handleStorageChange(event) {
+    if (event.key === "cart" || event.key === null) {
+      cartSnapshot = null;
+      notifyListeners();
     }
+  }
 
-    setIsCartLoaded(true);
-  }, []);
+  window.addEventListener("storage", handleStorageChange);
 
-  // Зберігаємо кошик після його завантаження
-  useEffect(() => {
-    if (!isCartLoaded) return;
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", handleStorageChange);
+  };
+}
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart, isCartLoaded]);
+// Оновлення кошика
+function updateCart(updater) {
+  const currentCart = getCartSnapshot();
+  const newCart = updater(currentCart);
+
+  cartSnapshot = newCart;
+
+  try {
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  } catch (error) {
+    console.error("Помилка збереження кошика:", error);
+  }
+
+  notifyListeners();
+}
+
+export function CartProvider({ children }) {
+  const cart = useSyncExternalStore(
+    subscribe,
+    getCartSnapshot,
+    getServerSnapshot,
+  );
 
   // Додати товар
   const addToCart = (product) => {
-    setCart((currentCart) => {
+    updateCart((currentCart) => {
       const existingProduct = currentCart.find(
         (item) => item.id === product.id,
       );
@@ -59,7 +113,7 @@ export function CartProvider({ children }) {
 
   // Збільшити кількість
   const increaseQuantity = (id) => {
-    setCart((currentCart) =>
+    updateCart((currentCart) =>
       currentCart.map((item) =>
         item.id === id
           ? {
@@ -73,7 +127,7 @@ export function CartProvider({ children }) {
 
   // Зменшити кількість
   const decreaseQuantity = (id) => {
-    setCart((currentCart) =>
+    updateCart((currentCart) =>
       currentCart
         .map((item) =>
           item.id === id
@@ -89,12 +143,12 @@ export function CartProvider({ children }) {
 
   // Видалити товар
   const removeFromCart = (id) => {
-    setCart((currentCart) => currentCart.filter((item) => item.id !== id));
+    updateCart((currentCart) => currentCart.filter((item) => item.id !== id));
   };
 
   // Очистити кошик
   const clearCart = () => {
-    setCart([]);
+    updateCart(() => []);
   };
 
   // Загальна кількість товарів

@@ -1,39 +1,85 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useSyncExternalStore } from "react";
 
 const FavoritesContext = createContext();
 
+const EMPTY_FAVORITES = [];
+
+let favoritesSnapshot = null;
+const listeners = new Set();
+
+function getFavoritesSnapshot() {
+  if (typeof window === "undefined") {
+    return EMPTY_FAVORITES;
+  }
+
+  if (favoritesSnapshot !== null) {
+    return favoritesSnapshot;
+  }
+
+  try {
+    const savedFavorites = localStorage.getItem("favorites");
+    const parsedFavorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+
+    favoritesSnapshot = Array.isArray(parsedFavorites) ? parsedFavorites : [];
+  } catch (error) {
+    console.error("Failed to load favorites:", error);
+    localStorage.removeItem("favorites");
+    favoritesSnapshot = [];
+  }
+
+  return favoritesSnapshot;
+}
+
+function getServerSnapshot() {
+  return EMPTY_FAVORITES;
+}
+
+function notifyListeners() {
+  listeners.forEach((listener) => listener());
+}
+
+function subscribe(listener) {
+  listeners.add(listener);
+
+  function handleStorageChange(event) {
+    if (event.key === "favorites" || event.key === null) {
+      favoritesSnapshot = null;
+      notifyListeners();
+    }
+  }
+
+  window.addEventListener("storage", handleStorageChange);
+
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", handleStorageChange);
+  };
+}
+
+function updateFavorites(updater) {
+  const currentFavorites = getFavoritesSnapshot();
+  const newFavorites = updater(currentFavorites);
+
+  favoritesSnapshot = newFavorites;
+
+  try {
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+  } catch (error) {
+    console.error("Failed to save favorites:", error);
+  }
+
+  notifyListeners();
+}
+
 export function FavoritesProvider({ children }) {
-  const [favorites, setFavorites] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const savedFavorites = localStorage.getItem("favorites");
-
-      if (savedFavorites) {
-        setFavorites(JSON.parse(savedFavorites));
-      }
-    } catch (error) {
-      console.error("Failed to load favorites:", error);
-    } finally {
-      setIsLoaded(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isLoaded) {
-      return;
-    }
-
-    try {
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-    } catch (error) {
-      console.error("Failed to save favorites:", error);
-    }
-  }, [favorites, isLoaded]);
+  const favorites = useSyncExternalStore(
+    subscribe,
+    getFavoritesSnapshot,
+    getServerSnapshot,
+  );
 
   const toggleFavorite = (product) => {
-    setFavorites((prevFavorites) => {
+    updateFavorites((prevFavorites) => {
       const exists = prevFavorites.some((item) => item.id === product.id);
 
       if (exists) {
@@ -49,7 +95,7 @@ export function FavoritesProvider({ children }) {
   };
 
   const addToFavorites = (product) => {
-    setFavorites((prevFavorites) => {
+    updateFavorites((prevFavorites) => {
       const exists = prevFavorites.some((item) => item.id === product.id);
 
       if (exists) {
@@ -61,13 +107,13 @@ export function FavoritesProvider({ children }) {
   };
 
   const removeFromFavorites = (productId) => {
-    setFavorites((prevFavorites) =>
+    updateFavorites((prevFavorites) =>
       prevFavorites.filter((item) => item.id !== productId),
     );
   };
 
   const clearFavorites = () => {
-    setFavorites([]);
+    updateFavorites(() => []);
   };
 
   return (

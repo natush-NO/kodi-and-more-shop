@@ -1,27 +1,36 @@
-import { useEffect, useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 
 import ProductCard from "../Product/ProductCard";
 import { Grid } from "../shared/Grid";
 
-export default function ProductGrid({
-  products,
-  namespace,
-}) {
-  const [stockMap, setStockMap] = useState({});
-  const [stockLoading, setStockLoading] = useState(true);
+export default function ProductGrid({ products, namespace }) {
+  const barcodes = useMemo(
+    () =>
+      products
+        .map((product) => product.barcode)
+        .filter(Boolean)
+        .map((barcode) => String(barcode)),
+    [products],
+  );
+
+  const barcodeKey = JSON.stringify(barcodes);
+
+  const [stockResult, setStockResult] = useState({
+    key: null,
+    stock: {},
+  });
 
   useEffect(() => {
-    const barcodes = products
-      .map((product) => product.barcode)
-      .filter(Boolean)
-      .map((barcode) => String(barcode));
+    const currentBarcodes = JSON.parse(barcodeKey);
 
-    if (barcodes.length === 0) {
-      setStockLoading(false);
-      return;
-    }
+    if (currentBarcodes.length === 0) return;
+
+    let isActive = true;
 
     const loadStock = async () => {
+      let stock = {};
+
       try {
         const response = await fetch("/api/checkbox-stock", {
           method: "POST",
@@ -29,7 +38,7 @@ export default function ProductGrid({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            barcodes,
+            barcodes: currentBarcodes,
           }),
         });
 
@@ -37,23 +46,35 @@ export default function ProductGrid({
 
         if (!response.ok || !data.success) {
           throw new Error(
-            data.message || "Failed to load Checkbox stock"
+            data.message || "Failed to load Checkbox stock",
           );
         }
 
-        setStockMap(data.stock || {});
+        stock = data.stock || {};
       } catch (error) {
-        console.error(
-          "Failed to load Checkbox stock:",
-          error
-        );
+        console.error("Failed to load Checkbox stock:", error);
       } finally {
-        setStockLoading(false);
+        if (isActive) {
+          setStockResult({
+            key: barcodeKey,
+            stock,
+          });
+        }
       }
     };
 
     loadStock();
-  }, [products]);
+
+    return () => {
+      isActive = false;
+    };
+  }, [barcodeKey]);
+
+  const stockLoading =
+    barcodes.length > 0 && stockResult.key !== barcodeKey;
+
+  const stockMap =
+    stockResult.key === barcodeKey ? stockResult.stock : {};
 
   return (
     <Grid>
@@ -66,7 +87,7 @@ export default function ProductGrid({
           productBarcode &&
           Object.prototype.hasOwnProperty.call(
             stockMap,
-            productBarcode
+            productBarcode,
           )
             ? stockMap[productBarcode]
             : null;

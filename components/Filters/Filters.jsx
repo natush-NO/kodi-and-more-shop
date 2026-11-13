@@ -161,9 +161,8 @@ export default function Filters({
 
       {/* Об'єм */}
       {volumes.length > 0 && (
-        <StyledFilterBlock>
-          <StyledFilterTitle>Об'єм</StyledFilterTitle>
-
+   <StyledFilterBlock>
+  <StyledFilterTitle>Об&apos;єм</StyledFilterTitle>
           <StyledFilterList>
             {volumes.map((volume) => (
               <StyledFilterItem key={volume}>

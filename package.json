@@ -6,7 +6,7 @@
     "dev": "next dev --webpack",
     "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fontsource/arima": "^5.1.1",
@@ -28,7 +28,7 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
-    "eslint": "^10.5.0",
+    "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.9",
     "tsx": "^4.23.15"
   }

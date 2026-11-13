@@ -87,6 +87,8 @@ export default function CheckoutPage() {
       setSelectedCity(null);
       setSelectedWarehouse(null);
       setWarehouseSuggestions([]);
+      setCitySuggestions([]);
+      setCityLoading(value.trim().length > 0);
 
       setForm((prev) => ({
         ...prev,
@@ -109,8 +111,6 @@ export default function CheckoutPage() {
     const query = form.city.trim();
 
     if (selectedCity || query.length < 1) {
-      setCitySuggestions([]);
-      setCityLoading(false);
       return;
     }
 
@@ -180,6 +180,7 @@ export default function CheckoutPage() {
     }));
 
     setCitySuggestions([]);
+    setCityLoading(false);
     setSelectedWarehouse(null);
     setWarehouseSuggestions([]);
 
